@@ -1,0 +1,62 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="payment-container">
+    <div class="payment-card">
+        <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="payment-image">
+        <div class="payment-details">
+            <h3 class="payment-title"><%= listing.title %></h3>
+            <p class="payment-description"><%= listing.description %></p>
+            <h4 class="payment-price">Total: ₹<%= listing.price %></h4>
+            <button id="rzp-button" class="payment-button">Pay with Razorpay</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const razorpayKeyId = "<%= razorpayKeyId %>";
+        const razorpayUser = {
+            name: "<%= user.username %>",
+            email: "<%= user.email %>"
+        };
+
+        const payBtn = document.getElementById("rzp-button");
+        if (!payBtn) return;
+
+        payBtn.onclick = async function () {
+            const listingId = window.location.pathname.split("/")[2];
+
+            const res = await fetch(`/listings/${listingId}/book/create-order`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            const orderData = await res.json();
+
+            const options = {
+                key: razorpayKeyId,
+                amount: orderData.amount,
+                currency: orderData.currency,
+                name: "Wanderly Booking",
+                description: "Flight/Stay Booking Payment",
+                order_id: orderData.id,
+                handler: function (response) {
+                    alert("Payment successful! Razorpay Payment ID: " + response.razorpay_payment_id);
+                },
+                prefill: {
+                    name: razorpayUser.name,
+                    email: razorpayUser.email
+                },
+                theme: {
+                    color: "#3399cc"
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        };
+    });
+</script>

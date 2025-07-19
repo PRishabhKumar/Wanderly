@@ -1,0 +1,35 @@
+<% layout('layouts/boilerplate') %>
+
+
+<div class="mainContent">
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h4>
+                <%= listing.title %> - Customer review
+            </h4>
+            <div class="mb-3">
+                <label for="message" class="form-label">Message</label>
+                <textarea rows="10" cols="20" name="message" id="message" class="form-control autoExpand" readonly><%= review.content %></textarea>
+            </div>
+            <div class="mb-3">
+                <h6>Rating</h6>
+                <div class="ratingStars">
+                    <% for(let i=1; i<=5;i++){ %>
+                        <div class="star">
+                            <% if(i<=review.rating){ %>
+                                <i class="fa-solid fa-star"></i>
+                                <% }else{ %>
+                                    <i class="fa-regular fa-star"></i>
+                                    <% } %>
+                        </div>
+                        <% } %>
+                </div>
+            </div>
+            <div class="mb-3 mt-3">
+                <form action="/listings/<%= listing._id %>/reviews" method="GET">
+                    <button class = "backButton" type="submit" class="btn btn-outline-primary">Back to all reviews</button>                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

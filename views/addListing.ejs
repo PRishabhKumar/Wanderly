@@ -1,0 +1,48 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="addMainContent">
+    <h3 class="heading">List your property on Wanderly</h3>
+    <div class="formContainer">
+        <form class="addListingForm needs-validation" action="/listings" method="post" novalidate>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" name="title" id="title" class="form-control" placeholder="Enter title">
+                <div class="valid-feedback">Title looks good !!</div>
+                <div class="invalid-feedback">Title cannot be empty !! PLease provide a valid title for your property</div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea name="description" id="description" class="form-control" placeholder="Add a catchy description for your property"></textarea>
+                <div class="valid-feedback">Description looks good </div>
+                <div class="invalid-feedback">Description cannot be empty. Please provide a catchy description of your propery. This helps attract more customers</div>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" name="location" id="location" class="form-control" placeholder="Enter your property's location (town or city)">
+                <div class="valid-feedback">Location looks good !!!</div>
+                <div class="invalid-feedback">Every property must have a defined location. Please enter a valid and correct location for your property</div>
+            </div>
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" name="country" id="country" class="form-control" placeholder="Enter the country where your property is located">
+                <div class="valid-feedback">Country looks good !!!</div>
+                <div class="invalid-feedback">Every property must clearly define the country it is located in. Please provide the correct country name for your property</div>
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="text" name="price" id="price" class="form-control" placeholder="Enter the per-night rental price of your property">
+                <div class="valid-feedback">Price looks good !!!</div>
+                <div class="invalid-feedback">Price cannot be empty !!</div>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image URL</label>
+                <input type="url" name="image[url]" id="image" class="form-control" placeholder="Paste the url of the images of your propery (If any)">
+                <div class="valid-feedback">Image URL looks good !!!</div>
+                <div class="invalid-feedback">If no image URL is explicitly given, then Wanderly will use a default image URL for your property which may not always work !!!</div>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn submitButton">Add property to AirBnb</button>
+            </div>
+        </form>
+    </div>
+</div>

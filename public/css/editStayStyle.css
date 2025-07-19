@@ -1,0 +1,177 @@
+/* Reset and Base Styles */
+body, html {
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+.navbar, .footer {
+    background-color: white;
+}
+
+.footer {
+    height: 20px;
+}
+
+.editMainContent {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Quicksand', sans-serif;
+    background-color: white;
+    padding: 1rem;    
+}
+
+.navbar .options {
+    margin-right: 52rem;
+}
+
+.navbar .options a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Blurred background overlay */
+.editMainContent::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.3);
+    z-index: -1;
+}
+
+/* Container for form */
+.formContainer {
+    width: 90%;
+    max-width: 40rem;
+    height: 95vh;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 2rem;
+    border-radius: 2rem;
+    box-shadow: 0 0 10rem rgba(0, 0, 0, 0.25);
+    margin-bottom: 1.5rem;
+
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.formContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.editHeading {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 1rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /*Here this webkit backdrop filter means */
+    border-radius: 1.5rem;
+    padding: 0.75rem;
+}
+
+/* Submit button */
+.btn-dark {
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 999px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.btn-dark:hover {
+    background: linear-gradient(135deg, #141E30, #243B55);
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* Media queries for responsive design*/
+
+/* Mobile: up to 576px */
+@media (max-width: 576px) {
+    .formContainer {
+        padding: 1rem;
+        border-radius: 1rem;
+        width: 95%;
+        height: auto;
+    }
+
+    .btn-dark {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .editHeading {
+        font-size: 1.2rem;
+    }
+
+    .navbar .options {
+        margin-right: 0;
+        font-size: 1rem;
+    }
+}
+
+/* Small Tablets: 577px to 768px */
+@media (min-width: 577px) and (max-width: 768px) {
+    .formContainer {
+        padding: 1.5rem;
+        width: 90%;
+        height: auto;
+    }
+
+    .btn-dark {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .navbar .options {
+        margin-right: 0;
+    }
+}
+
+/* Tablets and Small Laptops: 769px to 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .formContainer {
+        padding: 2rem;
+        width: 85%;
+    }
+
+    .navbar .options {
+        margin-right: 20rem;
+    }
+}
+
+/* Desktops: 1025px and above */
+@media (min-width: 1025px) {
+    .formContainer {
+        max-width: 40rem;
+    }
+
+    .navbar .options {
+        margin-right: 52rem;
+    }
+}

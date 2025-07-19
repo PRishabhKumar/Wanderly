@@ -1,0 +1,119 @@
+/* General Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Layout Setup */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+}
+
+.navbar .options {
+    margin-right: 52rem;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Main Content */
+.mainContent {
+    flex: 1;
+    padding: 2rem 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Heading */
+h3 {
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem;
+    color: #333;
+    text-align: center;
+}
+
+.propertyInfoContainer {
+    margin-right: 1.5rem;
+    height: 50%;
+    width: 100%;
+}
+
+.propertyImage {
+    height: 50%;
+    width: 100%;
+}
+
+.propertyPhoto {
+    height: 50%;
+    width: 100%;
+}
+
+.testDesc{
+    margin-top: 1rem;
+}
+
+/* Passenger Info */
+.passengersInfoContainer {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.passengerInfo {
+    background-color: #ffffff;
+    padding: 1.2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.08);
+    font-size: 1.05rem;
+    color: #444;
+}
+
+.passengerNumber {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/* Submit Button */
+.submitButton {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem; /* ensure it's above footer */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.submitButton:hover {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+    transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+    background-color: #f1f1f1;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777;
+}

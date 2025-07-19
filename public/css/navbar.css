@@ -1,0 +1,106 @@
+.navbar {
+    margin-top: 1rem;
+    width: 100%;
+    height: 10%;
+    position: sticky;
+    display: flex;
+    align-items: center;
+    padding-top: 0.5rem;
+    z-index: 1;
+    min-height: 3.5rem;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    will-change: transform, opacity;
+}
+
+.navbarSeparator{
+    height: 1px;
+    border: none;
+    background-color: #e0e0e0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.image{
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+}
+
+.fa-compass{
+    color: red;
+    margin-left: 1.5rem;
+    font-size: 1.5rem;
+    margin-right: 0;
+}
+
+.navbar .image:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.options {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-left: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.navOption {
+    font-size: medium;
+    font-weight: 600;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navOption:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+
+.hamburger {
+    display: none;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+        margin-left: auto;
+        padding-right: 2rem;
+    }
+
+    .options {
+        display: none;
+        flex-direction: column;
+        gap: 1rem;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .options.active {
+        display: flex;
+    }
+
+    .navOption a {
+        font-size: 1.1rem;
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+}

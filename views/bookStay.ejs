@@ -1,0 +1,31 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="mainContent">
+    <div class="row">
+        <div class="col-8 offset-2">
+            <div class="booking-card">
+                <h2 class="booking-title">Booking for <%= listing.title %></h2>
+
+                <form action="/listings/<%= listing._id %>/book" method="POST" class="booking-form">
+
+                    <div class="scrollable-passengers">
+                        <div class="passengersContainer"></div>
+                    </div>
+
+                    <button type="button" class="addPassengerButton btn btn-primary mt-3">
+                        <i class="fa-solid fa-plus"></i> Add passenger
+                    </button>
+
+                    <div class="submit-section">
+                        <button type="submit" class="submitButton btn btn-success mt-4">
+                            Proceed for detail verification
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/bookStay.js"></script>

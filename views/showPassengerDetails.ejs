@@ -1,0 +1,38 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="mainContent">
+        <h3>Verify property details...</h3>
+        <div class="propertyDetailsContainer">
+            <div class="propertyImage">
+                <img class="propertyPhoto" src="<%=  listing.image.url%>" alt="">
+            </div>
+            <div class="textDesc">
+                <p>Property Name : <%= listing.title %>
+                </p>
+                <p>Location : <%= listing.location %>
+                </p>
+                <p>Country : <%= listing.country %>
+                </p>
+                <p>Price : <%= listing.price.toLocaleString("IN") %>/night</p>
+            </div>
+        </div>
+        <h3>Verify passenger details...</h3>
+        <div class="passengersInfoContainer">
+            <% passengers.forEach((passenger, index)=>{ %>
+                <div class="passengerInfo">
+                    <p class="passengerNumber">Passenger No: <%= index+1 %>
+                    </p>
+                    <p>Name : <%= passenger.name %>
+                    </p>
+                    <p>age : <%= passenger.age %>
+                    </p>
+                    <p>Gender : <%= passenger.gender %>
+                    </p>
+                </div>
+                <% }) %>
+        </div>
+
+        <form action="/listings/<%= listing._id %>/book/pay" method="get">
+            <button class="submitButton" type="submit">Proceed to payment....</button>
+        </form>
+    </div>

@@ -1,0 +1,45 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="mainContent">
+        <div class="row">
+            <div class="col-8 offset-2">
+                <h4 class="heading">Add a nice review for this property !!!</h4>
+            </div>
+        </div>
+        <div class="formContainer">
+            <form action="/listings/<%= listing._id %>/reviews" method="POST" class="reviewForm needs-validation" novalidate>
+                <div class="row">
+                    <div class="col-8 offset-2">
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <input type="text" name="message" id="message" class="form-control"
+                                placeholder="Enter your review message here...." required>
+                            <div class="valid-feedback">Review message is fine !!!</div>
+                            <div class="invalid-feedback">Please enter a valid review message !!!</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="stars" class="form-label">What rating would you like to give this property ??</label>
+                            <div class="starsContainer">
+                                <div class="star"><i class="fa-regular fa-star"></i></div>
+                                <div class="star"><i class="fa-regular fa-star"></i></div>
+                                <div class="star"><i class="fa-regular fa-star"></i></div>
+                                <div class="star"><i class="fa-regular fa-star"></i></div>
+                                <div class="star"><i class="fa-regular fa-star"></i></div>                                
+                            </div>
+                        </div>
+                        <div class="mb-3 ratingDiv">
+                            <label for="rating" class="form-label"></label>
+                            <input type="number" name="rating" id="rating" class="rating form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8 offset-2">
+                        <button type="submit" class="submitReviewButton btn btn-dark ">Submit review</button>
+                    </div>
+                </div>
+                <br><br><br><br><br>
+            </form>
+        </div>        
+    </div>
+    <script src="/js/addReviewForm.js"></script>

@@ -1,0 +1,253 @@
+body {
+    overflow-x: hidden;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    padding: 0.8rem 1.2rem;
+}
+
+.navbar .options {
+    display: flex;
+    gap: 1.5rem;
+    margin-right: 52rem;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: black;
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+    margin: 2rem;
+}
+
+.icon {
+    margin-right: 1.5rem;
+}
+
+.location .icon,
+.price .icon {
+    margin-right: 2rem;
+}
+
+.text {
+    font-weight: bold;
+}
+
+.mainContent .image {
+    height: 20rem;
+    width: 100%;
+    max-width: 40rem;
+    background-size: cover;
+    background-position: center;
+    margin: 0 auto;
+    border-radius: 2rem;
+}
+
+.listingImage {
+    height: 20rem;
+    width: 100%;
+    max-width: 40rem;
+    border-radius: 2rem;
+}
+
+.divider {
+    width: 100%;
+    height: 0.125rem;
+    background-color: black;
+    color: black;
+}
+
+/* Review Cards */
+.reviewsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.reviewCard {
+    flex: 1 1 20rem;
+    max-width: 30rem;
+    background-color: rgba(243, 240, 255, 0.85);
+    border-radius: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    margin: 1rem 1rem;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: fit-content;
+}
+
+.reviewCard:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+}
+
+.message {
+    word-wrap: break-word;
+    line-height: 1.4;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+
+/* Action Buttons under each review */
+.buttons {
+    display: flex;
+    margin-top: 1.2rem;
+}
+
+.editReviewButton,
+.viewReviewButton,
+.deleteReviewButton {
+    position: relative;
+    padding: 0.4rem 1.2rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    overflow: hidden;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(2rem);
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.editReviewButton {
+    background-color: #3A7CA5;
+    margin-right: 2rem;
+}
+
+.viewReviewButton {
+    background-color: #6E8898;
+}
+
+.deleteReviewButton {
+    background-color: #A54242;
+    margin-left: 1.5rem;
+}
+
+.editReviewButton::before,
+.viewReviewButton::before,
+.deleteReviewButton::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    transform: skew(-20deg);
+    transition: left 0.2s ease;
+    z-index: 0;
+}
+
+.editReviewButton:hover,
+.viewReviewButton:hover,
+.deleteReviewButton:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.editReviewButton:hover::before,
+.viewReviewButton:hover::before,
+.deleteReviewButton:hover::before {
+    left: 125%;
+}
+
+/*Logic to make buttons appear after different intervals*/
+
+.buttons .editReviewButton.buttonsAppear {
+    transition-delay: 0.025s;
+}
+
+.buttons .viewReviewButton.buttonsAppear {
+    transition-delay: 0.05s;
+}
+
+.buttons .deleteReviewButton.buttonsAppear {
+    transition-delay: 0.1s;
+}
+
+
+.reviewCard:not(:hover) .deleteReviewButton {
+    transition-delay: 0.05s;
+}
+.reviewCard:not(:hover) .viewReviewButton {
+    transition-delay: 0.1s;
+}
+.reviewCard:not(:hover) .editReviewButton {
+    transition-delay: 0.2s;
+}
+
+
+.buttonsAppear {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease-in-out,
+        transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stars {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Submit Button with Shine Effect */
+.submitButton {
+    position: relative;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    padding: 0.25rem 1rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(to right, rgba(255, 94, 98, 0.9), rgba(255, 149, 0, 0.9));
+    color: white;
+    font-weight: bold;
+    border: none;
+    overflow: hidden;
+    z-index: 0;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.submitButton::before {    
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5rem;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+    transform: skewX(-20deg);
+    transition: left 0.4s ease;
+    z-index: 1;
+    pointer-events: none;    
+}
+
+.submitButton:hover {
+    cursor: pointer;
+    background: linear-gradient(to right, rgba(255, 94, 98, 1), rgba(255, 149, 0, 1));
+    transform: scale(1.03);
+}
+
+.submitButton:hover::before {
+    left: 125%;
+}
+
+.submitButton > * {
+    position: relative;
+    z-index: 2;
+}

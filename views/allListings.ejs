@@ -1,0 +1,26 @@
+<% layout('layouts/boilerplate') %>
+
+
+<div class="mainContent">
+    <h1 class="heading">All Listings</h1>
+    <div class="listingsContainer">
+        <% listings.forEach((listing)=>{ %>
+            <div class="container">
+                <div class="containerImage"><img src="<%= listing.image.url %>" alt=""></div>
+                <div class="info">
+                    <div class="textInfo">
+                        <p class="title"><%= listing.title %></p>
+                        <p class="price">₹<%= listing.price.toLocaleString("en-IN") %>/night</p>
+                    </div>
+                    <div class="knowMore">
+                        <form action="/listings/<%= listing._id %>" method="get">
+                            <button type="submit" class="knowMoreButton">Explore</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+
+<script src="/js/allListings.js"></script>

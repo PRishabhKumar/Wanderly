@@ -1,0 +1,57 @@
+.navbar .options{
+    margin-right: 53rem;
+}
+
+.navbar a{
+    text-decoration: none;
+    color: black;
+}
+
+.mainContent{
+    display: flex;
+    flex-direction: column;
+    flex: 1;    
+}
+
+.stars{
+    display: flex;
+    gap: 0.5rem;
+}
+
+.star:hover{
+    cursor: pointer;
+}
+
+.submitButton{
+    position: relative;
+    overflow: hidden;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    color: #0d6efd;
+    background-color: white;
+    border: 0.125rem solid #0d6efd;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s;
+}
+
+.submitButton::before{
+    position: absolute;
+    top: 0;
+    left: -120%;
+    content: "";
+    height: 100%;
+    width: 100%;
+    transform: skew(-20deg);
+    transition: left 0.3s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.submitButton:hover::before{
+    left: 125%;
+}
+
+.submitButton:hover{
+    background-color: #0d6efd;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 0 0.5rem rgb(0, 0, 0);
+}

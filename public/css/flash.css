@@ -1,0 +1,45 @@
+.custom-alert {
+    width: 50%;
+    margin: 2rem auto;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: slideDownFade 0.4s ease-out;
+}
+
+.custom-success {
+    background: linear-gradient(135deg, #d4fcdc, #a2f0c2);
+    color: #065f46;
+    border: 1px solid #47cf95;
+}
+
+.custom-failure {
+    background: linear-gradient(135deg, #ffe0e0, #ffb3b3);
+    color: #9e1c1c;
+    border: 1px solid #e85c5c;
+}
+
+.custom-close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    cursor: pointer;
+    color: inherit;
+}
+
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

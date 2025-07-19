@@ -1,0 +1,16 @@
+# Environment secrets
+.env
+rzp-key.csv
+
+# Dependency directories
+node_modules/
+
+# Logs and system files
+*.log
+.DS_Store
+
+# Personal notes
+notes.txt
+
+# Personal notes in markdown format 
+NotesInMarkDown.md

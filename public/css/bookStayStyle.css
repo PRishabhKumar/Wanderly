@@ -1,0 +1,250 @@
+.mainContent {
+    flex: 1;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.navbar .options {
+    margin-right: 52rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Main section styling */
+.booking-page {
+    background-color: #f0f4f8;
+    padding: 3rem 0;
+    min-height: 100vh;
+}
+
+/* Card container */
+.booking-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Titles */
+.booking-title {
+    text-align: center;
+    color: black;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.booking-subtitle {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #555;
+}
+
+/* Button styling */
+.submitButton {
+    font-size: medium;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.showButton {
+    opacity: 1;
+}
+
+/* Passenger container now scrolls vertically instead of pushing content */
+.passengerContainer {
+    max-height: 60vh;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+    padding-right: 0.5rem;
+}
+
+/* General Form Styling */
+#bookingForm {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #f9f9f9;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Passenger Card */
+.passenger-card {
+    background-color: #ffffff;
+    border: 2px solid #dfe6e9;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    transition: box-shadow 0.3s ease;
+}
+
+.passenger-card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.passenger-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #2d3436;
+}
+
+/* Form Fields */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #2d3436;
+}
+
+.form-input,
+.form-select {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #b2bec3;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border 0.3s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+    border-color: #0984e3;
+    outline: none;
+}
+
+/* Buttons */
+.btn-delete {
+    background-color: #d63031;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+    transition: background 0.3s ease;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+.btn-primary {
+    background-color: #00cec9;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #00b894;
+}
+
+.btn-success {
+    background-color: #0984e3;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #0652dd;
+}
+
+/* ==================== RESPONSIVE MEDIA QUERIES ==================== */
+
+/* Tablet and below */
+@media (max-width: 1024px) {
+    .navbar .options {
+        margin-right: 0;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .booking-card {
+        padding: 1.5rem;
+    }
+
+    #bookingForm {
+        padding: 1.5rem;
+    }
+}
+
+/* Phones and small tablets */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar .options {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 0.8rem;
+    }
+
+    .booking-title,
+    .booking-subtitle {
+        font-size: 1rem;
+    }
+
+    .passenger-title {
+        font-size: 1rem;
+    }
+
+    .btn-primary,
+    .btn-success,
+    .btn-delete {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+    #bookingForm {
+        padding: 1rem;
+    }
+
+    .form-input,
+    .form-select {
+        font-size: 0.9rem;
+    }
+
+    .btn-primary,
+    .btn-success,
+    .btn-delete {
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+    }
+}

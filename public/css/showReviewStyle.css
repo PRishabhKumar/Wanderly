@@ -1,0 +1,59 @@
+.navbar .options{
+    margin-right: 53rem;
+}
+
+.navbar a{
+    text-decoration: none;
+    color: black;
+}
+
+.mainContent{
+    margin-top: 1.5rem;
+    flex: 1;
+}
+
+.ratingStars{
+    display: flex;
+    gap: 0.5rem;
+}
+
+.backButton{
+    margin-top: 1.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    font-size: medium;
+    font-weight: lighter;
+    border-radius: 0.5rem;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: 0.005rem solid #0d6efd;
+    color: #0d6efd;
+    background-color: white;
+}
+
+.backButton::before{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: -75%;
+    transform: skew(-20deg);
+    transition: left     0.3s ease-in-out;
+    z-index: -1; /*Place it behind the main text*/
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.backButton:hover{
+    transform: scale(1.05);
+    background-color: #0d6efd;
+    color: white;    
+}
+
+.backButton:hover::before{
+    left: 125%;
+}
+
+textarea.autoExpand {    
+    resize: none;
+    min-height: 4rem;
+    line-height: 1.5rem;
+}

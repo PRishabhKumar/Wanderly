@@ -1,0 +1,281 @@
+/* GLOBAL BODY STYLING */
+body {
+    margin: 0;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+/* NAVBAR STYLING */
+.navbar {
+    margin-top: 0;
+    width: 100%;
+    height: 10%;
+    position: sticky;
+    top: 0;
+    background: white;
+    display: flex;
+    padding-top: 0.5rem;
+    z-index: 10;
+}
+
+.navbar .options {
+    margin-right: 49rem;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: black;
+}
+
+.navbar .image {
+    margin-right: 1.5rem;
+    height: 100%;
+    width: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    font-weight: 600;
+    font-size: larger;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar .image:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 50;
+    font-size: 30rem;
+    color: red;
+}
+
+.options {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.navOption {
+    font-size: medium;
+    font-weight: 600;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navOption:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+/* MAIN CONTENT */
+.mainContent {
+    width: 100vw;
+    padding-bottom: 5rem; /* space above footer */
+}
+
+/* LISTINGS SECTION */
+.listingsContainer {
+    min-height: 90vh;
+    width: 95vw;
+    margin: 1.5rem;
+    margin-top: 0;
+    padding-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.heading {
+    margin-left: 3rem;
+    margin-top: 1rem;
+}
+
+/* INDIVIDUAL LISTING CARD */
+.container {
+    height: 20rem;   
+    width: 20rem !important; 
+    transition: transform 0.3s ease-in-out;    
+    margin-top: 1.5rem;
+}
+
+.container:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.containerImage {
+    height: 80%;
+    width: 100%;
+    border-radius: 1.5rem;
+    background-color: #f5f5f5;
+}
+
+.containerImage img {
+    height: 100%;
+    width: 100%;
+    border-radius: 1rem;
+    object-fit: cover;
+}
+
+.info {
+    margin-top: 0.25rem;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+}
+
+.info p {
+    font-size: small;
+    margin: 0;
+}
+
+.title {
+    font-weight: 550;
+}
+
+.textInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+/* KNOW MORE BUTTON */
+.knowMoreButton {
+    margin-left: 1rem;
+    width: 100%;
+    padding: 0.5rem 1.2rem;
+    background: linear-gradient(135deg, #2D4C9A, #4169E1);
+    color: #fff;
+    border: none;
+    border-radius: 1.5rem;
+    font-size: 0.3rem;
+    font-weight: 600;
+    transform: translateY(2rem);
+    transition: transform 0.3s ease-in-out, background 0.5s ease-in-out, box-shadow 0.3s ease-in-out;
+    margin-top: 0.5rem;
+    opacity: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.knowMoreButton:hover {
+    cursor: pointer;
+    background: linear-gradient(135deg, #5179F3, #6A8DFF);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    pointer-events: auto;
+}
+
+.knowMoreButtonEnter {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease-in-out,
+        transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* FOOTER STYLING */
+.footer {
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    opacity: 0.75;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-top: 1px solid #ccc;
+    background-color: white;
+}
+
+.leftSide,
+.rightSide {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.copyright {
+    margin-right: 1.5rem;
+}
+
+.privacy {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.privacyOption {
+    padding: 0 0 0 1rem;
+}
+
+.privacyOption:hover {
+    text-decoration: underline;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.copyright i {
+    color: black;
+    margin-right: 1rem;
+}
+
+.rightSide {
+    display: flex;
+    gap: 1.5rem;
+    margin-left: 2rem;
+}
+
+.language {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.language:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.language span {
+    margin-right: 0.5rem;
+}
+
+.currency {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.currency:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.fa-indian-rupee-sign {
+    margin-right: 1rem;
+}
+
+.socialMediaIcons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.icon:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}

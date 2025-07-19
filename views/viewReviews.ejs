@@ -1,0 +1,87 @@
+<% layout('layouts/boilerplate') %>
+    <div class="mainContent">
+        <div class="row">
+            <div class="col-8 offset-2">
+                <div class="propertyCard">
+                    <h4 class="heading mt-3 mb-3">
+                        <%= listing.title %> - Reviews
+                    </h4>
+                    <div class="image">
+                        <img class="listingImage" src="<%= listing.image.url %>" alt="listing image">
+                    </div>
+                    <div class="details">
+                        <div class="detail description">
+                            <div class="icon"><span class="material-symbols-outlined">
+                                    article
+                                </span></div>
+                            <div class="text">
+                                <%= listing.description %>
+                            </div>
+                        </div>
+                        <div class="detail location">
+                            <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="text">
+                                <%= listing.location %>
+                            </div>
+                        </div>
+                        <div class="detail country">
+                            <div class="icon"><i class="fa-solid fa-earth-asia"></i></div>
+                            <div class="text">
+                                <%= listing.country %>
+                            </div>
+                        </div>
+                        <div class="detail price">
+                            <div class="icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                            <div class="text">
+                                Rs <%= listing.price.toLocaleString("en-IN") %>/night
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="reviewsContainer">
+            <% if(reviews && reviews.length>0){ %>
+                <% reviews.forEach((review, index)=>{ %>
+                    <div class="reviewCard">
+                        <div class="message">
+                            <%= review.content.length> 200 ? review.content.slice(0, 200) + "..." : review.content %>
+                        </div>
+
+                        <div class="stars">
+                            <% for(let i=1; i <=5; i++) { %>
+                                <div class="star">
+                                    <% if(i <=review.rating) { %>
+                                        <i class="fa-solid fa-star"></i>
+                                        <% } else { %>
+                                            <i class="fa-regular fa-star"></i>
+                                            <% } %>
+                                </div>
+                                <% } %>
+
+                        </div>
+                        <div class="buttons">
+                            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>/edit?_method=PATCH">
+                                <button class="editReviewButton" type="submit">Edit</button>
+                            </form>
+                            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>">
+                                <button class="viewReviewButton" type="submit">View</button>
+                            </form>
+                            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                method="POST">
+                                <button class="deleteReviewButton" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    <% }) %>
+                        <% }else{ %>
+                            <h4 class="noReviewsHeading">There are no reviews yet. Be the first to add one....</h4>
+                            <% } %>
+
+        </div>
+        <form action="/listings/<%= listing._id %>/reviews/new" method="get">
+            <button class="submitButton" type="submit">Add a review !!!</button>
+        </form>
+    </div>
+    <script src="/js/viewReviews.js"></script>

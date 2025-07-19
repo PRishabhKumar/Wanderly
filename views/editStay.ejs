@@ -1,0 +1,70 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+    .editMainContent {
+        position: relative;
+        min-height: 100vh;
+        width: 100vw;
+        background: url("<%= listing.image.url %>") no-repeat center center/cover;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Quicksand', sans-serif;
+    }
+
+    
+
+    
+
+    
+</style>
+
+<div class="editMainContent">
+    <div class="heading">
+        <h2 class="editHeading">Edit property details....</h2>
+    </div>
+    <div class="formContainer">
+        <form class="needs-validation" action="/listings/<%= listing._id %>?_method=PATCH" method="post" novalidate>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" name="title" id="title" class="form-control" value="<%= listing.title %>" required>
+                <div class="valid-feedback">Title looks good !!</div>
+                <div class="invalid-feedback">Please enter a valid title</div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea name="description" id="description" class="form-control" required><%= listing.description %></textarea>
+                <div class="valid-feedback">Description looks good !!!</div>
+                <div class="invalid-feedback">Please enter a description for your property !!!</div>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" name="location" id="location" class="form-control" value="<%= listing.location %>" required>
+                <div class="valid-feedback">Location looks good !!!</div>
+                <div class="invalid-feedback">Every property must have a location. Please a valid and correct location</div>
+            </div>
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" name="country" id="country" class="form-control" value="<%= listing.country %>" required >
+                <div class="valid-feedback">Country looks good !!</div>
+                <div class="invalid-feedback">Every property must have its country name. Please enter a valid and correct country name</div>
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="text" name="price" id="price" class="form-control" value="<%= listing.price %>" required>
+                <div class="valid-feedback">Price looks good !!</div>
+                <div class="invalid-feedback">Please enter a valid price for your property !!!</div>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image URL</label>
+                <input type="url" name="image" id="image" class="form-control" value="<%= listing.image.url %>">
+                <div class="valid-feedback">Image url looks good !!</div>
+                <div class="invalid-feedback">If no image URL is explicitly provided for your property, Wanderly will use a default image for it.</div>
+            </div>
+            <div class="mb-3 text-center">
+                <button type="submit" class="btn btn-dark px-4 py-2 rounded-3">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>
