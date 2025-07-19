@@ -27,7 +27,13 @@ body, html {
 }
 
 .navbar .options {
-    margin-right: 52rem;
+    margin-right: 35rem;
+    margin-left: 0;
+}
+
+.logoutContainer{
+    margin-right: 5rem;
+    display: none;
 }
 
 .navbar .options a {

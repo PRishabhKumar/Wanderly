@@ -16,6 +16,12 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    margin-right: 40rem;
+    margin-left: 0;
+}
+
+.logoutContainer{
+    margin-right: 5rem;
 }
 
 .navbar a {

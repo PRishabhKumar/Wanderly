@@ -1,5 +1,10 @@
 .navbar .options{
-    margin-right: 53rem;
+    margin-right: 40rem;
+    margin-left: 0;
+}
+
+.logoutContainer{
+    margin-right: 5rem;
 }
 
 .navbar a{

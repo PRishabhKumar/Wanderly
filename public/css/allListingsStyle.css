@@ -19,7 +19,12 @@ body {
 }
 
 .navbar .options {
-    margin-right: 49rem;
+    margin-right: 40rem;
+    margin-left: 0;
+}
+
+.logoutContainer{
+    margin-right: 5rem;
 }
 
 .navbar a {
@@ -89,7 +94,7 @@ body {
     padding-top: 5px;
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .heading {

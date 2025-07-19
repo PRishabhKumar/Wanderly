@@ -16,6 +16,7 @@ const ExpressSession = require('express-session')
 const flash = require('connect-flash')
 const razorpay = require('razorpay')
 const crypto = require('crypto')
+const {isAuthenticated} = require('./middlewares/authenticationMiddleware')
 require('dotenv').config()
 app.set("view engine", "ejs")
 app.engine("ejs", ejsMate) // using ejs mate 
@@ -116,6 +117,20 @@ app.post("/login", passport.authenticate("local", {failureRedirect: "/login", fa
     res.redirect("/listings")
 })
 
+// Route to logout user
+
+app.get("/logout", isAuthenticated, (req, res)=>{
+    req.logout((err)=>{
+        if(err){
+            return next(err)
+        }
+        else{
+            req.flash("success", "You have been successfully logged off !!!")
+            res.redirect("/")
+        }
+    })
+})
+
 // Route to display all listings
 
 app.get("/listings", wrapAsync(async (req, res, next)=>{
@@ -125,7 +140,7 @@ app.get("/listings", wrapAsync(async (req, res, next)=>{
 
 // Route to book a stay
 
-app.get("/listings/:id/book", wrapAsync(async (req, res)=>{
+app.get("/listings/:id/book", isAuthenticated, wrapAsync(async (req, res)=>{
     let { id } = req.params;
     let listing = await Listing.findById(id);
     if (!listing) {
@@ -141,7 +156,7 @@ app.get("/listings/:id/book", wrapAsync(async (req, res)=>{
 
 // Route to parse data from booking form
 
-app.post("/listings/:id/book", wrapAsync(async (req, res)=>{
+app.post("/listings/:id/book", isAuthenticated, wrapAsync(async (req, res)=>{
     let id = req.params['id'];
     let listing = await Listing.findById(id);
     let {passengers} = req.body // get all the parents details in the form of an array
@@ -153,7 +168,7 @@ app.post("/listings/:id/book", wrapAsync(async (req, res)=>{
 
 // Route to create an order
 
-app.post("/listings/:id/book/create-order", wrapAsync(async (req, res) => {
+app.post("/listings/:id/book/create-order", isAuthenticated, wrapAsync(async (req, res) => {
     let id = req.params['id']
     let listing = await Listing.findById(id);
     const price = listing.price*100;
@@ -174,7 +189,7 @@ app.post("/listings/:id/book/create-order", wrapAsync(async (req, res) => {
 
 // Route to load the payments page
 
-app.get("/listings/:id/book/pay", wrapAsync(async (req, res) => {
+app.get("/listings/:id/book/pay", isAuthenticated, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
     
@@ -194,7 +209,7 @@ app.get("/listings/:id/book/pay", wrapAsync(async (req, res) => {
 
 // Route for payment verification
 
-app.post("/verify-payment", (req, res) => {
+app.post("/verify-payment", isAuthenticated, (req, res) => {
     const {
         razorpay_order_id,
         razorpay_payment_id,
@@ -220,7 +235,7 @@ app.post("/verify-payment", (req, res) => {
 
 // Route to render the form to create a new listing
 
-app.get("/listings/new", (req, res)=>{
+app.get("/listings/new", isAuthenticated, (req, res)=>{
     res.render("addListing", {title: "List your property", styles: [
         "https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css",
         "/css/addListingStyle.css"        
@@ -229,7 +244,7 @@ app.get("/listings/new", (req, res)=>{
 
 // Route to actually parse the entered data and then add it to the database
 
-app.post("/listings", wrapAsync(async (req, res, next) => {
+app.post("/listings", isAuthenticated, wrapAsync(async (req, res, next) => {
     let { title, description, location, country, price, image } = req.body;
 
     let imageURL = (image && image.url && image.url.trim() !== "")
@@ -274,7 +289,7 @@ app.get("/listings/:id", wrapAsync(async (req, res, next)=>{
 
 // Route to edit a listing
 
-app.get("/listings/:id/edit", wrapAsync(async (req, res, next)=>{
+app.get("/listings/:id/edit", isAuthenticated, wrapAsync(async (req, res, next)=>{
     let id = req.params['id']
     let listing = await Listing.findById(id)   
     if(!listing){
@@ -296,7 +311,7 @@ app.get("/listings/:id/edit", wrapAsync(async (req, res, next)=>{
 
 // PATCH request for changing the details
 
-app.patch("/listings/:id", wrapAsync(async (req, res, next)=>{
+app.patch("/listings/:id", isAuthenticated, wrapAsync(async (req, res, next)=>{
     let id = req.params['id'];
     let {title, description, location, country, price, image} = req.body // get the new details from the submitted form
     let post =  await Listing.findByIdAndUpdate(id, {title: title, description:description, location:location, country:country, price: price, 'image.url': image})    
@@ -306,7 +321,7 @@ app.patch("/listings/:id", wrapAsync(async (req, res, next)=>{
 
 // route to delete a listing
 
-app.delete("/listings/:id", wrapAsync(async (req, res, next)=>{
+app.delete("/listings/:id", isAuthenticated, wrapAsync(async (req, res, next)=>{
     let id = req.params['id'];
     await Listing.findByIdAndDelete(id)    
     req.flash("success", "Property deleted successfully !!!");    
@@ -338,7 +353,7 @@ app.get("/listings/:id/reviews", async(req, res)=>{
 
 // Route to render the review form
 
-app.get("/listings/:id/reviews/new", wrapAsync(async(req, res)=>{
+app.get("/listings/:id/reviews/new", isAuthenticated, wrapAsync(async(req, res)=>{
     let id = req.params['id']
     let listing = await Listing.findById(id)
     if(!listing){
@@ -360,7 +375,7 @@ app.get("/listings/:id/reviews/new", wrapAsync(async(req, res)=>{
 
 // route to handle post request to add the review
 
-app.post("/listings/:id/reviews", wrapAsync(async (req, res)=>{
+app.post("/listings/:id/reviews", isAuthenticated, wrapAsync(async (req, res)=>{
     let id = req.params['id']
     let {message, rating} = req.body
     let review = new Review({
@@ -416,7 +431,7 @@ app.get("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res)=>{
 
 // Route to render the form to edit a review
 
-app.get("/listings/:id/reviews/:reviewId/edit", wrapAsync(async (req, res)=>{
+app.get("/listings/:id/reviews/:reviewId/edit", isAuthenticated, wrapAsync(async (req, res)=>{
     let {id, reviewId} = req.params
     let listing = await Listing.findById(id)
     if(!listing){
@@ -439,7 +454,7 @@ app.get("/listings/:id/reviews/:reviewId/edit", wrapAsync(async (req, res)=>{
 
 // Route to actually parse the data sent through the form
 
-app.patch("/listings/:id/reviews/:reviewId", wrapAsync(async(req, res)=>{
+app.patch("/listings/:id/reviews/:reviewId", isAuthenticated, wrapAsync(async(req, res)=>{
     let {id, reviewId} = req.params
     let {message, rating} = req.body
     await Review.findByIdAndUpdate(reviewId, {
@@ -452,7 +467,7 @@ app.patch("/listings/:id/reviews/:reviewId", wrapAsync(async(req, res)=>{
 
 // Route to delete a review
 
-app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res)=>{
+app.delete("/listings/:id/reviews/:reviewId", isAuthenticated, wrapAsync(async (req, res)=>{
     let {id, reviewId} = req.params
     let listing = await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}}) // this pull operator removes all instances of a value from an array that matches a specific condition. Here in this case, we are removing that review from the reviews array of the listing whose Id matches with the given ID
     await Review.findByIdAndDelete(reviewId)

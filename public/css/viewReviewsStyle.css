@@ -10,11 +10,15 @@ body {
     padding: 0.8rem 1.2rem;
 }
 
-.navbar .options {
-    display: flex;
-    gap: 1.5rem;
-    margin-right: 52rem;
+.navbar .options{
+    margin-right: 40rem;
+    margin-left: 2rem;
 }
+
+.logoutContainer{
+    margin-right: 5rem;
+}
+
 
 .navbar a {
     text-decoration: none;

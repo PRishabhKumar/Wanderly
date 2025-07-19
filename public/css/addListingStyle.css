@@ -22,8 +22,13 @@ body, html {
     align-items: center;
 }
 
-.navbar .options{
-    margin-right: 52rem;
+.navbar .options {
+    margin-right: 40rem;
+    margin-left: 2rem;
+}
+
+.logoutContainer{
+    margin-right: 2.5rem;
 }
 
 .navbar a{
