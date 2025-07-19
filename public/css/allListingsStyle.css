@@ -18,14 +18,14 @@ body {
     z-index: 10;
 }
 
-.navbar .options {
+/* .navbar .options {
     margin-right: 40rem;
     margin-left: 0;
 }
 
 .logoutContainer{
     margin-right: 5rem;
-}
+} */
 
 .navbar a {
     text-decoration: none;
@@ -160,7 +160,7 @@ body {
     color: #fff;
     border: none;
     border-radius: 1.5rem;
-    font-size: 0.3rem;
+    font-size: 1rem;
     font-weight: 600;
     transform: translateY(2rem);
     transition: transform 0.3s ease-in-out, background 0.5s ease-in-out, box-shadow 0.3s ease-in-out;

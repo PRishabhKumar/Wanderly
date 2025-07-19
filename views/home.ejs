@@ -41,8 +41,11 @@
                                 <li><a href="/">Home</a></li>
                                 <li><a href="/listings">Explore</a></li>
                                 <li><a href="/listings/new">Host</a></li>
+                                <!-- Showing the login and singup button only if the user is not logged in -->
+                                <%if(!currentUser){%>
                                 <li><a href="/signup">Sign Up</a></li>
                                 <li><a href="/login">Log In</a></li>
+                                <%}%>
                             </ul>
                         </nav>
 

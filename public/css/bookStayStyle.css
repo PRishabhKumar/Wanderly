@@ -5,23 +5,29 @@
 /* Navbar */
 .navbar {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Prevent wrapping on large screens */
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
+    gap: 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .navbar .options {
-    margin-right: 52rem;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-right: 40rem;
-    margin-left: 0;
+    flex: 1 1 auto; /* Allow it to grow/shrink */
+    justify-content: flex-start;
+    min-width: 0; /* Prevent overflow */
 }
 
-.logoutContainer{
-    margin-right: 5rem;
+.logoutContainer {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 .navbar a {
@@ -32,7 +38,7 @@
 /* Main section styling */
 .booking-page {
     background-color: #f0f4f8;
-    padding: 3rem 0;
+    padding: 3rem 1rem;
     min-height: 100vh;
 }
 
@@ -42,6 +48,7 @@
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
 }
 
 /* Titles */
@@ -50,15 +57,17 @@
     color: black;
     margin-bottom: 1rem;
     font-weight: 600;
+    font-size: 1.5rem;
 }
 
 .booking-subtitle {
     text-align: center;
     margin-bottom: 2rem;
     color: #555;
+    font-size: 1.1rem;
 }
 
-/* Button styling */
+/* Button visibility transition */
 .submitButton {
     font-size: medium;
     opacity: 0;
@@ -69,7 +78,7 @@
     opacity: 1;
 }
 
-/* Passenger container now scrolls vertically instead of pushing content */
+/* Passenger container */
 .passengerContainer {
     max-height: 60vh;
     overflow-y: auto;
@@ -141,16 +150,21 @@
 }
 
 /* Buttons */
+.btn-delete,
+.btn-primary,
+.btn-success {
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+    transition: background 0.3s ease;
+    text-align: center;
+}
+
 .btn-delete {
     background-color: #d63031;
     color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    font-size: 0.95rem;
-    margin-top: 1rem;
-    transition: background 0.3s ease;
 }
 
 .btn-delete:hover {
@@ -160,12 +174,6 @@
 .btn-primary {
     background-color: #00cec9;
     color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
 }
 
 .btn-primary:hover {
@@ -175,12 +183,6 @@
 .btn-success {
     background-color: #0984e3;
     color: white;
-    border: none;
-    padding: 0.6rem 1.4rem;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
 }
 
 .btn-success:hover {
@@ -189,12 +191,33 @@
 
 /* ==================== RESPONSIVE MEDIA QUERIES ==================== */
 
-/* Tablet and below */
-@media (max-width: 1024px) {
+/* Ultra-wide screens */
+@media (min-width: 1200px) {
     .navbar .options {
-        margin-right: 0;
+        justify-content: flex-start;
+    }
+
+    .booking-card {
+        padding: 2.5rem;
+    }
+}
+
+/* Tablets and below */
+@media (max-width: 1024px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar .options {
         flex-wrap: wrap;
-        justify-content: flex-end;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .logoutContainer {
+        margin-left: 0;
+        margin-top: 1rem;
     }
 
     .booking-card {
@@ -208,20 +231,9 @@
 
 /* Phones and small tablets */
 @media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .navbar .options {
-        width: 100%;
-        justify-content: flex-start;
-        gap: 0.8rem;
-    }
-
     .booking-title,
     .booking-subtitle {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 
     .passenger-title {
@@ -232,7 +244,11 @@
     .btn-success,
     .btn-delete {
         width: 100%;
-        text-align: center;
+    }
+
+    .form-input,
+    .form-select {
+        font-size: 0.95rem;
     }
 }
 
@@ -252,5 +268,29 @@
     .btn-delete {
         font-size: 0.95rem;
         padding: 0.5rem 1rem;
+    }
+
+    .navbar .options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+    }
+}
+
+/* Tiny phones (e.g., 360px) */
+@media (max-width: 360px) {
+    .booking-title {
+        font-size: 1rem;
+    }
+
+    .form-input,
+    .form-select {
+        font-size: 0.85rem;
+    }
+
+    .btn-primary,
+    .btn-success,
+    .btn-delete {
+        font-size: 0.85rem;
     }
 }

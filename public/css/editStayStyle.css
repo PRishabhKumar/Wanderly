@@ -23,22 +23,33 @@ body, html {
     min-height: 100vh;
     font-family: 'Quicksand', sans-serif;
     background-color: white;
-    padding: 1rem;    
+    padding: 1rem;
 }
 
+/* Navigation */
 .navbar .options {
-    margin-right: 35rem;
-    margin-left: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
-.logoutContainer{
-    margin-right: 5rem;
-    display: none;
-}
-
-.navbar .options a {
+.navbar a{
     text-decoration: none;
     color: black;
+}
+
+.logoutContainer {
+    display: block; /* Changed from display: none */
+    margin-left: auto;
+    margin-right: 2rem;
+}
+
+.logoutContainer a {
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+    font-family: 'Quicksand', sans-serif;
 }
 
 /* Blurred background overlay */
@@ -54,11 +65,11 @@ body, html {
     z-index: -1;
 }
 
-/* Container for form */
+/* Form Container */
 .formContainer {
-    width: 90%;
+    width: 100%;
     max-width: 40rem;
-    height: 95vh;
+    max-height: 95vh;
     overflow-y: auto;
     position: relative;
     z-index: 1;
@@ -68,8 +79,8 @@ body, html {
     box-shadow: 0 0 10rem rgba(0, 0, 0, 0.25);
     margin-bottom: 1.5rem;
 
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .formContainer::-webkit-scrollbar {
@@ -86,7 +97,7 @@ body, html {
     text-align: center;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /*Here this webkit backdrop filter means */
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 1.5rem;
     padding: 0.75rem;
 }
@@ -115,14 +126,16 @@ body, html {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
-/* Media queries for responsive design*/
+/* -------------------------- */
+/* Responsive Media Queries   */
+/* -------------------------- */
 
 /* Mobile: up to 576px */
 @media (max-width: 576px) {
     .formContainer {
         padding: 1rem;
         border-radius: 1rem;
-        width: 95%;
+        width: 90%;
         height: auto;
     }
 
@@ -136,38 +149,55 @@ body, html {
     }
 
     .navbar .options {
-        margin-right: 0;
         font-size: 1rem;
+        justify-content: center;
+    }
+
+    .logoutContainer {
+        margin-top: 1rem;
+        text-align: center;
+        width: 100%;
     }
 }
 
-/* Small Tablets: 577px to 768px */
+/* Tablets: 577px to 768px */
 @media (min-width: 577px) and (max-width: 768px) {
     .formContainer {
         padding: 1.5rem;
-        width: 90%;
+        width: 85%;
         height: auto;
     }
 
     .btn-dark {
-        width: 100%;
+        width: auto;
         margin-left: 0;
     }
 
     .navbar .options {
-        margin-right: 0;
+        justify-content: center;
+    }
+
+    .logoutContainer {
+        margin-top: 1rem;
+        text-align: right;
+        width: 100%;
     }
 }
 
-/* Tablets and Small Laptops: 769px to 1024px */
+/* Small Laptops: 769px to 1024px */
 @media (min-width: 769px) and (max-width: 1024px) {
     .formContainer {
         padding: 2rem;
-        width: 85%;
+        width: 80%;
     }
 
     .navbar .options {
-        margin-right: 20rem;
+        justify-content: flex-end;
+        margin-right: 10rem;
+    }
+
+    .logoutContainer {
+        margin-right: 3rem;
     }
 }
 
@@ -178,6 +208,10 @@ body, html {
     }
 
     .navbar .options {
-        margin-right: 52rem;
+        margin-right: 20rem;
+    }
+
+    .logoutContainer {
+        margin-right: 2rem;
     }
 }

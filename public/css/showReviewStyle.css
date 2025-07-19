@@ -1,65 +1,137 @@
-.navbar .options{
-    margin-right: 40rem;
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    padding: 1rem 2rem;
+    gap: 1.5rem;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    overflow-x: auto;
+}
+
+.navbar .image {
+    height: 2.5rem;
+    flex-shrink: 0;
+}
+
+.navbar .options {
+    display: flex;
+    gap: 2rem;
+    margin-left: auto;
+    flex-wrap: nowrap;
+    min-width: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    flex-shrink: 1;
+}
+
+.logoutContainer {
     margin-left: 2rem;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
-.logoutContainer{
-    margin-right: 5rem;
-}
-
-
-.navbar a{
+.navbar a {
     text-decoration: none;
     color: black;
+    white-space: nowrap;
 }
 
-.mainContent{
-    margin-top: 1.5rem;
+.mainContent {
+    display: flex;
+    flex-direction: column;
     flex: 1;
+    margin-top: 1.5rem;
 }
 
-.ratingStars{
+.ratingStars,
+.stars {
     display: flex;
     gap: 0.5rem;
 }
 
-.backButton{
-    margin-top: 1.5rem;
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-    font-size: medium;
-    font-weight: lighter;
-    border-radius: 0.5rem;
-    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
-    border: 0.005rem solid #0d6efd;
-    color: #0d6efd;
-    background-color: white;
+.star:hover {
+    cursor: pointer;
 }
 
-.backButton::before{
-    content: "";
+.submitButton,
+.backButton {
+    position: relative;
+    overflow: hidden;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s;
+    color: #0d6efd;
+    background-color: white;
+    border: 0.125rem solid #0d6efd;
+}
+
+.submitButton::before,
+.backButton::before {
     position: absolute;
+    content: "";
     height: 100%;
     width: 100%;
     top: 0;
-    left: -75%;
+    left: -120%;
     transform: skew(-20deg);
-    transition: left     0.3s ease-in-out;
-    z-index: -1; /*Place it behind the main text*/
-    background: rgba(255, 255, 255, 0.3);
+    transition: left 0.3s ease-in-out;
+    z-index: -1;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
-.backButton:hover{
-    transform: scale(1.05);
+.submitButton:hover,
+.backButton:hover {
     background-color: #0d6efd;
-    color: white;    
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 0 0.5rem rgb(0, 0, 0);
 }
 
-.backButton:hover::before{
+.submitButton:hover::before,
+.backButton:hover::before {
     left: 125%;
 }
 
-textarea.autoExpand {    
+textarea.autoExpand {
     resize: none;
     min-height: 4rem;
     line-height: 1.5rem;
+}
+
+/* Tablet and below */
+@media (max-width: 1024px) {
+    .navbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .navbar .options {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .logoutContainer {
+        margin-left: 0;
+        align-self: flex-end;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .backButton {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar {
+        padding: 1rem;
+    }
+
+    .navbar .options {
+        gap: 1rem;
+    }
 }

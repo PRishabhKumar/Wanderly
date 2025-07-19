@@ -14,3 +14,5 @@ cards.forEach((card) => {
         button.classList.remove("knowMoreButtonEnter")
     });
 });
+
+

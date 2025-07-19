@@ -48,6 +48,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next)=>{
     res.locals.success = req.flash("success")
     res.locals.failure = req.flash("error")
+    res.locals.currentUser = req.user
     next()
 })
 
@@ -133,7 +134,7 @@ app.get("/logout", isAuthenticated, (req, res)=>{
 
 // Route to display all listings
 
-app.get("/listings", wrapAsync(async (req, res, next)=>{
+app.get("/listings", isAuthenticated, wrapAsync(async (req, res, next)=>{
     let listings = await Listing.find()      
     res.render("allListings", {listings, title: "Wanderly-All Stays", styles: ["/css/allListingsStyle.css", "https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"]}) // here we are passing the page specific title and stylesheet so that it can be applied to that page only while the common styles will apply to all the pages
 }))

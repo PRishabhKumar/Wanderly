@@ -1,14 +1,32 @@
-.navbar .options{
-    margin-right: 40rem;
-    margin-left: 2rem;
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 1rem 2rem;
+    background-color: #f9f9f9;
 }
 
-.logoutContainer{
-    margin-right: 5rem;
+.navbar .options {
+    flex: 1 1 auto;
+    margin: 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
+.logoutContainer {
+    flex-shrink: 0;
+    margin-left: auto;
+}
 
-.mainContent{
+/* Optional: fix icon/image if needed */
+.navbar .image,
+.navbar .fa-compass {
+    flex-shrink: 0;
+}
+
+.mainContent {
     flex: 1;
 }
 
@@ -67,4 +85,41 @@
 
 .payment-button:hover {
     background-color: #218838;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .navbar .options {
+        justify-content: center;
+        margin: 1rem 0;
+    }
+
+    .logoutContainer {
+        margin-left: 0;
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .payment-container {
+        margin: 2rem 1rem;
+        padding: 1rem;
+    }
+
+    .payment-title {
+        font-size: 1.5rem;
+    }
+
+    .payment-price {
+        font-size: 1.2rem;
+    }
+
+    .payment-button {
+        font-size: 1rem;
+        padding: 0.6rem 1.5rem;
+    }
 }

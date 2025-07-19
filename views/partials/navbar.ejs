@@ -7,8 +7,9 @@
     <div class="options" id="navOptions">
         <div class="navOption home"><a href="/">Home</a></div>
         <div class="navOption allListings"><a href="/listings">All Listings</a></div>
-        <div class="navOption listProperty"><a href="/listings/new">List your property</a></div>        
+        <div class="navOption listProperty"><a href="/listings/new">List your property</a></div>
     </div>
+    <!-- Showing the logout button only if the user is logged in -->
     <div class="logoutContainer">
         <form action="/logout" method="get">
             <button type="submit">Logout</button>
@@ -16,3 +17,9 @@
     </div>
 </div>
 <hr class="navbarSeparator">
+
+<script>
+    if(!currentUser){
+        document.querySelector(".logoutContainer").style.display = "none";
+    }
+</script>

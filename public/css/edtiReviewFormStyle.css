@@ -1,33 +1,61 @@
-.navbar .options{
-    margin-right: 40rem;
-    margin-left: 0;
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Ensures wrapping if needed */
+    gap: 1rem;
+    padding: 1rem;
 }
 
-.logoutContainer{
-    margin-right: 5rem;
+.navbar .options {
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    flex: 1;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-.navbar a{
+.logoutContainer {
+    margin-right: 2rem;
+    flex-shrink: 0;
+}
+
+.navbar a {
     text-decoration: none;
     color: black;
 }
 
-.mainContent{
-    display: flex;
-    flex-direction: column;
-    flex: 1;    
+/* Responsive tweaks */
+@media (max-width: 1380px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar .options,
+    .logoutContainer {
+        justify-content: flex-start;
+        margin-right: 0;
+    }
 }
 
-.stars{
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-top: 1.5rem;
+}
+
+.stars {
     display: flex;
     gap: 0.5rem;
 }
 
-.star:hover{
+.star:hover {
     cursor: pointer;
 }
 
-.submitButton{
+.submitButton {
     position: relative;
     overflow: hidden;
     padding: 0.5rem;
@@ -35,10 +63,13 @@
     color: #0d6efd;
     background-color: white;
     border: 0.125rem solid #0d6efd;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s;
+    transition: background-color 0.3s ease-in-out,
+                color 0.3s ease-in-out,
+                transform 0.3s ease-in-out,
+                box-shadow 0.3s;
 }
 
-.submitButton::before{
+.submitButton::before {
     position: absolute;
     top: 0;
     left: -120%;
@@ -50,11 +81,11 @@
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.submitButton:hover::before{
+.submitButton:hover::before {
     left: 125%;
 }
 
-.submitButton:hover{
+.submitButton:hover {
     background-color: #0d6efd;
     color: white;
     transform: scale(1.05);
