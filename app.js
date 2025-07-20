@@ -16,7 +16,7 @@ const ExpressSession = require('express-session')
 const flash = require('connect-flash')
 const razorpay = require('razorpay')
 const crypto = require('crypto')
-const {isAuthenticated} = require('./middlewares/authenticationMiddleware')
+const {isAuthenticated, storeDesiredURL} = require('./middlewares/authenticationMiddleware')
 require('dotenv').config()
 app.set("view engine", "ejs")
 app.engine("ejs", ejsMate) // using ejs mate 
@@ -86,23 +86,26 @@ app.get("/signup", (req, res)=>{
 
 // Route to save user data to database
 
-app.post("/signup", async (req,res)=>{
+app.post("/signup", async (req,res,next)=>{
     try{
         let {email, username, password} = req.body
-        let newUser= new User({
-            email,
-            username
+        let newUser= new User({ email, username })
+        const registeredUser = await User.register(newUser, password)
+        console.log(registeredUser)        
+
+        req.login(registeredUser, (err)=>{
+            if(err) return next(err)
+            
+            req.flash("success", "User registered successfully. Welcome to Wanderly !!!")
+            return res.redirect("/listings")
         })
-        const registeredUser = await User.register(newUser, password) // this is a static method provided by passport
-        console.log(registeredUser)
-        req.flash("success", "User registered successfully. Welcome to Wanderly !!!")
-        res.redirect("/listings")
     }
     catch(e){
         req.flash("error", "A user with any one of these credentials already exists !!!")
         res.redirect("/signup")
     }
 })
+
 
 
 // Route to render the login form
@@ -113,9 +116,9 @@ app.get("/login", (req, res)=>{
 
 // Route to authenticate user
 
-app.post("/login", passport.authenticate("local", {failureRedirect: "/login", failureFlash: true}), async (req, res)=>{
+app.post("/login", storeDesiredURL, passport.authenticate("local", {failureRedirect: "/login", failureFlash: true}), async (req, res)=>{
     req.flash("success", "Login Successfull !! Welcome back to Wanderly !!!")
-    res.redirect("/listings")
+    res.redirect(res.locals.desiredURL || "/listings")
 })
 
 // Route to logout user
@@ -258,13 +261,14 @@ app.post("/listings", isAuthenticated, wrapAsync(async (req, res, next) => {
         location,
         country,
         price,
-        image: { url: imageURL }        
+        image: { url: imageURL },
+        owner: req.user._id // store the id of the current user as the owner of this listing     
     };
 
-    const validationResult = listingSchema.validate({ listing: listingData });
-    if (validationResult.error) {
-        throw new expressError(400, validationResult.error);
-    }
+    // const validationResult = listingSchema.validate({ listing: listingData });
+    // if (validationResult.error) {
+    //     throw new expressError(400, validationResult.error);
+    // }
 
     const newListing = new Listing(listingData);
     await newListing.save();  
@@ -277,7 +281,8 @@ app.post("/listings", isAuthenticated, wrapAsync(async (req, res, next) => {
 
 app.get("/listings/:id", wrapAsync(async (req, res, next)=>{
     let id = req.params['id']
-    let listing = await Listing.findById(id)
+    let listing = await Listing.findById(id).populate("reviews").populate("owner")
+    console.log(listing)
     if(!listing){
         req.flash("error", "The property you are trying to access was either deleted or there was some error in fetching it")
         res.redirect(`/listings`)
@@ -315,9 +320,17 @@ app.get("/listings/:id/edit", isAuthenticated, wrapAsync(async (req, res, next)=
 app.patch("/listings/:id", isAuthenticated, wrapAsync(async (req, res, next)=>{
     let id = req.params['id'];
     let {title, description, location, country, price, image} = req.body // get the new details from the submitted form
-    let post =  await Listing.findByIdAndUpdate(id, {title: title, description:description, location:location, country:country, price: price, 'image.url': image})    
-    req.flash("success", "Property details edited successfully !!");   
-    res.redirect(`/listings/${id}`)
+    let listing = Listing.findById(id);
+    if(listing.owner._id.toString() === currentUser._id.toString()){
+        await Listing.findByIdAndUpdate(id, {title: title, description:description, location:location, country:country, price: price, 'image.url': image})    
+        req.flash("success", "Property details edited successfully !!");   
+        res.redirect(`/listings/${id}`)
+    }
+    else{
+        req.flash("error", "You are not authorized to perform this operation...")
+        res.redirect(`/listings/${id}`)
+    }
+    
 }))
 
 // route to delete a listing
@@ -332,24 +345,33 @@ app.delete("/listings/:id", isAuthenticated, wrapAsync(async (req, res, next)=>{
 
 // Route to see all reviews
 
-app.get("/listings/:id/reviews", async(req, res)=>{
-    let id = req.params['id']
-    let listing = await Listing.findById(id).populate("reviews") // this population here gives us access to the full review object and not just the ObjectId() format
-    if(!listing){
-        req.flash("error", "There was some error in finding the listing you are looking for")
-        res.redirect(`/listings/${id}`)
+app.get("/listings/:id/reviews", async (req, res) => {
+    let id = req.params['id'];
+    let listing = await Listing.findById(id)
+        .populate({
+            path: "reviews",
+            populate: { path: "owner" } // populate owner inside each review
+        })
+        .populate("owner"); // populate the listing owner
+
+    if (!listing) {
+        req.flash("error", "There was some error in finding the listing you are looking for");
+        return res.redirect(`/listings/${id}`);
     }
-    else{
-        let reviews = listing.reviews //get the reviews array
-        res.render("viewReviews", {reviews, listing, title: "See reivews", 
+
+    let reviews = listing.reviews;
+    res.render("viewReviews", {
+        reviews,
+        listing,
+        title: "See reviews",
         styles: [
             "/css/viewReviewsStyle.css",
             "https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
         ],
         hideOverlay: true
-    })
-    }
-})
+    });
+});
+
 
 
 // Route to render the review form
@@ -382,7 +404,8 @@ app.post("/listings/:id/reviews", isAuthenticated, wrapAsync(async (req, res)=>{
     let review = new Review({
         content: message,
         rating: rating,
-        createdAt: Date.now()
+        createdAt: Date.now(),
+        owner: req.user._id
     })
     let listing = await Listing.findById(id)
     if(!listing){
@@ -393,8 +416,8 @@ app.post("/listings/:id/reviews", isAuthenticated, wrapAsync(async (req, res)=>{
         await review.save()    
         listing.reviews.push(review._id)
         await listing.save() // this is important because every time we make a change to a document, we need to save it again for the changes to be visible 
-        
-        console.log(await Listing.findById(id).populate("reviews"))
+        console.log(review)
+        console.log(await Listing.findById(id).populate("reviews").populate("owner"))
         req.flash("success", "Your review was added successfully !!!");
         res.redirect(`/listings/${id}/reviews`)
     }
@@ -412,7 +435,7 @@ app.get("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res)=>{
         res.redirect(`/listings/${id}/reviews`)
     }
     else{
-        let review = await Review.findById(reviewId)
+        let review = await Review.findById(reviewId).populate("owner")
         if(!review){
             req.flash("error", "Either this review was deleted or there was some error fetching it...")
         }
@@ -470,10 +493,17 @@ app.patch("/listings/:id/reviews/:reviewId", isAuthenticated, wrapAsync(async(re
 
 app.delete("/listings/:id/reviews/:reviewId", isAuthenticated, wrapAsync(async (req, res)=>{
     let {id, reviewId} = req.params
-    let listing = await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}}) // this pull operator removes all instances of a value from an array that matches a specific condition. Here in this case, we are removing that review from the reviews array of the listing whose Id matches with the given ID
-    await Review.findByIdAndDelete(reviewId)
-    req.flash("success", "Review deleted successfully !!!");
-    res.redirect(`/listings/${id}/reviews`)
+    let listing = await Listing.findById(id)
+    if(listing.owner._id.toString() === req.user._id.toString()){
+         await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}}) // this pull operator removes all instances of a value from an array that matches a specific condition. Here in this case, we are removing that review from the reviews array of the listing whose Id matches with the given ID
+        await Review.findByIdAndDelete(reviewId)
+        req.flash("success", "Review deleted successfully !!!");
+        res.redirect(`/listings/${id}/reviews`)
+    }
+    else{
+        req.flash("error", "Unauthorized action not allowed")
+        res.redirect(`/listing/${id}/reviews`)
+    }   
 }))
 
 

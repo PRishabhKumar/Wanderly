@@ -5,13 +5,15 @@ reviewCards.forEach((card, index)=>{
     let viewReviewButton = card.querySelector(".viewReviewButton")
     let deleteReviewButton = card.querySelector(".deleteReviewButton")
     card.addEventListener("mouseenter", ()=>{
-        editReviewButton.classList.add("buttonsAppear")
-        viewReviewButton.classList.add("buttonsAppear")
-        deleteReviewButton.classList.add("buttonsAppear")
+        if(editReviewButton) editReviewButton.classList.add("buttonsAppear")
+        if(viewReviewButton) viewReviewButton.classList.add("buttonsAppear")
+        if(deleteReviewButton) deleteReviewButton.classList.add("buttonsAppear")
     })
     card.addEventListener("mouseleave", ()=>{
-        editReviewButton.classList.remove("buttonsAppear")
-        viewReviewButton.classList.remove("buttonsAppear")
-        deleteReviewButton.classList.remove("buttonsAppear")
+        if(editReviewButton) editReviewButton.classList.remove("buttonsAppear")
+        if(viewReviewButton) viewReviewButton.classList.remove("buttonsAppear")
+        if(deleteReviewButton) deleteReviewButton.classList.remove("buttonsAppear")
     })
 })
+
+

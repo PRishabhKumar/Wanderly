@@ -62,17 +62,27 @@
 
                         </div>
                         <div class="buttons">
-                            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>/edit?_method=PATCH">
-                                <button class="editReviewButton" type="submit">Edit</button>
-                            </form>
-                            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>">
-                                <button class="viewReviewButton" type="submit">View</button>
-                            </form>
-                            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-                                method="POST">
-                                <button class="deleteReviewButton" type="submit">Delete</button>
-                            </form>
+                            <% if(currentUser && currentUser._id.toString()===review.owner._id.toString()) { %>
+                                <form
+                                    action="/listings/<%= listing._id %>/reviews/<%= review._id %>/edit?_method=PATCH">
+                                    <button class="editReviewButton" type="submit">Edit</button>
+                                </form>
+                                <% } %>
+
+                                    <!-- View button visible to all -->
+                                    <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>">
+                                        <button class="viewReviewButton" type="submit">View</button>
+                                    </form>
+
+                                    <% if(currentUser && currentUser._id.toString()===review.owner._id.toString()) { %>
+                                        <form
+                                            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                            method="POST">
+                                            <button class="deleteReviewButton" type="submit">Delete</button>
+                                        </form>
+                                        <% } %>
                         </div>
+
                     </div>
                     <% }) %>
                         <% }else{ %>

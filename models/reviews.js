@@ -13,6 +13,10 @@ let reviewSchema = mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now() // set the current date and time in case nothing is explicitly provided
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     }
 })
 

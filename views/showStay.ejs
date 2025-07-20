@@ -16,6 +16,16 @@
         <div class="card glass-card">
             <div class="showImage"><img src="<%= listing.image.url %>" alt=""></div>
             <div class="showInfo">
+                <div class="infoPart host">
+                    <div class="icon"><span class="material-symbols-outlined">
+                            server_person
+                        </span></div>
+                    <div class="text">
+                        Hosted by: <i>
+                            <%= listing.owner.username %>
+                        </i>
+                    </div>
+                </div>
                 <div class="infoPart description">
                     <div class="icon"><span class="material-symbols-outlined">info</span></div>
                     <div class="text">
@@ -43,15 +53,19 @@
                                     <form action="/listings/<%= listing._id %>/book" method="get">
                                         <button type="submit" class="bookButton">Book Now</button>
                                     </form>
-                                    <form action="/listings/<%= listing._id %>/edit" method="get">
-                                        <button class="editButton" type="submit">Edit</button>
-                                    </form>
+                                    <% if(currentUser._id.toString()===listing.owner._id.toString()){ %>
+                                        <form action="/listings/<%= listing._id %>/edit" method="get">
+                                            <button class="editButton" type="submit">Edit</button>
+                                        </form>
+                                        <% } %>
                                 </div>
-                                <div class="deleteButton">
-                                    <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
-                                        <button type="submit" class="delete">Delete property</button>
-                                    </form>
-                                </div>
+                                <% if(currentUser._id.toString()===listing.owner._id.toString()){ %>
+                                    <div class="deleteButton">
+                                        <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
+                                            <button type="submit" class="delete">Delete property</button>
+                                        </form>
+                                    </div>
+                                    <% } %>
                             </div>
                     </div>
                 </div>

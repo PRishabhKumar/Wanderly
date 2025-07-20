@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 const Listing = require("../models/listings.js"); // ✅ FIXED
 const data = require("./data.js");
+const { object } = require('joi');
 
 const url = "mongodb://127.0.0.1:27017/wanderly";
 
@@ -27,6 +28,7 @@ const initializeDatabase = async ()=>{
     .then(async (res)=>{
         console.log("Database cleaning completed !!!")
         console.log(res)
+        data.data = data.data.map((obj)=>({...obj, owner: "687bd6c3ef91023c18399449"}))
         await Listing.insertMany(data.data)
         .then((res)=>{
             console.log("Sample data insertion completed !!!!")
