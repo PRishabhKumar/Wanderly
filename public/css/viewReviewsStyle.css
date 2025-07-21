@@ -2,7 +2,7 @@ body {
     overflow-x: hidden;
 }
 
-.navbar {
+/* .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -23,7 +23,7 @@ body {
 .navbar a {
     text-decoration: none;
     color: black;
-}
+} */
 
 .detail {
     display: flex;

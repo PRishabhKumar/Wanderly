@@ -1,25 +1,26 @@
-<div class="navbar">
-    <div class="image"><i class="fa-regular fa-compass"></i></div>
-
-    <!-- Hamburger Icon -->
-    <div class="hamburger" id="hamburger">&#9776;</div>
-
-    <div class="options" id="navOptions">
-        <div class="navOption home"><a href="/">Home</a></div>
-        <div class="navOption allListings"><a href="/listings">All Listings</a></div>
-        <div class="navOption listProperty"><a href="/listings/new">List your property</a></div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand compass" href="/listings">
+        <span class="compassIcon material-symbols-outlined">explore</span>
+    </a>    
+    <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNavAltMarkup">
+    <div class="navbar-nav d-flex">
+        <div class="linkContainer"><a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a></div>
+        <div class="linkContainer"><a class="nav-item nav-link active" href="/listings">All Listings</a></div>
+        <div class="linkContainer"><a class="nav-item nav-link active" href="/listings/new">List your property on Wanderly</a></div>
     </div>
-    <!-- Showing the logout button only if the user is logged in -->
     <div class="logoutContainer">
         <form action="/logout" method="get">
-            <button type="submit">Logout</button>
+            <button class="logoutButton" type="submit"><i class="logoutIcon fa-solid fa-right-from-bracket"></i><span class="logoutText">Logout</span></button>
         </form>
     </div>
 </div>
-<hr class="navbarSeparator">
+
+</nav>
 
 <script>
-    if(!currentUser){
+    if (!currentUser) {
         document.querySelector(".logoutContainer").style.display = "none";
     }
 </script>
+
+<!-- <script src="/js/navbar.js"></script> -->

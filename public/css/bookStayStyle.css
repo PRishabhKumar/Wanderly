@@ -2,10 +2,10 @@
     flex: 1;
 }
 
-/* Navbar */
+Navbar
 .navbar {
     display: flex;
-    flex-wrap: nowrap; /* Prevent wrapping on large screens */
+    flex-wrap: nowrap; 
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
@@ -18,9 +18,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    flex: 1 1 auto; /* Allow it to grow/shrink */
+    flex: 1 1 auto; 
     justify-content: flex-start;
-    min-width: 0; /* Prevent overflow */
+    min-width: 0; 
 }
 
 .logoutContainer {

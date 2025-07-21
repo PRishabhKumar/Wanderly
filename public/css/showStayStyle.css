@@ -11,78 +11,93 @@ body {
 }
 
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.25);
-    z-index: 0;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.25) !important;
+    z-index: 0 !important;
 }
 
+
 .pageWrapper {
-    position: relative;
-    z-index: 1;
-    flex: 1;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
+    position: relative !important;
+    z-index: 1 !important;
+    flex: 1 !important;
+    padding: 2rem !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25) !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
+
 
 .showTitle,
 .showInfo,
 .material-symbols-outlined,
 .text,
 .icon {
-    color: #fff;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+    color: #fff !important;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.6) !important;
 }
 
 .navbar {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 0.6rem 1.4rem;
-    z-index: 1000;
-    position: sticky;
-    top: 0.5rem;
-    height: 2rem;
-    width: fit-content;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;   
-    border-radius: 1.5rem;
-    margin-bottom: 1.5rem;
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    padding: 0.6rem 1.4rem !important;
+    z-index: 1000 !important;
+    position: sticky !important;
+    top: 0.5rem !important;
+    height: 3rem !important;
+    width: fit-content !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1) !important;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out !important;
+    border-radius: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
 }
+
+
+.navbar .material-symbols-outlined{
+    color: red !important;
+}
+
 
 .navbarSeparator{
     display: none;
 }
 
 .mainContent {
-    flex: 1;
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;    
+    flex: 1 !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;    
 }
 
 .card {
-    margin: 1rem 0 1.75rem 0;
-    height: 35rem;
-    width: 40rem;
-    padding: 1rem;
-    border-radius: 1.5rem;
+    margin: 1rem 0 1.75rem 0 !important;
+    height: fit-content !important;
+    width: 40rem !important;
+    padding: 1rem !important;
+    border-radius: 1.5rem !important;
+    /* Make transparent and glassmorphic */
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
 }
+
 
 .showImage {
     height: 21rem;
@@ -172,13 +187,26 @@ img {
 .footer {
     margin-top: 3rem;
     margin-left: 0;
-    width: 100%;
+    width: 100%;   
+}
+
+.footer .rightSide .text, .footer .rightSide .languageIcon{
+    color: black !important; 
+}
+
+.actionBar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+    padding: 1rem 0;
 }
 
 .buttons{
     display: flex;    
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .editAndBookButtons{
@@ -238,12 +266,13 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;    
+    margin-top: 1.25rem;
 }
 
 .submitReviewButton {
     font-size: medium;
     font-weight: bold;
-    border-radius: 0.25rem;
+    border-radius: 2rem;
     padding: 0.4rem 1.2rem;
     background: linear-gradient(to right, #a8e063, #56ab2f);
     background-size: 200% auto;

@@ -1,164 +1,71 @@
-/* Modern, fully responsive navbar redesign */
-
-.navbar {
-    width: 100%;
-    min-height: 3.5rem;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    padding: 0.5rem 1.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    transition: box-shadow 0.3s;
-    flex-wrap: wrap;
-}
-
-/* Horizontal rule under navbar */
-.navbarSeparator {
-    height: 1px;
-    border: none;
-    background-color: #e0e0e0;
-    margin: 0;
-}
-
-/* Anchor styling */
-a {
-    text-decoration: none;
-    color: #222;
-    transition: color 0.2s;
-}
-
-a:hover {
-    color: #e04345;
-}
-
-/* Logo or icon container */
-.image {
-    height: 2.2rem;
-    width: 2.2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-}
-
-.fa-compass {
-    color: #e04345;
-    font-size: 1.7rem;
-    margin-left: 0.5rem;
-}
-
-/* Image hover effect */
-.navbar .image:hover {
-    transform: scale(1.08);
-    cursor: pointer;
-}
-
-/* Navigation options container */
-.options {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-    flex: 1 1 auto;
-    justify-content: center;
-    transition: all 0.3s;
-    margin: 0;
-    padding: 0;
-}
-
-/* Individual nav option */
-.navOption {
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 0.3rem 0.7rem;
-    border-radius: 0.3rem;
-    transition: background 0.2s, color 0.2s, transform 0.2s;
-}
-
-.navOption:hover {
-    background: #f7f7f7;
-    color: #e04345;
-    transform: scale(1.08);
-    cursor: pointer;
-}
-
-/* Hamburger menu icon (only shows on small screens) */
-.hamburger {
-    display: none;
-    font-size: 2rem;
-    color: #e04345;
-    cursor: pointer;
-    background: none;
-    border: none;
+.material-symbols-outlined.compassIcon {
     margin-left: 1rem;
-    z-index: 20;
+    margin-top: 0.5rem;
+    font-size: 2rem;
+    color: red;
 }
 
-/* Logout button container */
-.logoutContainer {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    margin: 0 0 0 auto;
-    margin-right: auto;
+.collapse a{
+    font-weight: bold;
+    font-size: large;
+    height: fit-content;
+    width: auto;    
 }
 
-.logoutContainer button {
-    background-color: #e04345;
-    color: white;
-    padding: 0.4rem 1.1rem;
-    border: none;
-    border-radius: 0.375rem;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s;
-    box-shadow: 0 1px 4px rgba(224,67,69,0.08);
+.navbar-nav{
+    gap: 1rem;
 }
 
-.logoutContainer button:hover {
-    background-color: #b83234;
+.logoutContainer{
+    padding: 1rem;    
 }
 
-/* Box-sizing for layout consistency */
-.navbar, .options, .logoutContainer, .image, .navOption, .hamburger {
-    box-sizing: border-box;
+.logoutButton{
+    position: relative;
+    height: 2rem;
+    width: 5rem;    
+    background-color: #ff4d6d;
+    border-radius: 0.5rem;
 }
 
-/* 🔁 Responsive Adjustments */
-@media (max-width: 768px) {
-    .options {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
-        width: 100%;
-        display: none;
-        padding: 1rem 0;
-        background: #fff;
-    }
 
-    .options.active {
-        display: flex;
-    }
-
-    .logoutContainer {
-        justify-content: flex-start;
-        width: 100%;
-        margin-top: 0.5rem;
-        padding-left: 0.5rem;
-    }
-
-    .hamburger {
-        display: block;
-    }
+.logoutIcon{
+    position: absolute;
+    top: 50%;             /* Vertically center */
+    transform: translateY(-50%); /* Adjust for true vertical centering */
+    opacity: 0;
+    left: -50%;    
+    transition: all 0.3s ease-in-out;
 }
 
-/* Optional: smoother mobile toggle animation */
-@media (max-width: 768px) {
-    .options {
-        transition: max-height 0.3s ease-out;
-    }
+/*Start from -50 and make it to 38*/
+
+.logoutText {
+    position: absolute;
+    font-weight: bold;
+    top: 50%;             
+    transform: translateY(-50%);
+    left: 15%;           
+    white-space: nowrap;  
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
 }
+
+.logoutButton:hover .logoutIcon{
+    left: 40%;
+    opacity: 1;    
+}
+
+.logoutButton:hover .logoutText{
+    left: 110%;
+    opacity: 0;
+}
+
+.collapse a{
+    transition: transform 0.3s ease-in-out;
+}
+
+.collapse a:hover{
+    transform: scale(1.05);
+}
+

@@ -3,7 +3,7 @@
 <div class="addMainContent">
     <h3 class="heading">List your property on Wanderly</h3>
     <div class="formContainer">
-        <form class="addListingForm needs-validation" action="/listings" method="post" novalidate>
+        <form class="addListingForm needs-validation" action="/listings" method="post" novalidate enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" name="title" id="title" class="form-control" placeholder="Enter title">
@@ -35,8 +35,8 @@
                 <div class="invalid-feedback">Price cannot be empty !!</div>
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">Image URL</label>
-                <input type="url" name="image[url]" id="image" class="form-control" placeholder="Paste the url of the images of your propery (If any)">
+                <label for="image" class="form-label">Upload an image for your property</label>
+                <input type="file" name="image" id="image" class="form-control">
                 <div class="valid-feedback">Image URL looks good !!!</div>
                 <div class="invalid-feedback">If no image URL is explicitly given, then Wanderly will use a default image URL for your property which may not always work !!!</div>
             </div>

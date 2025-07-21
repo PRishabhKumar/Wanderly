@@ -17,7 +17,10 @@ const flash = require('connect-flash')
 const razorpay = require('razorpay')
 const crypto = require('crypto')
 const {isAuthenticated, storeDesiredURL} = require('./middlewares/authenticationMiddleware')
-require('dotenv').config()
+const multer = require('multer')
+if(process.env.NODE_ENV != "production"){
+    require('dotenv').config()
+}
 app.set("view engine", "ejs")
 app.engine("ejs", ejsMate) // using ejs mate 
 app.set("views", path.join(__dirname, "views"))
@@ -25,6 +28,12 @@ app.use(express.static(path.join(__dirname, "public")))
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(methodOverride("_method"))
+
+const {storage} = require('./cloudConfiguration.js')
+
+// Initializing multer
+
+const upload = multer({storage})
 
 const sessionOptions = {
     secret: "MySecretKey",
@@ -248,12 +257,11 @@ app.get("/listings/new", isAuthenticated, (req, res)=>{
 
 // Route to actually parse the entered data and then add it to the database
 
-app.post("/listings", isAuthenticated, wrapAsync(async (req, res, next) => {
-    let { title, description, location, country, price, image } = req.body;
+app.post("/listings", upload.single('image'), isAuthenticated, wrapAsync(async (req, res, next) => {
+    const { title, description, location, country, price } = req.body;
 
-    let imageURL = (image && image.url && image.url.trim() !== "")
-        ? image.url
-        : "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267";
+    const imageURL = req.file?.path || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267";
+    const imageFilename = req.file?.filename || "default";
 
     const listingData = {
         title,
@@ -261,20 +269,19 @@ app.post("/listings", isAuthenticated, wrapAsync(async (req, res, next) => {
         location,
         country,
         price,
-        image: { url: imageURL },
-        owner: req.user._id // store the id of the current user as the owner of this listing     
+        image: {
+            url: imageURL,
+            filename: imageFilename
+        },
+        owner: req.user._id
     };
 
-    // const validationResult = listingSchema.validate({ listing: listingData });
-    // if (validationResult.error) {
-    //     throw new expressError(400, validationResult.error);
-    // }
-
     const newListing = new Listing(listingData);
-    await newListing.save();  
-    req.flash("success", "Your proprty was added succesfully to Wanderly !!!");
-    res.redirect(`/listings`)
+    await newListing.save();
+    req.flash("success", "Your property was added successfully to Wanderly!");
+    res.redirect(`/listings`);
 }));
+
 
 
 // Route to display the details about a specific stay
@@ -297,7 +304,7 @@ app.get("/listings/:id", wrapAsync(async (req, res, next)=>{
 
 app.get("/listings/:id/edit", isAuthenticated, wrapAsync(async (req, res, next)=>{
     let id = req.params['id']
-    let listing = await Listing.findById(id)   
+    let listing = await Listing.findById(id)
     if(!listing){
         req.flash("error", "Listing not found !!!")
         res.redirect(`/listings`)
@@ -317,12 +324,27 @@ app.get("/listings/:id/edit", isAuthenticated, wrapAsync(async (req, res, next)=
 
 // PATCH request for changing the details
 
-app.patch("/listings/:id", isAuthenticated, wrapAsync(async (req, res, next)=>{
+app.patch("/listings/:id", upload.single('image'), isAuthenticated, wrapAsync(async (req, res, next)=>{
     let id = req.params['id'];
-    let {title, description, location, country, price, image} = req.body // get the new details from the submitted form
-    let listing = Listing.findById(id);
-    if(listing.owner._id.toString() === currentUser._id.toString()){
-        await Listing.findByIdAndUpdate(id, {title: title, description:description, location:location, country:country, price: price, 'image.url': image})    
+    let {title, description, location, country, price} = req.body // get the new details from the submitted form
+    let listing = await Listing.findById(id);
+    const imageURL = req.file?.path || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267";
+    const imageFilename = req.file?.filename || "default";
+    if(listing.owner._id.toString() === req.user._id.toString()){
+        const updatedListing = {
+            title, 
+            description,
+            location,
+            country,
+            price
+        }
+        if(req.file){
+            updatedListing.image = {
+                url: req.file.path,
+                filename : req.file.filename
+            };
+        }
+        await Listing.findByIdAndUpdate(id, updatedListing)
         req.flash("success", "Property details edited successfully !!");   
         res.redirect(`/listings/${id}`)
     }
@@ -491,20 +513,26 @@ app.patch("/listings/:id/reviews/:reviewId", isAuthenticated, wrapAsync(async(re
 
 // Route to delete a review
 
-app.delete("/listings/:id/reviews/:reviewId", isAuthenticated, wrapAsync(async (req, res)=>{
-    let {id, reviewId} = req.params
-    let listing = await Listing.findById(id)
-    if(listing.owner._id.toString() === req.user._id.toString()){
-         await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}}) // this pull operator removes all instances of a value from an array that matches a specific condition. Here in this case, we are removing that review from the reviews array of the listing whose Id matches with the given ID
-        await Review.findByIdAndDelete(reviewId)
-        req.flash("success", "Review deleted successfully !!!");
-        res.redirect(`/listings/${id}/reviews`)
+app.delete("/listings/:id/reviews/:reviewId", isAuthenticated, wrapAsync(async (req, res) => {
+    let { id, reviewId } = req.params;
+
+    const review = await Review.findById(reviewId); 
+    if (!review) {
+        req.flash("error", "Review not found");
+        return res.redirect(`/listings/${id}/reviews`);
     }
-    else{
-        req.flash("error", "Unauthorized action not allowed")
-        res.redirect(`/listing/${id}/reviews`)
-    }   
-}))
+
+    if (review.owner._id.toString() === req.user._id.toString()) {
+        await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+        await Review.findByIdAndDelete(reviewId);
+        req.flash("success", "Review deleted successfully !!!");
+        res.redirect(`/listings/${id}/reviews`);
+    } else {
+        req.flash("error", "Unauthorized action not allowed");
+        res.redirect(`/listings/${id}/reviews`);
+    }
+}));
+
 
 
 // Error handling middleware

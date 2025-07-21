@@ -25,7 +25,7 @@
         <h2 class="editHeading">Edit property details....</h2>
     </div>
     <div class="formContainer">
-        <form class="needs-validation" action="/listings/<%= listing._id %>?_method=PATCH" method="post" novalidate>
+        <form class="needs-validation" action="/listings/<%= listing._id %>?_method=PATCH" method="post" novalidate enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" name="title" id="title" class="form-control" value="<%= listing.title %>" required>
@@ -57,8 +57,8 @@
                 <div class="invalid-feedback">Please enter a valid price for your property !!!</div>
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">Image URL</label>
-                <input type="url" name="image" id="image" class="form-control" value="<%= listing.image.url %>">
+                <label for="image" class="form-label">Upload new image</label>
+                <input type="file" name="image" id="image" class="form-control">
                 <div class="valid-feedback">Image url looks good !!</div>
                 <div class="invalid-feedback">If no image URL is explicitly provided for your property, Wanderly will use a default image for it.</div>
             </div>

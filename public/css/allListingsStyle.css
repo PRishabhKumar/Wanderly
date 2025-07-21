@@ -5,7 +5,7 @@ body {
     overflow-x: hidden;
 }
 
-/* NAVBAR STYLING */
+NAVBAR STYLING
 .navbar {
     margin-top: 0;
     width: 100%;
@@ -18,14 +18,14 @@ body {
     z-index: 10;
 }
 
-/* .navbar .options {
+.navbar .options {
     margin-right: 40rem;
     margin-left: 0;
 }
 
 .logoutContainer{
     margin-right: 5rem;
-} */
+}
 
 .navbar a {
     text-decoration: none;

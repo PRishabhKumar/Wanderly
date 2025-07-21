@@ -21,9 +21,7 @@
                             server_person
                         </span></div>
                     <div class="text">
-                        Hosted by: <i>
-                            <%= listing.owner.username %>
-                        </i>
+                        Hosted by: <%= listing.owner.username %>
                     </div>
                 </div>
                 <div class="infoPart description">
@@ -48,33 +46,36 @@
                     <div class="icon"><span class="material-symbols-outlined">payments</span></div>
                     <div class="text">
                         &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
-                            <div class="buttons">
-                                <div class="editAndBookButtons">
-                                    <form action="/listings/<%= listing._id %>/book" method="get">
-                                        <button type="submit" class="bookButton">Book Now</button>
-                                    </form>
-                                    <% if(currentUser._id.toString()===listing.owner._id.toString()){ %>
-                                        <form action="/listings/<%= listing._id %>/edit" method="get">
-                                            <button class="editButton" type="submit">Edit</button>
-                                        </form>
-                                        <% } %>
-                                </div>
-                                <% if(currentUser._id.toString()===listing.owner._id.toString()){ %>
-                                    <div class="deleteButton">
-                                        <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
-                                            <button type="submit" class="delete">Delete property</button>
-                                        </form>
-                                    </div>
-                                    <% } %>
-                            </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="reviewButton">
-            <form action="/listings/<%= listing._id %>/reviews">
-                <button class="submitReviewButton btn btn-dark" type="submit">See reviews</button>
-            </form>
+            <div class="actionBar">
+                <div class="buttons">
+                    <div class="editAndBookButtons">
+                        <form action="/listings/<%= listing._id %>/book" method="get">
+                            <button type="submit" class="bookButton">Book Now</button>
+                        </form>
+                        <% if(currentUser._id.toString()===listing.owner._id.toString()){ %>
+                            <form action="/listings/<%= listing._id %>/edit" method="get">
+                                <button class="editButton" type="submit">Edit</button>
+                            </form>
+                            <% } %>
+                    </div>
+                    <% if(currentUser._id.toString()===listing.owner._id.toString()){ %>
+                        <div class="deleteButton">
+                            <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
+                                <button type="submit" class="delete">Delete property</button>
+                            </form>
+                        </div>
+                        <% } %>
+                            <div class="reviewButton">
+                                <form action="/listings/<%= listing._id %>/reviews">
+                                    <button class="submitReviewButton btn btn-dark" type="submit">See
+                                        reviews</button>
+                                </form>
+                            </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="/js/showStay.js"></script>

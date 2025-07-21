@@ -22,7 +22,7 @@ body, html {
     align-items: center;
 }
 
-.navbar .options {
+/* .navbar .options {
     margin-right: 40rem;
     margin-left: 2rem;
 }
@@ -34,7 +34,7 @@ body, html {
 .navbar a{
     text-decoration: none;
     color: black;
-}
+} */
 
 .heading{
     margin: 1rem 0 1rem 0;
