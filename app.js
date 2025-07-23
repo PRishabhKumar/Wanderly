@@ -59,7 +59,12 @@ const sessionOptions = {
     store,
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + (7*24*3600*1000), // expire the session after 7 days
+        maxAge: 7*24*3600*1000,
+        httpOnly: true
+    },
 }
 
 app.use(ExpressSession(sessionOptions))
