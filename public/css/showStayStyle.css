@@ -69,6 +69,12 @@ body {
     color: red !important;
 }
 
+.logoutContainer{
+    margin-top: 0.3rem;
+    margin-left: 1rem;
+}
+
+
 
 .navbarSeparator{
     display: none;

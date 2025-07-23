@@ -62,7 +62,8 @@ app.use((req, res, next)=>{
 })
 
 // connecting to the database
-let mongooseUrl = "mongodb://127.0.0.1:27017/wanderly" 
+// let mongooseUrl = "mongodb://127.0.0.1:27017/wanderly" 
+let mongoDBCloudURL = process.env.CLOUD_MONGODB_DATABASE_LINK
 
 
 createConnection()
@@ -74,7 +75,7 @@ createConnection()
 })
 
 async function createConnection(){
-    await mongoose.connect(mongooseUrl)
+    await mongoose.connect(mongoDBCloudURL)
 }
 
 
@@ -146,10 +147,26 @@ app.get("/logout", isAuthenticated, (req, res)=>{
 
 // Route to display all listings
 
-app.get("/listings", isAuthenticated, wrapAsync(async (req, res, next)=>{
+app.get("/listings", wrapAsync(async (req, res, next)=>{
     let listings = await Listing.find()      
     res.render("allListings", {listings, title: "Wanderly-All Stays", styles: ["/css/allListingsStyle.css", "https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"]}) // here we are passing the page specific title and stylesheet so that it can be applied to that page only while the common styles will apply to all the pages
 }))
+
+// Route to add GST to the listings
+app.patch("/listings/updatePrice", wrapAsync(async (req, res) => {
+    await Listing.updateMany({}, [
+        { $set: { price: { $multiply: ["$price", 1.18] } } }
+    ]); 
+    alert("Prices updated to include taxes")    
+}));
+
+// Route to reset the prices
+app.patch("/listings/revertPrice", wrapAsync(async (req, res) => {
+    await Listing.updateMany({}, [
+        { $set: { price: { $divide: ["$price", 1.18] } } }
+    ]);
+    alert("Prices reverted to taxless prices")
+}));
 
 // Route to book a stay
 
@@ -181,24 +198,33 @@ app.post("/listings/:id/book", isAuthenticated, wrapAsync(async (req, res)=>{
 
 // Route to create an order
 
-app.post("/listings/:id/book/create-order", isAuthenticated, wrapAsync(async (req, res) => {
-    let id = req.params['id']
-    let listing = await Listing.findById(id);
-    const price = listing.price*100;
-    const instance = new razorpay({
-        key_id: process.env.RAZORPAY_KEY_ID,
-        key_secret: process.env.RAZORPAY_KEY_SECRET,
-    });
+app.post("/listings/:id/book/create-order", isAuthenticated, async (req, res) => {
+    try {
+        let id = req.params['id'];
+        let listing = await Listing.findById(id);
+        if (!listing) throw new Error("Listing not found");
 
-    const options = {
-        amount: price, 
-        currency: "INR",
-        receipt: "order_rcptid_11",
-    };
+        const price = listing.price * 100;
+        const instance = new razorpay({
+            key_id: process.env.RAZORPAY_KEY_ID,
+            key_secret: process.env.RAZORPAY_KEY_SECRET,
+        });
 
-    const order = await instance.orders.create(options);
-    res.json(order); // returns { id, amount, currency, etc. }
-}));
+        const options = {
+            amount: price,
+            currency: "INR",
+            receipt: "order_rcptid_11",
+        };
+
+        const order = await instance.orders.create(options);
+        res.json(order);
+    } catch (err) {
+        console.error("🔥 Razorpay Order Error:", err);
+        res.status(500).json({ error: "Failed to create order", details: err.message });
+        // ❌ avoid next(err) here unless you want to render error page
+    }
+});
+
 
 // Route to load the payments page
 
@@ -286,7 +312,7 @@ app.post("/listings", upload.single('image'), isAuthenticated, wrapAsync(async (
 
 // Route to display the details about a specific stay
 
-app.get("/listings/:id", wrapAsync(async (req, res, next)=>{
+app.get("/listings/:id", isAuthenticated, wrapAsync(async (req, res, next)=>{
     let id = req.params['id']
     let listing = await Listing.findById(id).populate("reviews").populate("owner")
     console.log(listing)

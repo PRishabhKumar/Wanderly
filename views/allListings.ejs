@@ -1,27 +1,65 @@
 <% layout('layouts/boilerplate') %>
 
 
-<div class="mainContent">
-    <h1 class="heading">All Listings</h1>
-    <div class="listingsContainer">
-        <% listings.forEach((listing)=>{ %>
-            <div class="container">
-                <div class="containerImage"><img src="<%= listing.image.url %>" alt=""></div>
-                <div class="info">
-                    <div class="textInfo">
-                        <p class="title"><%= listing.title %></p>
-                        <p class="price">₹<%= listing.price.toLocaleString("en-IN") %>/night</p>
-                    </div>
-                    <div class="knowMore">
-                        <form action="/listings/<%= listing._id %>" method="get">
-                            <button type="submit" class="knowMoreButton">Explore</button>
-                        </form>
-                    </div>
+    <div class="mainContent">
+        <div class="filterOptions">
+            <div class="option">
+                <div class="optionIcon"><i class="fa-solid fa-fire"></i></div>
+                <p>Trending</p>
+            </div>
+            <div class="option">
+                <div class="optionIcon"><i class="fa-solid fa-bed"></i></div>
+                <p>Rooms</p>
+            </div>
+            <div class="option">
+                <div class="optionIcon"><i class="fa-solid fa-mountain-city"></i></div>
+                <p>Mountain Cities</p>
+            </div>
+            <div class="option">
+                <div class="optionIcon"><i class="fa-solid fa-mountain-sun"></i></div>
+                <p>Mountains</p>
+            </div>
+            <div class="option">
+                <div class="optionIcon"><i class="fa-solid fa-person-swimming"></i></div>
+                <p>Amazing pools</p>
+            </div>
+            <div class="option">
+                <div class="optionIcon"><i class="fa-solid fa-campground"></i></div>
+                <p>Camping</p>
+            </div>
+            <div class="taxSwitch">
+                <div class="form-check-reverse form-switch">
+                    <input class="switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="text form-check-label" for="flexSwitchCheckDefault">Show price after taxes</label>
                 </div>
             </div>
-        <% }) %>
+        </div>
+        <div class="listingsContainer">
+            <% listings.forEach((listing)=>{ %>
+                <div class="container">
+                    <div class="containerImage"><img src="<%= listing.image.url %>" alt=""></div>
+                    <div class="info">
+                        <div class="textInfo">
+                            <p class="title">
+                                <%= listing.title %>
+                            </p>
+                            <p class="price">₹<%= listing.price.toLocaleString("en-IN") %>/night</p>
+                        </div>
+                        <div class="knowMore">
+                            <form action="/listings/<%= listing._id %>" method="get">
+                                <button type="submit" class="knowMoreButton">Explore</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
     </div>
-</div>
 
-<script src="/js/allListings.js"></script>
+    <script src="/js/allListings.js"></script>
 
+    <!-- Logic to change the prices with taxes inclusive -->
+
+    <script>
+        const listingsArray = listings
+    </script>
