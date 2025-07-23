@@ -13,6 +13,7 @@ const wrapAsync = require("./utils/wrapAsync.js")
 const expressError = require("./utils/expressError")
 const {listingSchema} = require("./schemaValidation.js")
 const ExpressSession = require('express-session')
+const MongoStore = require('connect-mongo')
 const flash = require('connect-flash')
 const razorpay = require('razorpay')
 const crypto = require('crypto')
@@ -31,12 +32,32 @@ app.use(methodOverride("_method"))
 
 const {storage} = require('./cloudConfiguration.js')
 
+// Database connection URLs
+// let mongooseUrl = "mongodb://127.0.0.1:27017/wanderly" 
+let mongoDBCloudURL = process.env.CLOUD_MONGODB_DATABASE_LINK
+
 // Initializing multer
 
 const upload = multer({storage})
 
+// Create mongo store
+const store = MongoStore.create({
+    mongoUrl: mongoDBCloudURL,
+    crypto: {
+        secret: process.env.SESSION_SECRET
+    },
+    touchAfter: 24*3600 // this is used to define after how much time should the session information be updated
+})
+
+store.on("error", (err)=>{
+    console.log("ERROR IN MONGO SESSION STORE", err)
+})
+
+// create express session options
+
 const sessionOptions = {
-    secret: "MySecretKey",
+    store,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true
 }
@@ -61,9 +82,7 @@ app.use((req, res, next)=>{
     next()
 })
 
-// connecting to the database
-// let mongooseUrl = "mongodb://127.0.0.1:27017/wanderly" 
-let mongoDBCloudURL = process.env.CLOUD_MONGODB_DATABASE_LINK
+
 
 
 createConnection()
