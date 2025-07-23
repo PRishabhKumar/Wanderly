@@ -28,6 +28,14 @@
 
 ---
 
+## 🌐 Live Demo
+
+👉 [Wanderly Live on Render](https://wanderly-3vjs.onrender.com)
+
+Deployed using [Render](https://render.com), ensuring smooth performance and accessibility.
+
+---
+
 ## 🛠️ Tech Stack
 
 ### 💻 Frontend
@@ -50,9 +58,6 @@
 
 ---
 
-## 🖼️ Screenshots
-> *[Add screenshots of the listing page, payment interface, and reviews section]*
 
----
 
 
