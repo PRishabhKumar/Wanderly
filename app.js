@@ -104,7 +104,7 @@ async function createConnection(){
 
 
 
-app.listen(5000, ()=>{
+app.listen(process.env.PORT || 5000, ()=>{
     console.log("The server is now ready and is listening for requests or port number : 5000")
 })
 
