@@ -181,7 +181,8 @@ app.patch("/listings/updatePrice", wrapAsync(async (req, res) => {
     await Listing.updateMany({}, [
         { $set: { price: { $multiply: ["$price", 1.18] } } }
     ]); 
-    alert("Prices updated to include taxes")    
+    res.send("Prices updated to include GST")
+    req.flash("success", "Prices updated to include GST")
 }));
 
 // Route to reset the prices
@@ -189,7 +190,8 @@ app.patch("/listings/revertPrice", wrapAsync(async (req, res) => {
     await Listing.updateMany({}, [
         { $set: { price: { $divide: ["$price", 1.18] } } }
     ]);
-    alert("Prices reverted to taxless prices")
+    res.send("Prices reverted back to tax-less version")
+    req.success("Prices reverted back to taxless version")
 }));
 
 // Route to book a stay
