@@ -1,175 +1,216 @@
-/* .navbar .options{
-    margin-right: 40rem;
-    margin-left: 2rem;
+/* Global/Reset inherited from boilerplate, specific overrides here */
+
+body {
+  background-color: #121212; /* Fallback */
+  overflow-x: hidden;
 }
 
-.logoutContainer{
-    margin-right: 5rem;
+/* ================= SIGNUP CONTAINER ================= */
+.signup-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Consistent Background with Home/Login */
+  background-image: url("https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  padding: 2rem;
+  margin-top: -76px; /* Pull up behind navbar */
+  padding-top: 100px;
 }
 
-
-.navbar a{
-    text-decoration: none;
-    color: black;
-} */
-
-.mainContent{
-    flex: 1;
+/* Dark Overlay */
+.signup-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.7),
+    rgba(18, 18, 18, 0.95)
+  );
+  backdrop-filter: blur(5px);
+  z-index: 0;
 }
 
-.custom-signup-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 90vh;
-    padding: 2.5rem 0;
-    background: linear-gradient(120deg, #f5f7fa 0%, #c3cfe2 100%);
-    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    box-sizing: border-box;
+/* ================= SIGNUP CARD ================= */
+.signup-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 3rem;
+  width: 100%;
+  max-width: 500px; /* Slightly wider than login for more inputs */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.custom-signup-card {
-    background: rgba(255, 255, 255, 0.85);
-    padding: 2.5rem 3rem;
-    border-radius: 2rem;
-    box-shadow: 0 1.5rem 3rem 0 rgba(50, 50, 93, 0.15), 0 0.5rem 1rem 0 rgba(0,0,0,0.07);
-    width: 100%;
-    max-width: 36rem;
-    backdrop-filter: blur(8px);
-    border: 1.5px solid rgba(200, 200, 255, 0.18);
-    position: relative;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-@media (max-width: 900px) {
-  .custom-signup-card {
-    max-width: 90vw;
-    padding: 1.5rem 1rem;
-    border-radius: 1.5rem;
-  }
-  .signup-title {
-    font-size: 1.5rem;
-    margin-bottom: 1.2rem;
-  }
-  .custom-form input {
-    font-size: 1rem;
-    padding: 0.7rem 0.7rem;
-  }
-  .submit-btn {
-    font-size: 1.05rem;
-    padding: 0.7rem;
-  }
+/* Header */
+.card-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
 }
 
-@media (max-width: 600px) {
-  .custom-signup-container {
-    padding: 1rem 0.2rem;
-    min-height: 100vh;
-  }
-  .custom-signup-card {
-    max-width: 99vw;
-    padding: 0.7rem 0.2rem;
-    border-radius: 0.8rem;
-    box-shadow: 0 0.5rem 1rem 0 rgba(50, 50, 93, 0.10), 0 0.2rem 0.5rem 0 rgba(0,0,0,0.05);
-  }
-  .signup-title {
-    font-size: 1.1rem;
-    margin-bottom: 0.7rem;
-  }
-  .custom-form .form-group {
-    margin-bottom: 0.7rem;
-  }
-  .custom-form label {
-    font-size: 0.98rem;
-  }
-  .custom-form input {
-    font-size: 0.92rem;
-    padding: 0.5rem 0.5rem;
-    border-radius: 0.6rem;
-  }
-  .submit-btn {
-    font-size: 0.95rem;
-    padding: 0.5rem;
-    border-radius: 0.7rem;
-  }
+.card-header h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.8rem;
+  color: white;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
-.signup-title {
-    text-align: center;
-    font-size: 2.2rem;
-    margin-bottom: 2rem;
-    color: #3a3a6a;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-shadow: 0 2px 8px rgba(58,58,106,0.08);
+.card-header p {
+  font-family: "Outfit", sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  font-weight: 300;
 }
 
-.custom-form .form-group {
-    margin-bottom: 1.5rem;
-    display: flex;
-    flex-direction: column;
+/* Form Groups */
+.form-group {
+  margin-bottom: 1.5rem;
 }
 
-.custom-form label {
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #5a5a89;
-    letter-spacing: 0.02em;
+.form-group label {
+  display: block;
+  font-family: "Outfit", sans-serif;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
-.custom-form input {
-    padding: 0.85rem 1.2rem;
-    border-radius: 1rem;
-    border: 0.1rem solid #bdbdfc;
-    outline: none;
-    background: rgba(245, 247, 250, 0.85);
-    font-size: 1.08rem;
-    color: #3a3a6a;
-    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
-    box-shadow: 0 2px 8px rgba(200, 200, 255, 0.08);
+/* Input Styles */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-.custom-form input:focus {
-    border-color: #6a82fb;
-    background: #f0f4ff;
-    box-shadow: 0 0 0 0.22rem rgba(106, 130, 251, 0.18);
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1.2rem;
+  pointer-events: none;
+  transition: color 0.3s ease;
 }
 
+.form-control {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.8rem 1rem 0.8rem 3rem; /* Space for icon */
+  color: white;
+  font-family: "Outfit", sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-control:focus {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: #d4af37; /* Gold Accent */
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+}
+
+.form-control:focus + .input-icon,
+.input-wrapper:focus-within .input-icon {
+  color: #d4af37;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Button */
 .submit-btn {
-    width: 100%;
-    padding: 0.9rem;
-    background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
-    color: #fff;
-    font-weight: 700;
-    font-size: 1.15rem;
-    border: none;
-    border-radius: 1.2rem;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(67, 206, 162, 0.10);
-    letter-spacing: 0.03em;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    background-size: 200% 200%;
-    background-position: left center;
-    transition: box-shadow 0.7s, transform 0.7s, filter 0.7s;
+  width: 100%;
+  background: #d4af37; /* Gold */
+  color: #121212;
+  border: none;
+  padding: 1rem;
+  border-radius: 50px;
+  font-family: "Outfit", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
 }
 
 .submit-btn:hover {
-    animation: gradient-move 3.5s ease-in-out forwards;
-    background-position: right center;
-    box-shadow: 0 8px 32px 0 rgba(67, 206, 162, 0.18), 0 0 16px 4px rgba(24, 90, 157, 0.10);
-    transform: translateY(-2px) scale(1.03);
-    filter: brightness(1.08) saturate(1.1);
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
-@keyframes gradient-move {
-  0% {
-    background-position: left center;
-    background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+
+.submit-btn .material-symbols-outlined {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.submit-btn:hover .material-symbols-outlined {
+  transform: translateX(4px);
+}
+
+/* Footer */
+.card-footer {
+  text-align: center;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.5rem;
+}
+
+.card-footer p {
+  font-family: "Outfit", sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+}
+
+.link-gold {
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.link-gold:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  100% {
-    background-position: right center;
-    background: linear-gradient(270deg, #185a9d 0%, #43cea2 100%);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
+/* Responsive */
+@media (max-width: 576px) {
+  .signup-card {
+    padding: 2rem;
+  }
+
+  .card-header h2 {
+    font-size: 2.2rem;
+  }
+}

@@ -1,26 +1,34 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand compass" href="/listings">
-        <span class="compassIcon material-symbols-outlined">explore</span>
-    </a>    
-    <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNavAltMarkup">
-    <div class="navbar-nav d-flex">
-        <div class="linkContainer"><a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a></div>
-        <div class="linkContainer"><a class="nav-item nav-link active" href="/listings">All Listings</a></div>
-        <div class="linkContainer"><a class="nav-item nav-link active" href="/listings/new">List your property on Wanderly</a></div>
-    </div>
-    <div class="logoutContainer">
-        <form action="/logout" method="get">
-            <button class="logoutButton" type="submit"><i class="logoutIcon fa-solid fa-right-from-bracket"></i><span class="logoutText">Logout</span></button>
-        </form>
-    </div>
-</div>
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid navbar-container">
+        <a class="navbar-brand compass" href="/listings">
+            <span class="compassIcon material-symbols-outlined">explore</span>
+            <span class="brand-text">Wanderly</span>
+        </a>
 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-auto center-nav">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/listings">All Stays</a>
+                <a class="nav-link" href="/listings/new">List Property</a>
+            </div>
+
+            <div class="auth-actions">
+                <% if (!currentUser) { %>
+                    <a class="nav-link auth-link" href="/login">Log In</a>
+                    <a class="nav-link auth-link highlight" href="/signup">Sign Up</a>
+                    <% } else { %>
+                        <form action="/logout" method="get" class="logout-form">
+                            <button class="logout-btn" type="submit">
+                                <span class="btn-text">Log Out</span>
+                            </button>
+                        </form>
+                        <% } %>
+            </div>
+        </div>
+    </div>
 </nav>
-
-<script>
-    if (!currentUser) {
-        document.querySelector(".logoutContainer").style.display = "none";
-    }
-</script>
-
-<!-- <script src="/js/navbar.js"></script> -->

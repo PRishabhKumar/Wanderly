@@ -1,65 +1,89 @@
 <% layout('layouts/boilerplate') %>
 
+    <div class="listings-page-wrapper">
+        <!-- Filters Section -->
+        <div class="filters-container-sticky">
+            <div class="filters-scroll">
+                <div class="filter-option active">
+                    <i class="fa-solid fa-fire"></i>
+                    <span>Trending</span>
+                </div>
+                <div class="filter-option">
+                    <i class="fa-solid fa-bed"></i>
+                    <span>Rooms</span>
+                </div>
+                <div class="filter-option">
+                    <i class="fa-solid fa-mountain-city"></i>
+                    <span>Iconic Cities</span>
+                </div>
+                <div class="filter-option">
+                    <i class="fa-solid fa-mountain-sun"></i>
+                    <span>Mountains</span>
+                </div>
+                <div class="filter-option">
+                    <i class="fa-solid fa-person-swimming"></i>
+                    <span>Amazing Pools</span>
+                </div>
+                <div class="filter-option">
+                    <i class="fa-solid fa-campground"></i>
+                    <span>Camping</span>
+                </div>
+                <div class="filter-option">
+                    <i class="fa-solid fa-snowflake"></i>
+                    <span>Arctic</span>
+                </div>
+                <div class="filter-option">
+                    <i class="fa-brands fa-fort-awesome"></i>
+                    <span>Castles</span>
+                </div>
+            </div>
 
-    <div class="mainContent">
-        <div class="filterOptions">
-            <div class="option">
-                <div class="optionIcon"><i class="fa-solid fa-fire"></i></div>
-                <p>Trending</p>
-            </div>
-            <div class="option">
-                <div class="optionIcon"><i class="fa-solid fa-bed"></i></div>
-                <p>Rooms</p>
-            </div>
-            <div class="option">
-                <div class="optionIcon"><i class="fa-solid fa-mountain-city"></i></div>
-                <p>Mountain Cities</p>
-            </div>
-            <div class="option">
-                <div class="optionIcon"><i class="fa-solid fa-mountain-sun"></i></div>
-                <p>Mountains</p>
-            </div>
-            <div class="option">
-                <div class="optionIcon"><i class="fa-solid fa-person-swimming"></i></div>
-                <p>Amazing pools</p>
-            </div>
-            <div class="option">
-                <div class="optionIcon"><i class="fa-solid fa-campground"></i></div>
-                <p>Camping</p>
-            </div>
-            <div class="taxSwitch">
+            <div class="tax-toggle-wrapper">
                 <div class="form-check-reverse form-switch">
-                    <input class="switch form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                    <label class="text form-check-label" for="flexSwitchCheckDefault">Show price after taxes</label>
+                    <input class="form-check-input switch" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Display total before taxes</label>
                 </div>
             </div>
         </div>
-        <div class="listingsContainer">
+
+        <!-- Listings Grid -->
+        <div class="listings-grid-container">
             <% listings.forEach((listing)=>{ %>
-                <div class="container">
-                    <div class="containerImage"><img src="<%= listing.image.url %>" alt=""></div>
-                    <div class="info">
-                        <div class="textInfo">
-                            <p class="title">
+                <a href="/listings/<%= listing._id %>" class="listing-card">
+                    <div class="card-image-wrapper">
+                        <img src="<%= listing.image.url %>" alt="<%= listing.title %>" loading="lazy">
+                        <div class="card-overlay"></div>
+                    </div>
+
+                    <div class="card-details">
+                        <div class="card-header">
+                            <h3 class="listing-title">
                                 <%= listing.title %>
-                            </p>
-                            <p class="price">₹<%= listing.price.toLocaleString("en-IN") %>/night</p>
+                            </h3>
+                            <div class="rating">
+                                <i class="fa-solid fa-star"></i>
+                                <span>4.8</span>
+                            </div>
                         </div>
-                        <div class="knowMore">
-                            <form action="/listings/<%= listing._id %>" method="get">
-                                <button type="submit" class="knowMoreButton">Explore</button>
-                            </form>
+                        <p class="listing-location">
+                            <%= listing.location %>
+                        </p>
+                        <div class="card-footer">
+                            <p class="price">
+                                <span class="currency">₹</span>
+                                <span class="amount">
+                                    <%= listing.price.toLocaleString("en-IN") %>
+                                </span>
+                                <span class="duration">/ night</span>
+                            </p>
                         </div>
                     </div>
-                </div>
+                </a>
                 <% }) %>
         </div>
     </div>
 
     <script src="/js/allListings.js"></script>
-
-    <!-- Logic to change the prices with taxes inclusive -->
-
     <script>
-        const listingsArray = listings
+        const listingsArray = <%- JSON.stringify(listings || []) %>;
     </script>

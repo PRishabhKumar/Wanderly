@@ -1,63 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/boilerplate') %>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wanderly</title>
-    <link rel="stylesheet" href="/css/homeStyle.css" />
-    <link rel="stylesheet" href="/css/flash.css">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-</head>
+    <!-- The Navbar is now included via boilerplate/partials layout automatically or we can manually include it if boilerplate logic differs. 
+     Based on boilerplate.ejs, we don't need to manually include navbar here. It's properly handled there. -->
 
-<body>
-    <div class="hero">
-        <!-- Flash messages -->
-        <% if(success && success.length){ %>
-            <div class="custom-alert custom-success">
-                <%= success %>
-                    <button type="button" class="custom-close" onclick="this.parentElement.style.display='none';">
-                        &times;
-                    </button>
-            </div>
-            <% } %>
-
-                <% if(failure && failure.length){ %>
-                    <div class="custom-alert custom-failure">
-                        <%= failure %>
-                            <button type="button" class="custom-close"
-                                onclick="this.parentElement.style.display='none';">
-                                &times;
-                            </button>
+    <div class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Discover Your <br> <span class="highlight-gold">Next Sanctuary</span></h1>
+            <p class="hero-subtitle">Curated collection of the world's most extraordinary homes and experiences.</p>
+            <div class="hero-actions">
+                <form action="/listings" method="GET" class="search-bar-container">
+                    <div class="input-group">
+                        <span class="icon material-symbols-outlined">search</span>
+                        <input type="text" name="location" placeholder="Where do you want to go?" class="search-input">
                     </div>
-                    <% } %>
-                        <nav class="navbar">
-                            <div class="logo">🌍 Wanderly</div>
+                    <button type="submit" class="search-btn">Explore</button>
+                </form>
+            </div>
+        </div>
 
-                            <!-- Hamburger Icon -->
-                            <div class="hamburger" id="hamburger">&#9776;</div>
-
-                            <ul class="nav-links" id="navLinks">
-                                <li><a href="/">Home</a></li>
-                                <li><a href="/listings">Explore</a></li>
-                                <li><a href="/listings/new">Host</a></li>
-                                <!-- Showing the login and singup button only if the user is not logged in -->
-                                <%if(!currentUser){%>
-                                <li><a href="/signup">Sign Up</a></li>
-                                <li><a href="/login">Log In</a></li>
-                                <%}%>
-                            </ul>
-                        </nav>
-
-                        <div class="hero-content">
-                            <h1>Discover Your Next Stay</h1>
-                            <p>Book unique homes and experiences around the world.</p>
-                            <a href="/listings" class="btn">Explore Stays</a>
-                        </div>
+        <div class="scroll-indicator">
+            <span>Scroll to Explore</span>
+            <span class="material-symbols-outlined bounce">keyboard_arrow_down</span>
+        </div>
     </div>
 
-    <script src="/js/home.js"></script>
+    <section class="value-prop-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Wanderly?</h2>
+                <div class="section-divider"></div>
+            </div>
 
-</body>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon-wrapper">
+                        <span class="material-symbols-outlined">diamond</span>
+                    </div>
+                    <h3>Premium Selection</h3>
+                    <p>Every home is verified for quality, design, and comfort ensuring a luxury experience.</p>
+                </div>
 
-</html>
+                <div class="feature-card">
+                    <div class="icon-wrapper">
+                        <span class="material-symbols-outlined">verified_user</span>
+                    </div>
+                    <h3>Secure Booking</h3>
+                    <p>Our payment system is encrypted and secure, giving you peace of mind.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon-wrapper">
+                        <span class="material-symbols-outlined">support_agent</span>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated concierge team is available around the clock to assist you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending / Popular Section Placeholder -->
+    <section class="trending-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Trending Destinations</h2>
+                <p class="section-desc">The most desired locations this season.</p>
+                <div class="section-divider"></div>
+            </div>
+            <!-- We can add dynamic trending listings here later -->
+            <div class="trending-grid">
+                <a href="/listings" class="trending-card"
+                    style="background-image: url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070&auto=format&fit=crop');">
+                    <div class="card-content">
+                        <h3>Maldives</h3>
+                        <p>Island Bliss</p>
+                    </div>
+                </a>
+                <a href="/listings" class="trending-card"
+                    style="background-image: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073&auto=format&fit=crop');">
+                    <div class="card-content">
+                        <h3>Paris</h3>
+                        <p>City of Light</p>
+                    </div>
+                </a>
+                <a href="/listings" class="trending-card"
+                    style="background-image: url('https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1886&auto=format&fit=crop');">
+                    <div class="card-content">
+                        <h3>Cinque Terre</h3>
+                        <p>Coastal Dreams</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
