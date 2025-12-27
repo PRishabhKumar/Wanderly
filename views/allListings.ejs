@@ -48,7 +48,8 @@
 
         <!-- Listings Grid -->
         <div class="listings-grid-container">
-            <% listings.forEach((listing)=>{ %>
+            <% listings.forEach((listing)=>{ %>             
+                 
                 <a href="/listings/<%= listing._id %>" class="listing-card">
                     <div class="card-image-wrapper">
                         <img src="<%= listing.image.url %>" alt="<%= listing.title %>" loading="lazy">
