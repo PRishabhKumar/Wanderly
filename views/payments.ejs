@@ -1,63 +1,153 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="payment-container">
-    <div class="payment-card">
-        <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="payment-image">
-        <div class="payment-details">
-            <h3 class="payment-title"><%= listing.title %></h3>
-            <p class="payment-description"><%= listing.description %></p>
-            <h4 class="payment-price">Total: ₹<%= listing.price %></h4>
-            <button id="rzp-button" class="payment-button">Pay with Razorpay</button>
+    <!-- Ambient Background -->
+    <div class="payment-wrapper">
+        <div class="gold-aura"></div>
+
+        <div class="luxury-podium">
+
+            <!-- LEFT: The Experience Summary -->
+            <div class="details-pane">
+                <div class="brand-title">
+                    Wanderly <div class="brand-lines"></div>
+                </div>
+
+                <div class="stay-summary">
+                    <h1 class="stay-title">
+                        <%= listing.title %>
+                    </h1>
+                    <p class="stay-location">
+                        <%= listing.location %>, <%= listing.country %>
+                    </p>
+                </div>
+
+                <div class="invoice-rows">
+                    <div class="row">
+                        <span>Rate per Night</span>
+                        <span>₹<%= listing.price.toLocaleString("en-IN") %></span>
+                    </div>
+                    <div class="row">
+                        <span>Taxes & Fees</span>
+                        <span>₹<%= (listing.price * 0.18).toLocaleString("en-IN", {maximumFractionDigits: 0}) %></span>
+                    </div>
+                    <!-- Dynamic Invoice ID Generation for visual flair -->
+                    <div class="row">
+                        <span>Invoice Ref</span>
+                        <span style="font-family: 'Courier New', monospace;">#INV-<%= Math.floor(1000 + Math.random() *
+                                9000) %></span>
+                    </div>
+
+                    <div class="total-row">
+                        <span class="total-label">Total to Pay</span>
+                        <span class="total-value">₹<%= (listing.price * 1.18).toLocaleString("en-IN",
+                                {maximumFractionDigits: 0}) %></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: The Interactive Card Stage -->
+            <div class="card-stage">
+                <div class="mesh-bg"></div>
+
+                <!-- The 3D Wandery Black Card -->
+                <div class="credit-card" id="tiltCard">
+                    <div class="chip"></div>
+                    <div class="wifi-icon"><i class="fa-solid fa-wifi"></i></div>
+                    <div class="card-logo">WANDERLY ELITE</div>
+                    <div class="card-number">**** **** **** 4242</div>
+
+                    <div class="card-holder">
+                        <span class="holder-label">Card Holder</span>
+                        <span class="holder-name">
+                            <%= user.username %>
+                        </span>
+                    </div>
+
+                    <div class="card-expiry">
+                        <span class="holder-label">Expires</span>
+                        <span class="holder-name">∞/∞</span>
+                    </div>
+                </div>
+
+                <div class="pay-btn-container">
+                    <button id="rzp-button">
+                        Complete Payment
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
-</div>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        console.log("Payments script loaded...")
-        const razorpayKeyId = "<%= razorpayKeyId %>";
-        const razorpayUser = {
-            name: "<%= user.username %>",
-            email: "<%= user.email %>"
-        };
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 3D Tilt Effect for the Card
+            const card = document.getElementById('tiltCard');
+            const container = document.querySelector('.card-stage');
 
-        const payBtn = document.getElementById("rzp-button");
-        if (!payBtn) return;
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
 
-        payBtn.onclick = async function () {
-            const listingId = window.location.pathname.split("/")[2];
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
 
-            const res = await fetch(`/listings/${listingId}/book/create-order`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                }
+                const rotateX = ((y - centerY) / centerY) * -10; // Max tilt 10deg
+                const rotateY = ((x - centerX) / centerX) * 10;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
             });
 
-            const orderData = await res.json();
+            container.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            });
 
-            const options = {
-                key: razorpayKeyId,
-                amount: orderData.amount,
-                currency: orderData.currency,
-                name: "Wanderly Booking",
-                description: "Flight/Stay Booking Payment",
-                order_id: orderData.id,
-                handler: function (response) {
-                    alert("Payment successful! Razorpay Payment ID: " + response.razorpay_payment_id);
-                },
-                prefill: {
-                    name: razorpayUser.name,
-                    email: razorpayUser.email
-                },
-                theme: {
-                    color: "#3399cc"
-                }
+
+            // Razorpay Logic
+            const razorpayKeyId = "<%= razorpayKeyId %>";
+            const razorpayUser = {
+                name: "<%= user.username %>",
+                email: "<%= user.email %>"
             };
+            const payBtn = document.getElementById("rzp-button");
 
-            const rzp = new Razorpay(options);
-            rzp.open();
-        };
-    });
-</script>
+            if (payBtn) {
+                payBtn.onclick = async function () {
+                    const listingId = window.location.pathname.split("/")[2];
+                    try {
+                        const res = await fetch(`/listings/${listingId}/book/create-order`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" }
+                        });
+                        const orderData = await res.json();
+
+                        const options = {
+                            key: razorpayKeyId,
+                            amount: orderData.amount,
+                            currency: orderData.currency,
+                            name: "Wanderly Experience",
+                            description: "Payment for " + "<%= listing.title %>",
+                            order_id: orderData.id,
+                            handler: function (response) {
+                                window.location.href = "/listings";
+                            },
+                            prefill: {
+                                name: razorpayUser.name,
+                                email: razorpayUser.email
+                            },
+                            theme: {
+                                color: "#D4AF37" // Matches Gold theme
+                            }
+                        };
+                        const rzp = new Razorpay(options);
+                        rzp.open();
+                    } catch (err) {
+                        console.error("Order creation failed:", err);
+                        alert("Unable to initiate payment. Please try again.");
+                    }
+                };
+            }
+        });
+    </script>

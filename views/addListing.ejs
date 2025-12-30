@@ -1,48 +1,74 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="addMainContent">
-    <h3 class="heading">List your property on Wanderly</h3>
-    <div class="formContainer">
-        <form class="addListingForm needs-validation" action="/listings" method="post" novalidate enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" name="title" id="title" class="form-control" placeholder="Enter title">
-                <div class="valid-feedback">Title looks good !!</div>
-                <div class="invalid-feedback">Title cannot be empty !! PLease provide a valid title for your property</div>
+    <div class="page-container-centered">
+        <div class="glass-form-card">
+            <div class="form-header">
+                <h3>List your property</h3>
+                <p>Join Wanderly and start hosting today.</p>
             </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" placeholder="Add a catchy description for your property"></textarea>
-                <div class="valid-feedback">Description looks good </div>
-                <div class="invalid-feedback">Description cannot be empty. Please provide a catchy description of your propery. This helps attract more customers</div>
-            </div>
-            <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input type="text" name="location" id="location" class="form-control" placeholder="Enter your property's location (town or city)">
-                <div class="valid-feedback">Location looks good !!!</div>
-                <div class="invalid-feedback">Every property must have a defined location. Please enter a valid and correct location for your property</div>
-            </div>
-            <div class="mb-3">
-                <label for="country" class="form-label">Country</label>
-                <input type="text" name="country" id="country" class="form-control" placeholder="Enter the country where your property is located">
-                <div class="valid-feedback">Country looks good !!!</div>
-                <div class="invalid-feedback">Every property must clearly define the country it is located in. Please provide the correct country name for your property</div>
-            </div>
-            <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <input type="text" name="price" id="price" class="form-control" placeholder="Enter the per-night rental price of your property">
-                <div class="valid-feedback">Price looks good !!!</div>
-                <div class="invalid-feedback">Price cannot be empty !!</div>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Upload an image for your property</label>
-                <input type="file" name="image" id="image" class="form-control">
-                <div class="valid-feedback">Image URL looks good !!!</div>
-                <div class="invalid-feedback">If no image URL is explicitly given, then Wanderly will use a default image URL for your property which may not always work !!!</div>
-            </div>
-            <div class="mb-3">
-                <button type="submit" class="btn submitButton">Add property to Wanderly</button>
-            </div>
-        </form>
+
+            <form class="addListingForm needs-validation" action="/listings" method="post" novalidate
+                enctype="multipart/form-data">
+
+                <!-- Title -->
+                <div class="mb-4">
+                    <label for="title" class="form-label"><i class="fa-solid fa-heading"></i> Title</label>
+                    <input type="text" name="title" id="title" class="form-control custom-input"
+                        placeholder="e.g. Luxury Mountain Villa" required>
+                    <div class="valid-feedback">Looks great!</div>
+                    <div class="invalid-feedback">Please provide a catchy title.</div>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-4">
+                    <label for="description" class="form-label"><i class="fa-solid fa-pen-nib"></i> Description</label>
+                    <textarea name="description" id="description" class="form-control custom-input"
+                        placeholder="Describe the experience guests will have..." rows="4" required></textarea>
+                    <div class="invalid-feedback">Please provide a description.</div>
+                </div>
+
+                <!-- Two Column Row: Location & Country -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label for="location" class="form-label"><i class="fa-solid fa-location-dot"></i>
+                            Location</label>
+                        <input type="text" name="location" id="location" class="form-control custom-input"
+                            placeholder="City, Town" required>
+                        <div class="invalid-feedback">Location is required.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="country" class="form-label"><i class="fa-solid fa-globe"></i> Country</label>
+                        <input type="text" name="country" id="country" class="form-control custom-input"
+                            placeholder="Country Name" required>
+                        <div class="invalid-feedback">Country is required.</div>
+                    </div>
+                </div>
+
+                <!-- Two Column Row: Price & Image -->
+                <div class="row g-4 mb-5">
+                    <div class="col-md-4">
+                        <label for="price" class="form-label"><i class="fa-solid fa-tag"></i> Price per Night</label>
+                        <div class="input-group">
+                            <span class="input-group-text custom-addon">₹</span>
+                            <input type="number" name="price" id="price" class="form-control custom-input"
+                                placeholder="2500" required>
+                        </div>
+                        <div class="invalid-feedback">Price is required.</div>
+                    </div>
+                    <div class="col-md-8">
+                        <label for="image" class="form-label"><i class="fa-solid fa-image"></i> Property Image</label>
+                        <input type="file" name="image" id="image" class="form-control custom-input file-input"
+                            required>
+                        <div class="invalid-feedback">Please upload an image.</div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-action">
+                    <button type="submit" class="btn btn-gold-gradient">
+                        Create Listing <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>

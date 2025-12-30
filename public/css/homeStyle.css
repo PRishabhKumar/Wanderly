@@ -14,6 +14,30 @@ body {
   overflow-x: hidden;
 }
 
+/* Spotlight overlay container styling */
+
+.overlayContainer{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* This allows the overlay to allow clicks through it */
+  z-index: 101;
+  background: radial-gradient(
+    circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(212, 175, 55, 0.08) 0%,
+    rgba(212, 175, 55, 0.04) 20%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.overlayContainer.active{
+  opacity: 1;
+}
+
 /* ================= HERO SECTION ================= */
 .hero-section {
   position: relative;
@@ -107,12 +131,12 @@ body {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
-.input-group {
-  display: flex;
+.search-input-group {
+  display: flex !important;
   align-items: center;
   flex: 1;
   padding-left: 1.2rem;
-  gap: 0.8rem;
+  gap: 0.8rem;  
 }
 
 .input-group .icon {

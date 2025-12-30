@@ -1,8 +1,8 @@
 <% layout('layouts/boilerplate') %>
 
     <!-- The Navbar is now included via boilerplate/partials layout automatically or we can manually include it if boilerplate logic differs. 
-     Based on boilerplate.ejs, we don't need to manually include navbar here. It's properly handled there. -->
-
+    Based on boilerplate.ejs, we don't need to manually include navbar here. It's properly handled there. -->
+    <div class="overlayContainer"></div>    
     <div class="hero-section">
         <div class="hero-overlay"></div>
         <div class="hero-content">
@@ -10,7 +10,7 @@
             <p class="hero-subtitle">Curated collection of the world's most extraordinary homes and experiences.</p>
             <div class="hero-actions">
                 <form action="/listings" method="GET" class="search-bar-container">
-                    <div class="input-group">
+                    <div class="search-input-group">
                         <span class="icon material-symbols-outlined">search</span>
                         <input type="text" name="location" placeholder="Where do you want to go?" class="search-input">
                     </div>
@@ -94,3 +94,9 @@
             </div>
         </div>
     </section>
+    <!-- CDNs for MediaPipe Hands -->     
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+
+    <script src="/js/home.js"></script>

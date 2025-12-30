@@ -1,38 +1,62 @@
 <% layout('layouts/boilerplate') %>
 
-    <div class="mainContent">
-        <h3 class="heading">Verify property details...</h3>
-        <div class="propertyDetailsContainer">
-            <div class="propertyImage">
-                <img class="propertyPhoto" src="<%=  listing.image.url%>" alt="">
-            </div>
-            <div class="textDesc">
-                <p>Property Name : <%= listing.title %>
-                </p>
-                <p>Location : <%= listing.location %>
-                </p>
-                <p>Country : <%= listing.country %>
-                </p>
-                <p>Price : <%= listing.price.toLocaleString("IN") %>/night</p>
-            </div>
+    <!-- Background Layer -->
+    <div class="page-bg" style="background-image: url('<%= listing.image.url %>');"></div>
+
+    <div class="page-container">
+
+        <div class="trip-header">
+            <span class="trip-status">Verification Complete</span>
+            <h1 class="trip-title">Ready for Takeoff</h1>
+            <p class="trip-subtitle">
+                <%= listing.title %> &bull; <%= listing.location %>, <%= listing.country %>
+            </p>
         </div>
-        <h3>Verify passenger details...</h3>
-        <div class="passengersInfoContainer">
-            <% passengers.forEach((passenger, index)=>{ %>
-                <div class="passengerInfo">
-                    <p class="passengerNumber">Passenger No: <%= index+1 %>
-                    </p>
-                    <p>Name : <%= passenger.name %>
-                    </p>
-                    <p>age : <%= passenger.age %>
-                    </p>
-                    <p>Gender : <%= passenger.gender %>
-                    </p>
+
+        <div class="tickets-container">
+            <% passengers.forEach((passenger, index)=> { %>
+                <div class="boarding-pass" style="animation-delay: <%= index * 0.1 %>s">
+                    <div class="ticket-header">
+                        <span class="airline-code">GUEST PASS</span>
+                        <span class="ticket-class">VERIFIED</span>
+                    </div>
+
+                    <div class="ticket-body">
+                        <div class="passenger-name">
+                            <i class="fa-solid fa-user"
+                                style="color: #D4AF37; margin-right: 10px; font-size: 0.8em;"></i>
+                            <%= passenger.name %>
+                        </div>
+
+                        <div class="flight-info-row">
+                            <div class="info-group">
+                                <label>Passenger Ref</label>
+                                <span>#0<%= index + 1 %></span>
+                            </div>
+                            <div class="info-group">
+                                <label>Age</label>
+                                <span>
+                                    <%= passenger.age %>
+                                </span>
+                            </div>
+                            <div class="info-group">
+                                <label>Gender</label>
+                                <span>
+                                    <%= passenger.gender %>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <% }) %>
         </div>
 
-        <form action="/listings/<%= listing._id %>/book/pay" method="get">
-            <button class="submitButton" type="submit">Proceed to payment....</button>
-        </form>
+        <div class="actions-container">
+            <form action="/listings/<%= listing._id %>/book/pay" method="get">
+                <button class="btn-pay" type="submit">
+                    Confirm & Pay &#8377;<%= listing.price.toLocaleString("IN") %>
+                </button>
+            </form>
+        </div>
+
     </div>

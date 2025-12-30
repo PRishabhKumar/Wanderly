@@ -1,19 +1,13 @@
-let reviewCards = document.querySelectorAll(".reviewCard")
-
-reviewCards.forEach((card, index)=>{
-    let editReviewButton = card.querySelector(".editReviewButton")
-    let viewReviewButton = card.querySelector(".viewReviewButton")
-    let deleteReviewButton = card.querySelector(".deleteReviewButton")
-    card.addEventListener("mouseenter", ()=>{
-        if(editReviewButton) editReviewButton.classList.add("buttonsAppear")
-        if(viewReviewButton) viewReviewButton.classList.add("buttonsAppear")
-        if(deleteReviewButton) deleteReviewButton.classList.add("buttonsAppear")
-    })
-    card.addEventListener("mouseleave", ()=>{
-        if(editReviewButton) editReviewButton.classList.remove("buttonsAppear")
-        if(viewReviewButton) viewReviewButton.classList.remove("buttonsAppear")
-        if(deleteReviewButton) deleteReviewButton.classList.remove("buttonsAppear")
-    })
+const spotlight = document.querySelector(".overlayContainer")
+document.addEventListener('mousemove', (e)=>{
+    const x = (e.clientX/window.innerWidth)*100;
+    const y = (e.clientY/window.innerHeight)*100;
+    spotlight.style.setProperty("--mouse-x", `${x}%`)
+    spotlight.style.setProperty("--mouse-y", `${y}%`)
+    
+    spotlight.classList.add('active')
 })
 
-
+document.addEventListener('mouseleave', ()=>{
+    spotlight.classList.remove('active')
+})

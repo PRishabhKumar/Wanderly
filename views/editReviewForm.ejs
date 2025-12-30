@@ -1,46 +1,57 @@
 <% layout('layouts/boilerplate') %>
 
-    <div class="mainContent mt-3">
-        <div class="row">
-            <div class="col-8 offset-2">
-                <h3>Edit your review...</h3>
-                <h5 class="mt-3">Review ID : <%= review._id %>
-                </h5>
-            </div>
+    <div class="edit-review-wrapper">
+        <!-- Background Image -->
+        <div class="form-bg">
+            <img src="<%= listing.image.url %>" alt="Background">
+            <div class="overlay"></div>
         </div>
-        <div class="row">
-            <div class="col-8 offset-2">
-                <div class="formContainer">
-                    <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=PATCH" method="POST">
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <input type="text" name="message" id="message" class="form-control"
-                                value="<%= review.content %>">
-                        </div>
-                        <div class="mb-3">
-                            <input type="hidden" class="rating" name="rating" value = <%= review.rating %>>
-                        </div>
-                        <div class="mb-3">
-                            <label for="rating" class="form-label">Rating</label>
-                            <div class="stars">
-                                <% for(let i=1; i <=5; i++) { %>
-                                    <div class="star">
-                                        <% if(i <=review.rating) { %>
-                                            <i class="fa-solid fa-star"></i>
-                                            <% } else { %>
-                                                <i class="fa-regular fa-star"></i>
-                                                <% } %>
-                                    </div>
-                                    <% } %>
 
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <button class="submitButton" type="submit">Save changes..</button>
-                        </div>
-                    </form>
-                </div>
+        <div class="form-container-glass">
+            <div class="form-header">
+                <h3>Edit Review</h3>
+                <span class="sub-text">Share your experience at <%= listing.title %></span>
             </div>
+
+            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=PATCH" method="POST"
+                class="premium-form">
+
+                <!-- Rating Section -->
+                <div class="form-group rating-group">
+                    <label class="form-label">Your Rating</label>
+                    <input type="hidden" class="rating" name="rating" value="<%= review.rating %>">
+                    <div class="stars">
+                        <% for(let i=1; i <=5; i++) { %>
+                            <div class="star" data-value="<%= i %>">
+                                <% if(i <=review.rating) { %>
+                                    <i class="fa-solid fa-star"></i>
+                                    <% } else { %>
+                                        <i class="fa-regular fa-star"></i>
+                                        <% } %>
+                            </div>
+                            <% } %>
+                    </div>
+                </div>
+
+                <!-- Message Section -->
+                <div class="form-group">
+                    <label for="message" class="form-label">Your Message</label>
+                    <div class="input-wrapper">
+                        <textarea name="message" id="message" class="form-control premium-input autoExpand"
+                            rows="4"><%= review.content %></textarea>
+                        <i class="fa-solid fa-pen-to-square input-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="form-actions">
+                    <button class="submit-btn-premium" type="submit">
+                        <span>Save Changes</span> <i class="fa-solid fa-check"></i>
+                    </button>
+                    <a href="/listings/<%= listing._id %>/reviews" class="cancel-link">Cancel</a>
+                </div>
+            </form>
         </div>
     </div>
+
     <script src="/js/editReviewForm.js"></script>

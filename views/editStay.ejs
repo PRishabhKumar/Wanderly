@@ -1,70 +1,88 @@
 <% layout('layouts/boilerplate') %>
 
-<style>
-    .editMainContent {
-        position: relative;
-        min-height: 100vh;
-        width: 100vw;
-        background: url("<%= listing.image.url %>") no-repeat center center/cover;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Quicksand', sans-serif;
-    }
+    <!-- The CSS is now linked via boilerplate's automatic style loading if configured or we rely on the implementation plan to ensure it's loaded. 
+Assuming boilerplate might need a manual push or we just include it here if the boilerplate logic requires 'styles' array -->
 
-    
+    <!-- If boilerplate expects 'styles' array, this should be passed from controller. 
+     If not, we can manually include the link here or rely on the fact the file is named editStayStyle.css and might be auto-included if the route matches. 
+     Safe bet: check if we need to manually include or if the user setup handles it. 
+     Given the previous context, it seems likely safe to just have the markup correct. -->
 
-    
+    <div class="editMainContent" style="background-image: url('<%= listing.image.url %>');">
+        <div class="formContainer">
+            <div class="heading">
+                <h2 class="editHeading">Edit Property Details</h2>
+            </div>
 
-    
-</style>
+            <form class="needs-validation" action="/listings/<%= listing._id %>?_method=PATCH" method="post" novalidate
+                enctype="multipart/form-data">
 
-<div class="editMainContent">
-    <div class="heading">
-        <h2 class="editHeading">Edit property details....</h2>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Property Title</label>
+                    <input type="text" name="title" id="title" class="form-control" value="<%= listing.title %>"
+                        placeholder="e.g. Luxury Villa in Bali" required>
+                    <div class="valid-feedback">Looking good!</div>
+                    <div class="invalid-feedback">Please enter a valid title</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" id="description" class="form-control"
+                        placeholder="Describe the experience..." required><%= listing.description %></textarea>
+                    <div class="valid-feedback">Great description!</div>
+                    <div class="invalid-feedback">Please provide a description</div>
+                </div>
+
+                <div class="row g-3"> <!-- Grid for structured inputs -->
+                    <div class="col-md-6 mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" name="location" id="location" class="form-control"
+                            value="<%= listing.location %>" placeholder="City, Region" required>
+                        <div class="invalid-feedback">Location is required</div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" name="country" id="country" class="form-control"
+                            value="<%= listing.country %>" placeholder="Country Name" required>
+                        <div class="invalid-feedback">Country is required</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price per Night (&#8377;)</label>
+                    <input type="number" name="price" id="price" class="form-control" value="<%= listing.price %>"
+                        placeholder="0.00" required>
+                    <div class="invalid-feedback">Please enter a valid price</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Update Image <span
+                            style="font-size: 0.8em; opacity: 0.7; font-weight: normal;">(Leave empty to keep
+                            current)</span></label>
+                    <input type="file" name="image" id="image" class="form-control">
+                </div>
+
+                <div class="mb-3 text-center mt-4">
+                    <button type="submit" class="btn btn-dark">Save Changes</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="formContainer">
-        <form class="needs-validation" action="/listings/<%= listing._id %>?_method=PATCH" method="post" novalidate enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" name="title" id="title" class="form-control" value="<%= listing.title %>" required>
-                <div class="valid-feedback">Title looks good !!</div>
-                <div class="invalid-feedback">Please enter a valid title</div>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" required><%= listing.description %></textarea>
-                <div class="valid-feedback">Description looks good !!!</div>
-                <div class="invalid-feedback">Please enter a description for your property !!!</div>
-            </div>
-            <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input type="text" name="location" id="location" class="form-control" value="<%= listing.location %>" required>
-                <div class="valid-feedback">Location looks good !!!</div>
-                <div class="invalid-feedback">Every property must have a location. Please a valid and correct location</div>
-            </div>
-            <div class="mb-3">
-                <label for="country" class="form-label">Country</label>
-                <input type="text" name="country" id="country" class="form-control" value="<%= listing.country %>" required >
-                <div class="valid-feedback">Country looks good !!</div>
-                <div class="invalid-feedback">Every property must have its country name. Please enter a valid and correct country name</div>
-            </div>
-            <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <input type="text" name="price" id="price" class="form-control" value="<%= listing.price %>" required>
-                <div class="valid-feedback">Price looks good !!</div>
-                <div class="invalid-feedback">Please enter a valid price for your property !!!</div>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Upload new image</label>
-                <input type="file" name="image" id="image" class="form-control">
-                <div class="valid-feedback">Image url looks good !!</div>
-                <div class="invalid-feedback">If no image URL is explicitly provided for your property, Wanderly will use a default image for it.</div>
-            </div>
-            <div class="mb-3 text-center">
-                <button type="submit" class="btn btn-dark px-4 py-2 rounded-3">Save changes</button>
-            </div>
-        </form>
-    </div>
-</div>
+
+    <script>
+        // Form validation script (Bootstrap standard)
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>

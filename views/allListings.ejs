@@ -1,65 +1,22 @@
 <% layout('layouts/boilerplate') %>
 
     <div class="listings-page-wrapper">
-        <!-- Filters Section -->
-        <div class="filters-container-sticky">
-            <div class="filters-scroll">
-                <div class="filter-option active">
-                    <i class="fa-solid fa-fire"></i>
-                    <span>Trending</span>
-                </div>
-                <div class="filter-option">
-                    <i class="fa-solid fa-bed"></i>
-                    <span>Rooms</span>
-                </div>
-                <div class="filter-option">
-                    <i class="fa-solid fa-mountain-city"></i>
-                    <span>Iconic Cities</span>
-                </div>
-                <div class="filter-option">
-                    <i class="fa-solid fa-mountain-sun"></i>
-                    <span>Mountains</span>
-                </div>
-                <div class="filter-option">
-                    <i class="fa-solid fa-person-swimming"></i>
-                    <span>Amazing Pools</span>
-                </div>
-                <div class="filter-option">
-                    <i class="fa-solid fa-campground"></i>
-                    <span>Camping</span>
-                </div>
-                <div class="filter-option">
-                    <i class="fa-solid fa-snowflake"></i>
-                    <span>Arctic</span>
-                </div>
-                <div class="filter-option">
-                    <i class="fa-brands fa-fort-awesome"></i>
-                    <span>Castles</span>
-                </div>
-            </div>
-
-            <div class="tax-toggle-wrapper">
-                <div class="form-check-reverse form-switch">
-                    <input class="form-check-input switch" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Display total before taxes</label>
-                </div>
-            </div>
-        </div>
+      
 
         <!-- Listings Grid -->
         <div class="listings-grid-container">
-            <% listings.forEach((listing)=>{ %>             
-                 
+            <% listings.forEach((listing)=>{ %>
                 <a href="/listings/<%= listing._id %>" class="listing-card">
                     <div class="card-image-wrapper">
-                        <img src="<%= listing.image.url %>" alt="<%= listing.title %>" loading="lazy">
+                        <img src="<%= (listing.image && listing.image.url) ? listing.image.url : 'https://images.unsplash.com/photo-1571896349842-33c89424de2d' %>"
+                            alt="<%= listing.title || 'Listing' %>" loading="lazy">
                         <div class="card-overlay"></div>
                     </div>
 
                     <div class="card-details">
                         <div class="card-header">
                             <h3 class="listing-title">
-                                <%= listing.title %>
+                                <%= listing.title || 'Untitled' %>
                             </h3>
                             <div class="rating">
                                 <i class="fa-solid fa-star"></i>
@@ -67,13 +24,13 @@
                             </div>
                         </div>
                         <p class="listing-location">
-                            <%= listing.location %>
+                            <%= listing.location || 'Unknown' %>
                         </p>
                         <div class="card-footer">
                             <p class="price">
                                 <span class="currency">₹</span>
                                 <span class="amount">
-                                    <%= listing.price.toLocaleString("en-IN") %>
+                                    <%= listing.price ? listing.price.toLocaleString("en-IN") : '0' %>
                                 </span>
                                 <span class="duration">/ night</span>
                             </p>
@@ -86,5 +43,5 @@
 
     <script src="/js/allListings.js"></script>
     <script>
-        const listingsArray = <%- JSON.stringify(listings) %>;
+        const listingsArray = <% - JSON.stringify(listings) %>;
     </script>

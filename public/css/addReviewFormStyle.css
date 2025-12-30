@@ -1,101 +1,213 @@
-/* .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    padding: 1rem 2rem;
-    background-color: #fff;
-    border-bottom: 1px solid #ccc;
-    gap: 1rem;
+/* ================= RESET & BASE ================= */
+body {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=2600&auto=format&fit=crop");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: white;
+  font-family: "Outfit", sans-serif;
+  min-height: 100vh;
 }
 
-.navbar .image {
-    height: 2.5rem;
-    flex-shrink: 0;
+/* ================= CONTAINER & CARD ================= */
+.page-container-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 140px); /* Adjust for navbar/footer */
+  padding: 2rem 1rem;
 }
 
-.navbar .options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin: 0;
-    flex: 1;
-    min-width: 0;
-    justify-content: center;
+.glass-form-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 3rem;
+  width: 100%;
+  max-width: 600px; /* Slightly narrower for review form */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
 }
 
-.logoutContainer {
-    flex-shrink: 0;
+/* Top Glow Effect */
+.glass-form-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.5),
+    transparent
+  );
 }
 
-.navbar a {
-    text-decoration: none;
-    color: black;
-    white-space: nowrap;
-} */
-
-.mainContent {
-    padding-left: 1.5rem;
-    margin-top: 2rem;
+/* ================= HEADER ================= */
+.form-header {
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
+.form-header h3 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.form-header p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.1rem;
+}
+
+/* ================= STARS RATING ================= */
 .starsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.star {
+  font-size: 2rem;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.3); /* Default empty color */
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    color 0.2s ease;
 }
 
 .star:hover {
-    cursor: pointer;
+  transform: scale(1.2);
 }
 
-.submitReviewButton {
-    margin-top: 1.5rem;
+/* Classes applied by JS for filled stars */
+.star.filled {
+  color: #d4af37; /* Gold */
+}
+
+.star.filled i {
+  font-weight: 900; /* Use filled icon style if using FontAwesome regular vs solid */
+}
+
+/* Also target inner icon just in case */
+.star i {
+  transition: color 0.2s ease;
 }
 
 .ratingDiv {
-    display: none;
+  display: none; /* Hide the actual input */
 }
 
-/* Tablet and below */
-@media (max-width: 1024px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .navbar .options {
-        justify-content: flex-start;
-        width: 100%;
-    }
-
-    .logoutContainer {
-        align-self: flex-end;
-        margin-top: 0.5rem;
-    }
-
-    .mainContent {
-        padding-left: 1rem;
-    }
+/* ================= FORM ELEMENTS ================= */
+.form-label {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center labels for this form */
+  gap: 0.5rem;
 }
 
-/* Mobile */
-@media (max-width: 480px) {
-    .navbar {
-        padding: 1rem;
-    }
+/* Align left for message input label */
+.mb-4 .form-label {
+  justify-content: flex-start;
+}
 
-    .navbar .options {
-        gap: 1rem;
-        justify-content: flex-start;
-    }
+.form-label i {
+  color: #d4af37;
+  font-size: 0.9rem;
+}
 
-    .starsContainer {
-        justify-content: flex-start;
-        gap: 0.75rem;
-    }
+/* Custom Input Styles */
+.custom-input {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  padding: 0.8rem 1.2rem !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+  resize: none; /* Prevent resize for textarea */
+}
 
-    .mainContent {
-        padding-left: 0.75rem;
-    }
+.custom-input:focus {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1) !important;
+}
+
+.custom-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ================= SUBMIT BUTTON ================= */
+.form-action {
+  margin-top: 1rem;
+}
+
+.btn-gold-gradient {
+  background: linear-gradient(135deg, #d4af37, #b48e26);
+  color: black;
+  border: none;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.btn-gold-gradient i {
+  transition: transform 0.3s ease;
+}
+
+.btn-gold-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+}
+
+.btn-gold-gradient:hover i {
+  transform: translateX(4px) rotate(-10deg);
+}
+
+/* ================= VALIDATION TEXT ================= */
+.valid-feedback {
+  color: #4cd137;
+  font-size: 0.85rem;
+}
+
+.invalid-feedback {
+  color: #ff5e57;
+  font-size: 0.85rem;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .glass-form-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .star {
+    font-size: 1.8rem;
+  }
+
+  .form-header h3 {
+    font-size: 2rem;
+  }
 }

@@ -1,31 +1,48 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="mainContent">
-    <div class="row">
-        <div class="col-8 offset-2">
-            <div class="booking-card">
-                <h2 class="booking-title">Booking for <%= listing.title %></h2>
+    <!-- The main container implements the Split Layout -->
+    <div class="book-container">
 
-                <form action="/listings/<%= listing._id %>/book" method="POST" class="booking-form">
-
-                    <div class="scrollable-passengers">
-                        <div class="passengersContainer"></div>
-                    </div>
-
-                    <button type="button" class="addPassengerButton btn btn-primary mt-3">
-                        <i class="fa-solid fa-plus"></i> Add passenger
-                    </button>
-
-                    <div class="submit-section">
-                        <button type="submit" class="submitButton btn btn-success mt-4">
-                            Proceed for detail verification
-                        </button>
-                    </div>
-
-                </form>
+        <!-- LEFT SIDE: Visual & Context -->
+        <div class="visual-side" style="background-image: url('<%= listing.image.url %>');">
+            <div class="visual-overlay"></div>
+            <div class="property-info">
+                <span class="property-badge">Confirm Your Stay</span>
+                <h1 class="booking-title">
+                    <%= listing.title %>
+                </h1>
+                <p class="booking-subtitle">
+                    <i class="fa-solid fa-location-dot" style="margin-right: 8px;"></i>
+                    <%= listing.location %>, <%= listing.country %>
+                </p>
             </div>
         </div>
-    </div>
-</div>
 
-<script src="/js/bookStay.js"></script>
+        <!-- RIGHT SIDE: The Form -->
+        <div class="form-side">
+            <div class="form-header">
+                <h3>Guest Details</h3>
+                <p style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">Please ensure passenger details match
+                    their government ID.</p>
+            </div>
+
+            <form action="/listings/<%= listing._id %>/book" method="POST" id="bookingForm">
+
+                <div class="passengersContainer">
+                    <!-- Javascript will inject passenger cards here -->
+                </div>
+
+                <button type="button" class="addPassengerButton">
+                    <i class="fa-solid fa-plus" style="margin-right: 8px;"></i> Add Another Guest
+                </button>
+
+                <div class="submit-section">
+                    <button type="submit" class="submitButton">
+                        Confirm Booking <i class="fa-solid fa-arrow-right-long" style="margin-left: 10px;"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/bookStay.js"></script>

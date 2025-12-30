@@ -197,8 +197,16 @@ app.get(
   "/listings",
   wrapAsync(async (req, res, next) => {
     let listings = await Listing.find();
-    console.log("Number of listings found:", listings.length); // Add this
-    console.log("First listing:", listings[0]); // Add this
+    console.log("Number of listings found:", listings.length);
+
+    listings.slice(0, 3).forEach((listing, i) => {
+      console.log(`\n=== Listing ${i + 1} ===`);
+      console.log("Title:", listing.title);
+      console.log("Location:", listing.location);
+      console.log("Price:", listing.price);
+      console.log("Image URL:", listing.image?.url);
+      console.log("Full listing:", JSON.stringify(listing, null, 2));
+    });
     res.render("allListings", {
       listings,
       title: "Wanderly-All Stays",
@@ -527,15 +535,18 @@ app.get("/listings/:id/reviews", async (req, res) => {
     );
     return res.redirect(`/listings/${id}`);
   }
-
+  
   let reviews = listing.reviews;
+  let totalRating = reviews.reduce((sum, review)=>sum+review.rating, 0) // 0 here is the initial value
+  let averageRating = (totalRating/reviews.length).toFixed(1)
   res.render("viewReviews", {
     reviews,
     listing,
+    averageRating,
     title: "See reviews",
     styles: [
-      "/css/viewReviewsStyle.css",
       "https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css",
+      "/css/viewReviewsStyle.css",
     ],
     hideOverlay: true,
   });

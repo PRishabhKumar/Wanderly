@@ -1,38 +1,59 @@
 <% layout('layouts/boilerplate') %>
+    <div class="show-review-wrapper">
+        <!-- Full-screen blurred background using listing image -->
+        <div class="spotlight-bg">
+            <img src="<%= listing.image.url %>" alt="Background">
+            <div class="overlay"></div>
+        </div>
 
+        <div class="spotlight-container">
+            <!-- Main Spotlight Card -->
+            <div class="spotlight-card">
 
-<div class="mainContent">
-    <div class="row">
-        <div class="col-8 offset-2">
-            <h4>
-                <%= listing.title %> - Customer review
-            </h4>
-            <h4>
-                Posted by : <%= review.owner.username %>
-            </h4>
-            <div class="mb-3">
-                <label for="message" class="form-label">Message</label>
-                <textarea rows="10" cols="20" name="message" id="message" class="form-control autoExpand" readonly><%= review.content %></textarea>
-            </div>
-            <div class="mb-3">
-                <h6>Rating</h6>
-                <div class="ratingStars">
-                    <% for(let i=1; i<=5;i++){ %>
-                        <div class="star">
-                            <% if(i<=review.rating){ %>
-                                <i class="fa-solid fa-star"></i>
-                                <% }else{ %>
-                                    <i class="fa-regular fa-star"></i>
-                                    <% } %>
-                        </div>
-                        <% } %>
+                <!-- Decorative Quote Icon Background -->
+                <div class="quote-watermark">
+                    <i class="fa-solid fa-quote-left"></i>
                 </div>
-            </div>
-            <div class="mb-3 mt-3">
-                <form action="/listings/<%= listing._id %>/reviews" method="GET">
-                    <button class = "backButton" type="submit" class="btn btn-outline-primary">Back to all reviews</button>                    
-                </form>
+
+                <!-- Header: Reviewer Info -->
+                <div class="card-header">
+                    <div class="avatar-large">
+                        <%= review.owner.username.charAt(0).toUpperCase() %>
+                    </div>
+                    <div class="reviewer-details">
+                        <h2 class="reviewer-name">
+                            <%= review.owner.username %>
+                        </h2>
+                        <span class="stay-details">Stayed at <%= listing.title %></span>
+                    </div>
+                    <div class="review-date">
+                        <%= new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long' , day: 'numeric' ,
+                            year: 'numeric' }) %>
+                    </div>
+                </div>
+
+                <!-- Review Content (The "Quote") -->
+                <div class="card-body">
+                    <div class="rating-display">
+                        <% for(let i=1; i<=5; i++) { %>
+                            <i class="fa-solid fa-star <%= i <= review.rating ? 'filled' : 'empty' %>"></i>
+                            <% } %>
+                                <span class="rating-number">
+                                    <%= review.rating %>.0
+                                </span>
+                    </div>
+
+                    <h3 class="review-quote">
+                        "<%= review.content %>"
+                    </h3>
+                </div>
+
+                <!-- Footer: Actions -->
+                <div class="card-footer">
+                    <a href="/listings/<%= listing._id %>/reviews" class="back-link-premium">
+                        <i class="fa-solid fa-arrow-left"></i> Back to All Reviews
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>

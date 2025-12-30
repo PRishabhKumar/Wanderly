@@ -1,112 +1,194 @@
-body, html {
-    background-color: white;
-    margin: 0;
-    padding: 0;
-    overflow: auto;
+/* ================= RESET & BASE ================= */
+body {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=2600&auto=format&fit=crop");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: white;
+  font-family: "Outfit", sans-serif;
+  min-height: 100vh;
 }
 
-.navbar, .footer {
-    background-color: white;
+/* ================= CONTAINER & CARD ================= */
+.page-container-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 140px); /* Adjust for navbar/footer */
+  padding: 2rem 1rem;
 }
 
-.footer {
-    height: 20px;
+.glass-form-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 3rem;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
 }
 
-.addMainContent{
-    flex-grow: 1;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+/* Top Glow Effect */
+.glass-form-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.5),
+    transparent
+  );
 }
 
-/* .navbar .options {
-    margin-right: 40rem;
-    margin-left: 2rem;
+/* ================= HEADER ================= */
+.form-header {
+  margin-bottom: 2.5rem;
+  text-align: center;
 }
 
-.logoutContainer{
-    margin-right: 2.5rem;
+.form-header h3 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
 }
 
-.navbar a{
-    text-decoration: none;
-    color: black;
-} */
-
-.heading{
-    margin: 1rem 0 1rem 0;
-    font-weight: bolder;
+.form-header p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.1rem;
 }
 
-.formContainer {
-    width: 90%;
-    max-width: 40rem;
-    height: 95vh;
-    overflow-y: auto;
-    position: relative;
-    z-index: 1;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 2rem;
-    border-radius: 2rem;
-    box-shadow: 0 0 10rem rgba(0, 0, 0, 0.25);
-    margin-bottom: 1.5rem;
-
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+/* ================= FORM ELEMENTS ================= */
+.form-label {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.formContainer::-webkit-scrollbar {
-    display: none;
+.form-label i {
+  color: #d4af37;
+  font-size: 0.9rem;
 }
 
-.form-label{
-    font-weight: bold;
+/* Custom Input Styles */
+.custom-input {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  padding: 0.8rem 1.2rem !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
 }
 
-/*Styling for the save button*/
-
-.submitButton {
-    background: linear-gradient(135deg, #e0116a, #f06292);
-    color: white;
-    padding: 0.75rem 2rem;
-    font-size: 0.5rem;
-    border: none;
-    border-radius: 0.5rem;
-    transition: all 0.35s ease;
-    font-weight: 600;
-    box-shadow: 0 8px 24px rgba(255, 90, 95, 0.4);
-    letter-spacing: 0.6px;
-    font-family: 'Quicksand', sans-serif;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
+.custom-input:focus {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1) !important;
 }
 
-.submitButton::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 150%;
-    height: 100%;
-    background: linear-gradient(120deg, rgba(255,255,255,0.3), rgba(255,255,255,0));
-    transform: skewX(-20deg);
-    transition: left 0.4s ease;
-    z-index: -1;
+.custom-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
 }
 
-/*Here we are applying the styling to the "before" psuedo-element when it is hovered upon and here we are moving it to the right so it seems like a shine of light*/
-.submitButton:hover::before {
-    left: 125%;
+/* File Input specific tweaks */
+.file-input {
+  padding-left: 0.8rem !important;
+  padding-top: 0.6rem !important;
 }
 
-.submitButton:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 10px 30px rgba(252, 96, 118, 0.6);
-    background: linear-gradient(135deg, #c2185b, #ec407a);
+.file-input::file-selector-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  margin-right: 1rem;
+  transition: background 0.3s;
+}
 
+.file-input::file-selector-button:hover {
+  background-color: #d4af37;
+  color: black;
+}
 
+/* Input Group Text (Currency Symbol) */
+.custom-addon {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-right: none !important;
+  color: #d4af37 !important;
+  font-weight: bold;
+}
+
+/* ================= SUBMIT BUTTON ================= */
+.form-action {
+  margin-top: 1rem;
+}
+
+.btn-gold-gradient {
+  background: linear-gradient(135deg, #d4af37, #b48e26);
+  color: black;
+  border: none;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.btn-gold-gradient i {
+  transition: transform 0.3s ease;
+}
+
+.btn-gold-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+}
+
+.btn-gold-gradient:hover i {
+  transform: translateX(4px);
+}
+
+/* ================= VALIDATION TEXT ================= */
+.valid-feedback {
+  color: #4cd137;
+  font-size: 0.85rem;
+}
+
+.invalid-feedback {
+  color: #ff5e57;
+  font-size: 0.85rem;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .glass-form-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .form-header h3 {
+    font-size: 2rem;
+  }
 }

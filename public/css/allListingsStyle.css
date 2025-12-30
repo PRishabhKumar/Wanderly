@@ -1,113 +1,21 @@
-/* Global/Reset inherited from boilerplate, specific overrides here */
-
+/* Global/Reset */
 body {
-  background-color: #121212;
-  color: white;
-  padding-top: 0; /* Handled by wrapper padding if needed */
+  background-color: #121212 !important; /* Force Dark Background */
+  color: white !important;
+  min-height: 100vh;
 }
 
 /* ================= PAGE WRAPPER ================= */
 .listings-page-wrapper {
   padding-top: 2rem;
   min-height: 100vh;
-}
-
-/* ================= FILTERS SECTION ================= */
-.filters-container-sticky {
-  position: sticky;
-  top: 80px; /* Below navbar */
-  z-index: 100;
-  background: rgba(18, 18, 18, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  margin-bottom: 2rem;
-  gap: 2rem;
-}
-
-/* Filters Scroll Area */
-.filters-scroll {
-  display: flex;
-  gap: 2rem;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-}
-
-.filters-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.filter-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: fit-content;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid transparent;
-}
-
-.filter-option i {
-  font-size: 1.5rem;
-  transition: transform 0.3s ease;
-}
-
-.filter-option span {
-  font-family: "Outfit", sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.filter-option:hover,
-.filter-option.active {
-  color: white;
-  border-bottom-color: #d4af37;
-}
-
-.filter-option:hover i {
-  transform: scale(1.1);
-}
-
-/* Tax Toggle */
-.tax-toggle-wrapper {
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.8rem 1.2rem;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.form-check-label {
-  font-family: "Outfit", sans-serif;
-  font-size: 0.9rem;
-  cursor: pointer;
-  margin-right: 0.5rem;
-}
-
-.form-check-input {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-}
-
-.form-check-input:checked {
-  background-color: #d4af37;
-  border-color: #d4af37;
+  background-color: #121212; /* Double assurance */
 }
 
 /* ================= LISTINGS GRID ================= */
 .listings-grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 2rem;
   padding: 0 2rem 4rem;
   max-width: 1600px;
@@ -116,28 +24,30 @@ body {
 
 /* Listing Card */
 .listing-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.05); /* Slight glass tint */
   border-radius: 16px;
   overflow: hidden;
   text-decoration: none;
-  color: inherit;
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  color: white !important; /* Revert to white text */
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
-  border: 1px solid transparent;
-  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Subtle border */
+  display: flex;
+  flex-direction: column;
 }
 
+/* Card Hover Effects */
 .listing-card:hover {
-  transform: translateY(-8px);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(212, 175, 55, 0.3);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-10px) scale(1.02);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(212, 175, 55, 0.5); /* Gold border shine */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 /* Image Wrapper */
 .card-image-wrapper {
   position: relative;
-  aspect-ratio: 1 / 1; /* Square cards for premium spacing */
+  aspect-ratio: 1 / 1;
   overflow: hidden;
 }
 
@@ -145,48 +55,62 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 0.7s ease;
+  filter: brightness(0.9);
 }
 
 .listing-card:hover .card-image-wrapper img {
-  transform: scale(1.05);
+  transform: scale(1.1);
+  filter: brightness(1.1);
 }
 
+/* Gradient Overlay */
 .card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%);
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.listing-card:hover .card-overlay {
   opacity: 0.6;
 }
 
 /* Card Details */
 .card-details {
-  padding: 1.2rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .listing-title {
-  font-family: "Outfit", sans-serif; /* Clean font for readability */
-  font-size: 1.1rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.4rem;
   font-weight: 600;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: white;
+  color: white !important; /* Force white */
+  letter-spacing: 0.5px;
 }
 
 .rating {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 4px;
   font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .rating i {
@@ -196,46 +120,61 @@ body {
 
 .listing-location {
   font-family: "Outfit", sans-serif;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.95rem;
+  color: #b0b0b0 !important; /* Light Gray */
+  font-size: 0.9rem;
   margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.card-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 0.8rem;
+  margin-top: auto;
 }
 
 .price {
   font-family: "Outfit", sans-serif;
-  color: white;
+  color: white !important;
   font-weight: 400;
   display: flex;
   align-items: baseline;
-  gap: 2px;
+  gap: 3px;
+  margin: 0;
+}
+
+.price .currency {
+  font-size: 0.9rem;
+  color: #d4af37;
 }
 
 .price .amount {
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: white !important;
 }
 
 .price .duration {
-  color: rgba(255, 255, 255, 0.6);
+  color: #888888 !important; /* Muted Gray */
   font-size: 0.9rem;
 }
 
-/* Responsive */
+/* ================= RESPONSIVE DESIGN ================= */
+@media (max-width: 992px) {
+  .listings-grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
-  .filters-container-sticky {
-    top: 60px; /* Lower sticky pos for mobile nav */
-    padding: 1rem;
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .tax-toggle-wrapper {
-    justify-content: space-between;
-  }
-
   .listings-grid-container {
     padding: 0 1rem 4rem;
     gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+
+  @media (min-width: 480px) {
+    .listings-grid-container {
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
   }
 }

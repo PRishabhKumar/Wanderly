@@ -1,45 +1,52 @@
 <% layout('layouts/boilerplate') %>
 
-    <div class="mainContent">
-        <div class="row">
-            <div class="col-8 offset-2">
-                <h4 class="heading">Add a nice review for this property !!!</h4>
+    <div class="page-container-centered">
+        <div class="glass-form-card">
+            <div class="form-header">
+                <h3>Write a Review</h3>
+                <p>Share your experience with others.</p>
             </div>
-        </div>
-        <div class="formContainer">
-            <form action="/listings/<%= listing._id %>/reviews" method="POST" class="reviewForm needs-validation" novalidate>
-                <div class="row">
-                    <div class="col-8 offset-2">
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <input type="text" name="message" id="message" class="form-control"
-                                placeholder="Enter your review message here...." required>
-                            <div class="valid-feedback">Review message is fine !!!</div>
-                            <div class="invalid-feedback">Please enter a valid review message !!!</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="stars" class="form-label">What rating would you like to give this property ??</label>
-                            <div class="starsContainer">
-                                <div class="star"><i class="fa-regular fa-star"></i></div>
-                                <div class="star"><i class="fa-regular fa-star"></i></div>
-                                <div class="star"><i class="fa-regular fa-star"></i></div>
-                                <div class="star"><i class="fa-regular fa-star"></i></div>
-                                <div class="star"><i class="fa-regular fa-star"></i></div>                                
-                            </div>
-                        </div>
-                        <div class="mb-3 ratingDiv">
-                            <label for="rating" class="form-label"></label>
-                            <input type="number" name="rating" id="rating" class="rating form-control">
-                        </div>
+
+            <form action="/listings/<%= listing._id %>/reviews" method="POST" class="reviewForm needs-validation"
+                novalidate>
+
+                <!-- Star Rating Section -->
+                <div class="mb-5 text-center">
+                    <label class="form-label mb-3">How was your stay?</label>
+                    <div class="starsContainer">
+                        <div class="star" data-value="1"><i class="fa-regular fa-star"></i></div>
+                        <div class="star" data-value="2"><i class="fa-regular fa-star"></i></div>
+                        <div class="star" data-value="3"><i class="fa-regular fa-star"></i></div>
+                        <div class="star" data-value="4"><i class="fa-regular fa-star"></i></div>
+                        <div class="star" data-value="5"><i class="fa-regular fa-star"></i></div>
+                    </div>
+                    <!-- Hidden input stores the actual value -->
+                    <div class="ratingDiv">
+                        <input type="number" name="rating" id="rating" class="rating form-control" required min="1"
+                            max="5">
+                        <div class="invalid-feedback mt-2">Please give a star rating.</div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-8 offset-2">
-                        <button type="submit" class="submitReviewButton btn btn-dark ">Submit review</button>
-                    </div>
+
+                <!-- Message Input -->
+                <div class="mb-4">
+                    <label for="message" class="form-label"><i class="fa-solid fa-comment-dots"></i> Your
+                        Message</label>
+                    <textarea name="message" id="message" class="form-control custom-input"
+                        placeholder="Tell us what you loved about this place..." rows="4" required></textarea>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please share your thoughts.</div>
                 </div>
-                <br><br><br><br><br>
+
+                <!-- Submit Button -->
+                <div class="form-action">
+                    <button type="submit" class="btn btn-gold-gradient">
+                        Submit Review <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+
             </form>
-        </div>        
+        </div>
     </div>
+
     <script src="/js/addReviewForm.js"></script>

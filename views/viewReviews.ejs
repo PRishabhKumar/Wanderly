@@ -1,97 +1,116 @@
 <% layout('layouts/boilerplate') %>
-    <div class="mainContent">
-        <div class="row">
-            <div class="col-8 offset-2">
-                <div class="propertyCard">
-                    <h4 class="heading mt-3 mb-3">
-                        <%= listing.title %> - Reviews
-                    </h4>
-                    <div class="image">
-                        <img class="listingImage" src="<%= listing.image.url %>" alt="listing image">
-                    </div>
-                    <div class="details">
-                        <div class="detail description">
-                            <div class="icon"><span class="material-symbols-outlined">
-                                    article
-                                </span></div>
-                            <div class="text">
-                                <%= listing.description %>
-                            </div>
-                        </div>
-                        <div class="detail location">
-                            <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
-                            <div class="text">
-                                <%= listing.location %>
-                            </div>
-                        </div>
-                        <div class="detail country">
-                            <div class="icon"><i class="fa-solid fa-earth-asia"></i></div>
-                            <div class="text">
-                                <%= listing.country %>
-                            </div>
-                        </div>
-                        <div class="detail price">
-                            <div class="icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
-                            <div class="text">
-                                Rs <%= listing.price.toLocaleString("en-IN") %>/night
-                            </div>
-                        </div>
-                    </div>
+    <div class="reviews-page-wrapper">
+        <!-- Hero Section -->
+        <div class="overlayContainer"></div>
+        <div class="reviews-hero">
+            <div class="hero-content">
+                <h1 class="listing-title">
+                    <%= listing.title %>
+                </h1>
+                <div class="hero-meta">
+                    <span class="location"><i class="fa-solid fa-location-dot"></i>
+                        <%= listing.location %>, <%= listing.country %>
+                    </span>
+                    <span class="rating-badge">
+                        <i class="fa-solid fa-star"></i>
+                        <span>
+                            <%= isNaN(averageRating) ? 0 : averageRating %>
+                        </span> <!-- Placeholder for dynamic rating if not available provided -->
+                    </span>
                 </div>
+                <a href="/listings/<%= listing._id %>" class="back-link">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Listing
+                </a>
+            </div>
+            <div class="hero-image-container">
+                <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="hero-image">
+                <div class="hero-overlay"></div>
             </div>
         </div>
-        <div class="divider"></div>
-        <div class="reviewsContainer">
-            <% if(reviews && reviews.length>0){ %>
-                <% reviews.forEach((review, index)=>{ %>
-                    <div class="reviewCard">
-                        <div class="message">
-                            <%= review.content.length> 200 ? review.content.slice(0, 200) + "..." : review.content %>
-                        </div>
 
-                        <div class="stars">
-                            <% for(let i=1; i <=5; i++) { %>
-                                <div class="star">
-                                    <% if(i <=review.rating) { %>
-                                        <i class="fa-solid fa-star"></i>
-                                        <% } else { %>
-                                            <i class="fa-regular fa-star"></i>
+        <!-- Reviews Grid -->
+        <div class="reviews-container">
+            <% if(reviews && reviews.length> 0){ %>
+                <div class="reviews-grid">
+                    <% reviews.forEach((review)=> { %>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="header-top">
+                                    <div class="reviewer-info">
+                                        <div class="avatar">
+                                            <%= review.owner.username.charAt(0).toUpperCase() %>
+                                        </div>
+                                        <div class="meta">
+                                            <span class="username">
+                                                <%= review.owner.username %>
+                                            </span>
+                                            <span class="date">
+                                                <%= new Date(review.createdAt).toLocaleDateString('en-US', {
+                                                    month: 'short' , day: 'numeric' , year: 'numeric' }) %>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="review-actions-top">
+                                        <a href="/listings/<%= listing._id %>/reviews/<%= review._id %>"
+                                            class="action-btn-pills view" title="View Review">
+                                            <i class="fa-solid fa-eye"></i> <span>View</span>
+                                        </a>
+                                        <% if(currentUser && currentUser._id.toString()===review.owner._id.toString()) {
+                                            %>
+                                            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>/edit"
+                                                method="GET">
+                                                <button class="action-btn-pills edit" title="Edit Review">
+                                                    <i class="fa-solid fa-pen"></i> <span>Edit</span>
+                                                </button>
+                                            </form>
+                                            <form
+                                                action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                                method="POST">
+                                                <button class="action-btn-pills delete" title="Delete Review">
+                                                    <i class="fa-solid fa-trash"></i> <span>Delete</span>
+                                                </button>
+                                            </form>
                                             <% } %>
+                                    </div>
                                 </div>
-                                <% } %>
-
-                        </div>
-                        <div class="buttons">
-                            <% if(currentUser && currentUser._id.toString()===review.owner._id.toString()) { %>
-                                <form
-                                    action="/listings/<%= listing._id %>/reviews/<%= review._id %>/edit?_method=PATCH">
-                                    <button class="editReviewButton" type="submit">Edit</button>
-                                </form>
-                                <% } %>
-
-                                    <!-- View button visible to all -->
-                                    <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>">
-                                        <button class="viewReviewButton" type="submit">View</button>
-                                    </form>
-
-                                    <% if(currentUser && currentUser._id.toString()===review.owner._id.toString()) { %>
-                                        <form
-                                            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-                                            method="POST">
-                                            <button class="deleteReviewButton" type="submit">Delete</button>
-                                        </form>
+                                <div class="review-rating">
+                                    <% for(let i=1; i <=5; i++) { %>
+                                        <i class="fa-solid fa-star <%= i <= review.rating ? 'filled' : 'empty' %>"></i>
                                         <% } %>
+                                </div>
+                            </div>
+
+                            <div class="review-content">
+                                <p>
+                                    <%= review.content %>
+                                </p>
+                            </div>
+
+
                         </div>
-
+                        <% }) %>
+                </div>
+                <% } else { %>
+                    <div class="empty-state">
+                        <i class="fa-regular fa-comment-dots"></i>
+                        <h3>No Reviews Yet</h3>
+                        <p>Be the first to share your experience at this property!</p>
+                        <form action="/listings/<%= listing._id %>/reviews/new" method="get">
+                            <button class="cta-button">Write a Review</button>
+                        </form>
                     </div>
-                    <% }) %>
-                        <% }else{ %>
-                            <h4 class="noReviewsHeading">There are no reviews yet. Be the first to add one....</h4>
-                            <% } %>
-
+                    <% } %>
         </div>
-        <form action="/listings/<%= listing._id %>/reviews/new" method="get">
-            <button class="submitButton" type="submit">Add a review !!!</button>
-        </form>
+
+        <% if(reviews && reviews.length> 0) { %>
+            <div class="add-review-fab-container">
+                <form action="/listings/<%= listing._id %>/reviews/new" method="get">
+                    <button class="fab-button" title="Add a Review">
+                        <i class="fa-solid fa-plus"></i> <span class="fab-text">Write a Review</span>
+                    </button>
+                </form>
+            </div>
+            <% } %>
     </div>
-    <script src="/js/viewReviews.js"></script>
+    <script src="/js/viewReviews.js"></script>  

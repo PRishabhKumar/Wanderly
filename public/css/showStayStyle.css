@@ -1,395 +1,393 @@
-body {
-    position: relative;
-    min-height: 100vh;
+  /* ================= RESET & BASE ================= */
+  body {
+    background-color: #121212;
+    color: white;
+    font-family: "Outfit", sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ================= BACKGROUND HERO ================= */
+  .hero-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    margin: 0;
+    filter: blur(20px) brightness(0.4); /* Darkened blur for contrast */
+    transform: scale(1.1); /* Prevent blurred edges showing */
+  }
+
+  /* ================= PAGE CONTAINER ================= */
+  .stay-page-container {
+    max-width: 1200px;
+    margin: 80px auto 4rem; /* Top margin for floating navbar */
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr; /* Split Ratio */
+    gap: 3rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ================= MAIN CONTENT COLUMN ================= */
+  .content-column {
     display: flex;
     flex-direction: column;
-    font-family: 'Quicksand', sans-serif;     
-}
+    gap: 2rem;
+  }
 
-.overlay {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: rgba(0, 0, 0, 0.25) !important;
-    z-index: 0 !important;
-}
+  .hero-header {
+    margin-bottom: 1rem;
+  }
 
+  .listing-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    color: white;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  }
 
-.pageWrapper {
-    position: relative !important;
-    z-index: 1 !important;
-    flex: 1 !important;
-    padding: 2rem !important;
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25) !important;
-    display: flex !important;
-    flex-direction: column !important;
-}
-
-
-.showTitle,
-.showInfo,
-.material-symbols-outlined,
-.text,
-.icon {
-    color: #fff !important;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.6) !important;
-}
-
-.navbar {
-    background: rgba(255, 255, 255, 0.1) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    padding: 0.6rem 1.4rem !important;
-    z-index: 1000 !important;
-    position: sticky !important;
-    top: 0.5rem !important;
-    height: 3rem !important;
-    width: fit-content !important;
-    margin: 0 auto !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 1.5rem !important;
-    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1) !important;
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out !important;
-    border-radius: 1.5rem !important;
-    margin-bottom: 1.5rem !important;
-}
-
-
-.navbar .material-symbols-outlined{
-    color: red !important;
-}
-
-.logoutContainer{
-    margin-top: 0.3rem;
-    margin-left: 1rem;
-}
-
-
-
-.navbarSeparator{
-    display: none;
-}
-
-.mainContent {
-    flex: 1 !important;
-    width: 100% !important;
-    overflow: hidden !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;    
-}
-
-.card {
-    margin: 1rem 0 1.75rem 0 !important;
-    height: fit-content !important;
-    width: 40rem !important;
-    padding: 1rem !important;
-    border-radius: 1.5rem !important;
-    /* Make transparent and glassmorphic */
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25) !important;
-    border: 1px solid rgba(255, 255, 255, 0.18) !important;
-}
-
-
-.showImage {
-    height: 21rem;
-    width: 100%;
-    border-radius: 1rem;
-}
-
-.showInfo {
-    height: 9rem;
-    width: 100%;
+  .listing-meta {
     display: flex;
-    flex-direction: column;
-    font-weight: bolder;
-    padding: 0.5rem;
-    margin-top: 1.5rem;
-    gap: 0.25rem;
-}
+    gap: 1.5rem;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
 
-.showTitle {
-    margin-left: 1rem;
-    margin-top: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    padding: 0.5rem 1rem;
-    border-radius: 0.8rem;
-    font-size: 1.6rem;
-    font-weight: bold;
-    width: fit-content;
-}
+  .listing-meta i {
+    color: #d4af37;
+    margin-right: 0.5rem;
+  }
 
-img {
-    border-radius: 1rem;
+  /* Image Showcase */
+  .image-showcase {
+    width: 100%;
+    aspect-ratio: 16/10;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .main-img {
+    width: 100%;
     height: 100%;
-    width: 100%;
-}
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
 
-.infoPart {
+  .image-showcase:hover .main-img {
+    transform: scale(1.03);
+  }
+
+  /* Glass Panel Styles */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.05); /* Very subtle */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+  }
+
+  /* Host Info */
+  .host-info {
     display: flex;
-    margin: 0.125rem;
-}
+    align-items: center;
+    gap: 1rem;
+  }
 
-.icon {
-    margin-left: 1rem;
-    margin-right: 1.5rem;
-    font-weight: bolder;
-}
+  .avatar-placeholder {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #d4af37, #f1c40f);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: black;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+  }
 
-.text {
+  .host-text {
     display: flex;
     flex-direction: column;
-}
+  }
 
-.price .text {
-    flex-direction: row;
+  .hosted-by {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .host-name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 1.5rem 0;
+  }
+
+  /* Description */
+  .description-block p {
+    line-height: 1.8;
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .description-block h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Perks Grid */
+  .perks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .perk {
+    display: flex;
     align-items: center;
-    justify-content: space-between;    
-}
+    gap: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
 
-.price .icon {
+  .perk i {
+    font-size: 1.2rem;
+    color: #d4af37;
+    width: 24px;
+  }
+
+  /* ================= SIDEBAR COLUMN ================= */
+  .sidebar-column {
+    position: relative;
+    /* Allows sticky to work within this container */
+  }
+
+  .glass-card-sticky {
+    position: sticky;
+    top: 100px;
+    background: rgba(18, 18, 18, 0.7); /* Darker for readability */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px; /* Larger radius */
+    padding: 2rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .price-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .price-display {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .price-display .currency {
+    font-size: 1.2rem;
+    color: #d4af37;
+  }
+
+  .price-display .amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: "Cormorant Garamond", serif;
+    line-height: 1;
+  }
+
+  .price-display .unit {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+  }
+
+  .taxes {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
     margin-top: 0.5rem;
-}
+  }
 
-.bookButton {
-    padding: 0.4rem 1.2rem;
-    background: linear-gradient(to right, #00c6ff, #0072ff);
-    background-position: left center;
-    background-size: 200% auto;
-    color: white;
+  /* Buttons */
+  .btn-primary-gold {
+    background: linear-gradient(135deg, #d4af37, #b48e26);
+    color: black;
     border: none;
-    border-radius: 2rem;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn-primary-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Owner Controls */
+  .owner-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.2);
+  }
+
+  .divider-text {
+    font-size: 0.8rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .control-row {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .control-row form {
+    flex: 1;
+  }
+
+  .btn-outline-light {
+    width: 100%;
+    padding: 0.8rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-light:hover {
+    background: white;
+    color: black;
+  }
+
+  .btn-outline-danger {
+    width: 100%;
+    padding: 0.8rem;
+    background: transparent;
+    border: 1px solid rgba(255, 80, 80, 0.5);
+    color: #ff5050;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-danger:hover {
+    background: #ff5050;
+    color: white;
+  }
+
+  /* Guarantee Text */
+  .guarantee-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 1rem;
+  }
+
+  /* ================= REVIEWS SECTION ================= */
+  .reviews-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .reviews-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+
+  .rating-badge {
+    background: rgba(212, 175, 55, 0.2);
+    color: #d4af37;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
     font-weight: bold;
+  }
+
+  .btn-text-gold {
+    background: none;
+    border: none;
+    color: #d4af37;
     font-size: 1rem;
     cursor: pointer;
-    margin: 0;
-    margin-left: 3rem;
-    margin-right: 1.5rem;
-    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.2);
-    transition: background-position 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
 
-.bookButton:hover {
-    background-position: right center;
-    transform: scale(1.05);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
-}
+  /* ================= NAVBAR OVERRIDE ================= */
+  .navbar {
+    background: rgba(0, 0, 0, 0.5) !important; /* Semi-transparent */
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: none !important;
+    margin-top: 1.5rem !important;
+    max-width: 90% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: 1.5rem
+  }
 
-.footer {
-    margin-top: 3rem;
-    margin-left: 0;
-    width: 100%;   
-}
-
-.footer .rightSide .text, .footer .rightSide .languageIcon{
-    color: black !important; 
-}
-
-.actionBar{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 4rem;
-    padding: 1rem 0;
-}
-
-.buttons{
-    display: flex;    
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.editAndBookButtons{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.deleteButton{
-    margin-left: 1.5rem;
-}
-
-.delete{
-    padding: 0.45rem;
-    font-weight: 500;
-    color: white;
-    background: linear-gradient(135deg, #ff4e50, #f60000);
-    border-radius: 2rem;
-    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.delete:hover{
-    transform: scale(1.05);
-    background: linear-gradient(135deg, #d60000, #a80000);   
-    box-shadow: 0 0 2rem red;
-    cursor: pointer;
-}
-
-.editButton {
-    width: 5rem;
-    padding: 0.4rem 1.2rem;
-    background: linear-gradient(to right, #ff8a5c, #ff3d54); /* Warm coral-pink gradient */
-    background-position: left center;
-    background-size: 200% auto;
-    color: white;
-    border: none;
-    border-radius: 2rem;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-left: 1rem;
-    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.2);
-    transition: background-position 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.editButton:hover {
-    background-position: right center;
-    transform: scale(1.05);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
-}
-
-
-/*Styling for submit review button*/
-
-.reviewButton{
-    display: flex;
-    justify-content: center;
-    align-items: center;    
-    margin-top: 1.25rem;
-}
-
-.submitReviewButton {
-    font-size: medium;
-    font-weight: bold;
-    border-radius: 2rem;
-    padding: 0.4rem 1.2rem;
-    background: linear-gradient(to right, #a8e063, #56ab2f);
-    background-size: 200% auto;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-left: 1.5rem;
-    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.2);
-    transition: background-position 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    margin-bottom: 1.5rem;
-}
-
-.submitReviewButton:hover {
-    background-position: right center;
-    background: linear-gradient(to right, #8ed048, #3d8b1e);
-    transform: scale(1.05);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
-}
-
-
-
-
-
-/* responsiveness using media queries */
-
-/* ========== Foldables, tablets, small laptops (up to 1100px) ========== */
-@media (max-width: 1100px) {
-    .price .text {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.6rem;
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 992px) {
+    .stay-page-container {
+      grid-template-columns: 1fr; /* Stack */
     }
 
-    .bookButton {
-        margin-left: 0;
-        margin-top: 0.5rem;
-        align-self: flex-start;
-    }
-}
-
-/* ========== Tablets and landscape foldables (up to 1024px) ========== */
-@media (max-width: 1024px) {
-    .card, .showImage, .showInfo {
-        width: 90%;
-        height: auto;
+    .listing-title {
+      font-size: 2.5rem;
     }
 
-    .bookButton {
-        margin-left: 0;
-        margin-top: 1rem;
-        align-self: flex-start;
+    .stay-page-container {
+      margin-top: 2rem;
     }
 
-    .showTitle {
-        font-size: 1.4rem;
+    .glass-card-sticky {
+      position: static; /* Unstick on mobile */
+      order: -1; /* Put price first on mobile */
     }
-}
-
-/* ========== Small tablets and large phones (up to 768px) ========== */
-@media (max-width: 768px) {
-    .navbar {
-        flex-wrap: wrap;
-        padding: 0.5rem 1rem;
-        gap: 1rem;
-    }
-
-    .card {
-        width: 95%;
-    }
-
-    .showTitle {
-        margin-left: 0.5rem;
-        font-size: 1.2rem;
-    }
-
-    .bookButton {
-        font-size: 0.9rem;
-        padding: 0.4rem 1rem;
-    }
-}
-
-/* ========== Phones and small screen devices (up to 480px) ========== */
-@media (max-width: 480px) {
-    .pageWrapper {
-        padding: 1rem;
-    }
-
-    .card {
-        padding: 0.5rem;
-        border-radius: 1rem;
-    }
-
-    .showImage {
-        height: 16rem;
-    }
-
-    .showInfo {
-        margin-top: 1rem;
-        padding: 0.4rem;
-    }
-
-    .showTitle {
-        font-size: 1rem;
-        padding: 0.4rem 0.8rem;
-    }
-
-    .bookButton {
-        font-size: 0.85rem;
-        padding: 0.35rem 0.9rem;
-        width: 100%;
-        margin-left: 0;
-    }
-}
-
+  }

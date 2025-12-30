@@ -1,81 +1,138 @@
 <% layout('layouts/boilerplate') %>
-    <style>
-        body {
-            background-image: url('<%= listing.image.url %>');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-    </style>
 
-    <h3 class="showTitle">
-        <%= listing.title %>
-    </h3>
-    <div class="mainContent glass-card">
-        <div class="card glass-card">
-            <div class="showImage"><img src="<%= listing.image.url %>" alt=""></div>
-            <div class="showInfo">
-                <div class="infoPart host">
-                    <div class="icon"><span class="material-symbols-outlined">
-                            server_person
-                        </span></div>
-                    <div class="text">
-                        Hosted by: <%= listing.owner.username %>
+    <!-- Hero Background (Blurred/Darkened) -->
+    <div class="hero-background" style="background-image: url('<%= listing.image.url %>');"></div>
+
+    <div class="stay-page-container">
+        <!-- Main Content Column -->
+        <div class="content-column">
+            <!-- Minimal Hero Header -->
+            <div class="hero-header">
+                <h1 class="listing-title">
+                    <%= listing.title %>
+                </h1>
+                <div class="listing-meta">
+                    <span class="location"><i class="fa-solid fa-location-dot"></i>
+                        <%= listing.location %>, <%= listing.country %>
+                    </span>
+                    <span class="rating"><i class="fa-solid fa-star"></i> 4.8 (120 reviews)</span>
+                </div>
+            </div>
+
+            <!-- Main Image -->
+            <div class="image-showcase">
+                <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="main-img">
+            </div>
+
+            <!-- Details Section -->
+            <div class="details-section glass-panel">
+                <div class="host-info">
+                    <div class="host-avatar">
+                        <div class="avatar-placeholder">
+                            <%= listing.owner.username[0].toUpperCase() %>
+                        </div>
+                    </div>
+                    <div class="host-text">
+                        <span class="hosted-by">Hosted by</span>
+                        <span class="host-name">
+                            <%= listing.owner.username %>
+                        </span>
                     </div>
                 </div>
-                <div class="infoPart description">
-                    <div class="icon"><span class="material-symbols-outlined">info</span></div>
-                    <div class="text">
+
+                <div class="divider"></div>
+
+                <div class="description-block">
+                    <h3>About this stay</h3>
+                    <p>
                         <%= listing.description %>
-                    </div>
+                    </p>
                 </div>
-                <div class="infoPart location">
-                    <div class="icon"><span class="material-symbols-outlined">location_on</span></div>
-                    <div class="text">
-                        <%= listing.location %>
+
+                <div class="divider"></div>
+
+                <div class="perks-grid">
+                    <div class="perk">
+                        <i class="fa-solid fa-wifi"></i>
+                        <span>Fast Wifi</span>
                     </div>
-                </div>
-                <div class="infoPart country">
-                    <div class="icon"><span class="material-symbols-outlined">globe_asia</span></div>
-                    <div class="text">
-                        <%= listing.country %>
+                    <div class="perk">
+                        <i class="fa-solid fa-car"></i>
+                        <span>Free Parking</span>
                     </div>
-                </div>
-                <div class="infoPart price">
-                    <div class="icon"><span class="material-symbols-outlined">payments</span></div>
-                    <div class="text">
-                        &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
+                    <div class="perk">
+                        <i class="fa-solid fa-person-swimming"></i>
+                        <span>Pool Access</span>
+                    </div>
+                    <div class="perk">
+                        <i class="fa-solid fa-snowflake"></i>
+                        <span>Air Conditioning</span>
                     </div>
                 </div>
             </div>
-            <div class="actionBar">
-                <div class="buttons">
-                    <div class="editAndBookButtons">
-                        <form action="/listings/<%= listing._id %>/book" method="get">
-                            <button type="submit" class="bookButton">Book Now</button>
-                        </form>
-                        <% if(currentUser._id.toString()===listing.owner._id.toString()){ %>
-                            <form action="/listings/<%= listing._id %>/edit" method="get">
-                                <button class="editButton" type="submit">Edit</button>
-                            </form>
-                            <% } %>
+
+            <!-- Reviews Teaser -->
+            <div class="reviews-section glass-panel">
+                <div class="reviews-header">
+                    <h3>Guest Reviews</h3>
+                    <div class="rating-badge">
+                        <i class="fa-solid fa-star"></i> 4.8
                     </div>
-                    <% if(currentUser._id.toString()===listing.owner._id.toString()){ %>
-                        <div class="deleteButton">
-                            <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
-                                <button type="submit" class="delete">Delete property</button>
-                            </form>
-                        </div>
-                        <% } %>
-                            <div class="reviewButton">
-                                <form action="/listings/<%= listing._id %>/reviews">
-                                    <button class="submitReviewButton btn btn-dark" type="submit">See
-                                        reviews</button>
+                </div>
+                <p class="no-reviews-text">See what other travelers are saying about this property.</p>
+                <form action="/listings/<%= listing._id %>/reviews">
+                    <button class="btn-text-gold">Read all reviews <i class="fa-solid fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sticky Booking Sidebar -->
+        <div class="sidebar-column">
+            <div class="booking-card glass-card-sticky">
+                <div class="price-header">
+                    <div class="price-display">
+                        <span class="currency">₹</span>
+                        <span class="amount">
+                            <%= listing.price.toLocaleString("en-IN") %>
+                        </span>
+                        <span class="unit">night</span>
+                    </div>
+                    <div class="taxes">Includes taxes & fees</div>
+                </div>
+
+                <div class="action-buttons">
+                    <!-- Book Button -->
+                    <form action="/listings/<%= listing._id %>/book" method="get">
+                        <button type="submit" class="btn-primary-gold shimmer-effect">
+                            <span class="btn-text">Book Now</span>
+                            <div class="shine"></div>
+                        </button>
+                    </form>
+
+                    <!-- Owner Actions -->
+                    <% if(currentUser && currentUser._id.toString()===listing.owner._id.toString()){ %>
+                        <div class="owner-controls">
+                            <div class="divider-text">Manage Property</div>
+                            <div class="control-row">
+                                <form action="/listings/<%= listing._id %>/edit" method="get">
+                                    <button class="btn-outline-light" type="submit"><i class="fa-solid fa-pen"></i>
+                                        Edit</button>
+                                </form>
+                                <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
+                                    <button type="submit" class="btn-outline-danger"><i class="fa-solid fa-trash"></i>
+                                        Delete</button>
                                 </form>
                             </div>
+                        </div>
+                        <% } %>
+                </div>
+
+                <div class="guarantee-text">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>WanderlyCover protects your booking</span>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="/js/showStay.js"></script>

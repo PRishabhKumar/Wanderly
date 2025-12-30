@@ -1,17 +1,44 @@
 <% if(success && success.length){ %>
-    <div class="custom-alert custom-success">
-        <%= success %>
-            <button type="button" class="custom-close" onclick="this.parentElement.style.display='none';">
-                &times;
-            </button>
+    <div class="custom-alert custom-success" role="alert">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>
+            <%= success %>
+        </span>
+        <button type="button" class="custom-close" aria-label="Close"
+            onclick="this.parentElement.style.opacity='0'; setTimeout(()=>this.parentElement.style.display='none', 300);">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
     </div>
     <% } %>
 
         <% if(failure && failure.length){ %>
-            <div class="custom-alert custom-failure">
-                <%= failure %>
-                    <button type="button" class="custom-close" onclick="this.parentElement.style.display='none';">
-                        &times;
-                    </button>
+            <div class="custom-alert custom-failure" role="alert">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>
+                    <%= failure %>
+                </span>
+                <button type="button" class="custom-close" aria-label="Close"
+                    onclick="this.parentElement.style.opacity='0'; setTimeout(()=>this.parentElement.style.display='none', 300);">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
             <% } %>
+
+                <script>
+                    // Auto-dismiss functionality
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const alerts = document.querySelectorAll('.custom-alert');
+                        if (alerts.length > 0) {
+                            setTimeout(() => {
+                                alerts.forEach(alert => {
+                                    alert.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                                    alert.style.opacity = '0';
+                                    alert.style.transform = 'translate(-50%, -20px)';
+                                    setTimeout(() => {
+                                        if (alert.parentNode) alert.parentNode.removeChild(alert);
+                                    }, 500);
+                                });
+                            }, 3000); // Dismiss after 3 seconds
+                        }
+                    });
+                </script>

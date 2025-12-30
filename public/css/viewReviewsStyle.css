@@ -1,257 +1,509 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Outfit:wght@300;400;500;600&display=swap");
+
+:root {
+  --bg-color: #121212;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --accent-gold: #d4af37;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --font-heading: "Cormorant Garamond", serif;
+  --font-body: "Outfit", sans-serif;
+}
+
 body {
-    overflow-x: hidden;
+  background-color: var(--bg-color) !important;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  margin: 0;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    padding: 0.8rem 1.2rem;
+/* Spotlight overlay styling */
+
+.overlayContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* This allows the overlay to allow clicks through it */
+  z-index: 101;
+  background: radial-gradient(
+    circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(212, 175, 55, 0.08) 0%,
+    rgba(212, 175, 55, 0.04) 20%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.navbar .options{
-    margin-right: 40rem;
-    margin-left: 2rem;
+.overlayContainer.active {
+  opacity: 1;
 }
 
-.logoutContainer{
-    margin-right: 5rem;
+/* Full Screen Background */
+.hero-image-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
 }
 
-
-.navbar a {
-    text-decoration: none;
-    color: black;
-} */
-
-.detail {
-    display: flex;
-    align-items: center;
-    margin: 2rem;
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4);
 }
 
-.icon {
-    margin-right: 1.5rem;
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 18, 18, 0.5) 0%,
+    rgba(18, 18, 18, 0.95) 90%
+  );
 }
 
-.location .icon,
-.price .icon {
-    margin-right: 2rem;
+.reviews-page-wrapper {
+  position: relative;
+  padding-bottom: 4rem;
+  min-height: 100vh;
 }
 
-.text {
-    font-weight: bold;
+/* Hero Content */
+.reviews-hero {
+  position: relative;
+  height: 45vh;
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+  overflow: hidden;
 }
 
-.mainContent .image {
-    height: 20rem;
-    width: 100%;
-    max-width: 40rem;
-    background-size: cover;
-    background-position: center;
-    margin: 0 auto;
-    border-radius: 2rem;
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  animation: fadeInUp 0.8s ease-out;
 }
 
-.listingImage {
-    height: 20rem;
-    width: 100%;
-    max-width: 40rem;
-    border-radius: 2rem;
+.listing-title {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  margin: 0 0 1rem;
+  color: var(--text-primary);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.divider {
-    width: 100%;
-    height: 0.125rem;
-    background-color: black;
-    color: black;
+.hero-meta {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
 }
 
-/* Review Cards */
-.reviewsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
-    padding: 1rem;
-    box-sizing: border-box;
-    max-width: 100%;
-    overflow-x: hidden;
+.rating-badge {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--accent-gold);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
 }
 
-.reviewCard {
-    flex: 1 1 20rem;
-    max-width: 30rem;
-    background-color: rgba(243, 240, 255, 0.85);
-    border-radius: 1rem;
-    padding: 1rem;
-    box-sizing: border-box;
-    margin: 1rem 1rem;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    height: fit-content;
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 30px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
 }
 
-.reviewCard:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+.back-link:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--accent-gold);
+  transform: translateX(-5px);
+  color: var(--text-primary);
 }
 
-.message {
-    word-wrap: break-word;
-    line-height: 1.4;
-    font-size: 1rem;
-    font-weight: 500;
+/* Reviews Grid */
+.reviews-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem 6rem;
+  position: relative;
+  z-index: 2;
 }
 
-
-/* Action Buttons under each review */
-.buttons {
-    display: flex;
-    margin-top: 1.2rem;
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
 }
 
-.editReviewButton,
-.viewReviewButton,
-.deleteReviewButton {
-    position: relative;
-    padding: 0.4rem 1.2rem;
-    border-radius: 0.5rem;
-    font-weight: bold;
-    color: white;
-    border: none;
-    overflow: hidden;
-    z-index: 1;
+/* Staggered Entry Animation for Grid Items */
+.review-card {
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  /* Smooth Premium Transition */
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  opacity: 0; /* Start hidden for animation */
+  animation: fadeUpCard 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Stagger delays for first 10 items to look organic */
+.review-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.review-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.review-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.review-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.review-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.review-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
+.review-card:nth-child(n + 7) {
+  animation-delay: 0.7s;
+}
+
+.review-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(212, 175, 55, 0.6);
+  background: rgba(40, 40, 40, 0.7);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+/* New Header Layout - CRITICAL FIX */
+.review-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  flex-wrap: wrap; /* Allow wrapping */
+  gap: 1rem;
+}
+
+.reviewer-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, var(--accent-gold), #b38b1f);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #000;
+  font-size: 1.2rem;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.review-card:hover .avatar {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.date {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.review-rating {
+  display: flex;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.review-rating i {
+  color: var(--accent-gold);
+}
+
+.review-rating i.empty {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.review-content {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Enhanced Action Buttons */
+.review-actions-top {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap; /* Allow wrapping */
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.action-btn-pills {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none; /* For anchor tags */
+}
+
+/* ... existing pseudo element code ... */
+.action-btn-pills::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: 0.5s;
+}
+
+.action-btn-pills:hover::before {
+  transform: translateX(100%);
+}
+
+.action-btn-pills:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.action-btn-pills.view:hover {
+  border-color: #2ecc71;
+  color: #2ecc71;
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+.action-btn-pills.edit:hover {
+  border-color: #4a90e2;
+  color: #4a90e2;
+  box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+}
+
+.action-btn-pills.delete:hover {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 20px;
+  border: 1px dashed var(--border-color);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: var(--accent-gold);
+  margin-bottom: 1.5rem;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.cta-button {
+  background: var(--accent-gold);
+  color: #000;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+/* FAB Button */
+.add-review-fab-container {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  z-index: 100;
+}
+
+.fab-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px; /* Pill shape ready */
+  background: var(--accent-gold);
+  border: none;
+  color: black;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 1rem !important;
+}
+
+.fab-button i {
+  transition: transform 0.4s ease;
+}
+
+.fab-text {
+  max-width: 0;
+  opacity: 0;
+  margin-left: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.4s ease;
+}
+
+.fab-button:hover {
+  width: 200px;
+  transform: scale(1.05);
+}
+
+.fab-button:hover i {
+  transform: rotate(90deg);
+}
+
+.fab-button:hover .fab-text {
+  max-width: 150px;
+  opacity: 1;
+  margin-left: 10px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
     opacity: 0;
-    transform: translateY(2rem);
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-.editReviewButton {
-    background-color: #3A7CA5;
-    margin-right: 2rem;
-}
-
-.viewReviewButton {
-    background-color: #6E8898;
-}
-
-.deleteReviewButton {
-    background-color: #A54242;
-    margin-left: 1.5rem;
-}
-
-.editReviewButton::before,
-.viewReviewButton::before,
-.deleteReviewButton::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -120%;
-    width: 100%;
-    height: 100%;
-    border-radius: 0.5rem;
-    background: rgba(255, 255, 255, 0.2);
-    transform: skew(-20deg);
-    transition: left 0.2s ease;
-    z-index: 0;
-}
-
-.editReviewButton:hover,
-.viewReviewButton:hover,
-.deleteReviewButton:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-}
-
-.editReviewButton:hover::before,
-.viewReviewButton:hover::before,
-.deleteReviewButton:hover::before {
-    left: 125%;
-}
-
-/*Logic to make buttons appear after different intervals*/
-
-.buttons .editReviewButton.buttonsAppear {
-    transition-delay: 0.025s;
-}
-
-.buttons .viewReviewButton.buttonsAppear {
-    transition-delay: 0.05s;
-}
-
-.buttons .deleteReviewButton.buttonsAppear {
-    transition-delay: 0.1s;
-}
-
-
-.reviewCard:not(:hover) .deleteReviewButton {
-    transition-delay: 0.05s;
-}
-.reviewCard:not(:hover) .viewReviewButton {
-    transition-delay: 0.1s;
-}
-.reviewCard:not(:hover) .editReviewButton {
-    transition-delay: 0.2s;
-}
-
-
-.buttonsAppear {
+    transform: translateY(20px);
+  }
+  to {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.3s ease-in-out,
-        transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
 }
 
-.stars {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+@keyframes fadeUpCard {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Submit Button with Shine Effect */
-.submitButton {
-    position: relative;
-    margin-left: 2rem;
-    margin-bottom: 1rem;
-    padding: 0.25rem 1rem;
-    border-radius: 0.5rem;
-    background: linear-gradient(to right, rgba(255, 94, 98, 0.9), rgba(255, 149, 0, 0.9));
-    color: white;
-    font-weight: bold;
-    border: none;
-    overflow: hidden;
-    z-index: 0;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
+/* Responsive */
+@media (max-width: 768px) {
+  .listing-title {
+    font-size: 2.5rem;
+  }
 
-.submitButton::before {    
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    border-radius: 0.5rem;
-    background: linear-gradient(120deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
-    transform: skewX(-20deg);
-    transition: left 0.4s ease;
-    z-index: 1;
-    pointer-events: none;    
-}
+  .reviews-hero {
+    height: 35vh;
+    align-items: flex-end;
+    padding-bottom: 4rem;
+  }
 
-.submitButton:hover {
-    cursor: pointer;
-    background: linear-gradient(to right, rgba(255, 94, 98, 1), rgba(255, 149, 0, 1));
-    transform: scale(1.03);
-}
+  .reviews-container {
+    margin-top: -2rem;
+  }
 
-.submitButton:hover::before {
-    left: 125%;
-}
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
 
-.submitButton > * {
-    position: relative;
-    z-index: 2;
+  .header-top {
+    align-items: center;
+  }
 }
