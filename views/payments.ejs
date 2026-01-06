@@ -131,7 +131,29 @@
                             description: "Payment for " + "<%= listing.title %>",
                             order_id: orderData.id,
                             handler: function (response) {
-                                window.location.href = "/listings";
+                                const paymentData = {
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_signature: response.razorpay_signature,
+                                    listingId: "<%= listing._id %>"
+                                }
+                                // sending the payment data to the verification route to check if the payment is valid and successful or not
+                                fetch("/verify-payment", {
+                                    method: "POST",
+                                    body: JSON.stringify(paymentData),
+                                    headers: { "Content-Type": "application/json" }
+                                })
+                                    .then(res => res.blob())
+                                    .then(blob => {
+                                        const url = window.URL.createObjectURL(blob)
+                                        const a = document.createElement("a") // creating an anchor tag element
+                                        a.href = url
+                                        a.download = `receipt_${paymentData.razorpay_payment_id}.pdf`
+                                        a.click(); // simulating a click on the anchor tag to hit the url to get the pdf
+                                        console.log("pdf downloaded successfully...")
+                                        window.URL.revokeObjectURL(url)
+                                    })
+                                window.location.href = "/listings"; // take back to the listings page
                             },
                             prefill: {
                                 name: razorpayUser.name,

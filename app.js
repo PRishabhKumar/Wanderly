@@ -17,6 +17,7 @@ const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const razorpay = require("razorpay");
 const crypto = require("crypto");
+const PDFDocument = require("pdfkit");
 const {
   isAuthenticated,
   storeDesiredURL,
@@ -348,9 +349,13 @@ app.get(
 
 // Route for payment verification
 
-app.post("/verify-payment", isAuthenticated, (req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-    req.body;
+app.post("/verify-payment", isAuthenticated, async (req, res) => {
+  const {
+    razorpay_order_id,
+    razorpay_payment_id,
+    razorpay_signature,
+    listingId,
+  } = req.body;
 
   const expectedSignature = crypto
     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
@@ -360,12 +365,548 @@ app.post("/verify-payment", isAuthenticated, (req, res) => {
   if (expectedSignature === razorpay_signature) {
     //  Payment is verified
     console.log("Payment verified successfully");
-    res.json({ status: "success" });
+    const user = req.user;
+    const listing = await Listing.findById(listingId);
+    if (!listingId) {
+      return res.status(404).json({ message: "Listing not found" });
+    }
+
+    // Create Premium PDF
+    const doc = new PDFDocument({ margin: 50, size: "A4" });
+    const chunks = [];
+    doc.on("data", (chunk) => chunks.push(chunk));
+    doc.on("end", () => {
+      const pdfBuffer = Buffer.concat(chunks);
+      res.writeHead(200, {
+        "Content-Type": "application/pdf",
+
+        "Content-Disposition": `attachment; filename=Wanderly_Receipt_${razorpay_payment_id}.pdf`,
+      });
+      res.end(pdfBuffer);
+    });
+
+    // --- PDF STYLING V2 START ---
+
+    // Define Colors & Fonts
+    const colors = {
+      primary: "#1A1A1A", // Obsidian
+      secondary: "#4A4A4A", // Dark Gray
+      accent: "#C5A059", // Muted Gold
+      lightBg: "#FAFAFA", // Off-white
+      white: "#FFFFFF",
+      success: "#28a745",
+    };
+
+    // Helper to draw a border
+    const drawBorder = () => {
+      doc
+        .rect(20, 20, 555, 802)
+        .lineWidth(1)
+        .strokeColor(colors.accent)
+        .stroke();
+      doc
+        .rect(25, 25, 545, 792)
+        .lineWidth(0.5)
+        .strokeColor(colors.primary)
+        .stroke();
+    };
+    drawBorder();
+
+    // 0. Watermark (Background)
+    doc.save();
+    doc.transparency(0.05);
+    doc
+      .fillColor(colors.primary)
+      .fontSize(120)
+      .font("Helvetica-Bold")
+      .rotate(-45, { origin: [300, 400] })
+      .text("WANDERLY", 100, 300, { align: "center", width: 400 });
+    doc.restore();
+
+    // 1. Header
+    // Logo / Brand
+    doc
+      .fillColor(colors.primary)
+      .fontSize(32)
+      .font("Times-Bold") // Serif for premium feel
+      .text("Wanderly.", 60, 60);
+
+    // Tagline
+    doc
+      .fontSize(10)
+      .font("Helvetica")
+      .fillColor(colors.accent)
+      .text("EXPERIENCE THE EXTRAORDINARY", 60, 95, { characterSpacing: 2 });
+
+    // Receipt Label Box
+    doc.rect(400, 60, 150, 30).fillColor(colors.primary).fill();
+    doc
+      .fillColor(colors.white)
+      .fontSize(12)
+      .font("Helvetica-Bold")
+      .text("PAYMENT RECEIPT", 400, 70, {
+        align: "center",
+        width: 150,
+        characterSpacing: 1,
+      });
+
+    // 2. Info Section
+    const infoTop = 140;
+
+    // Billed To Box
+    doc.roundedRect(60, infoTop, 240, 90, 4).fillColor(colors.lightBg).fill();
+    doc
+      .fillColor(colors.accent)
+      .fontSize(9)
+      .font("Helvetica-Bold")
+      .text("BILLED TO", 75, infoTop + 15);
+    doc
+      .fillColor(colors.primary)
+      .fontSize(12)
+      .font("Helvetica-Bold")
+      .text(user.username, 75, infoTop + 35);
+    doc
+      .fillColor(colors.secondary)
+      .fontSize(10)
+      .font("Helvetica")
+      .text(user.email, 75, infoTop + 55);
+
+    // Receipt Details Box
+    doc.roundedRect(310, infoTop, 240, 90, 4).fillColor(colors.lightBg).fill();
+    doc
+      .fillColor(colors.accent)
+      .fontSize(9)
+      .font("Helvetica-Bold")
+      .text("RECEIPT DETAILS", 325, infoTop + 15);
+
+    // Grid for details
+    const detX = 325;
+    const detY = infoTop + 35;
+    doc
+      .fillColor(colors.secondary)
+      .fontSize(9)
+      .font("Helvetica")
+      .text("Receipt #:", detX, detY);
+    doc
+      .fillColor(colors.primary)
+      .text(razorpay_order_id.slice(-8).toUpperCase(), detX + 60, detY);
+
+    doc.fillColor(colors.secondary).text("Payment ID:", detX, detY + 15);
+    doc
+      .fillColor(colors.primary)
+      .text(razorpay_payment_id.slice(-10), detX + 60, detY + 15);
+
+    doc.fillColor(colors.secondary).text("Date:", detX, detY + 30);
+    doc
+      .fillColor(colors.primary)
+      .text(new Date().toLocaleDateString(), detX + 60, detY + 30);
+
+    // 3. Main Item Table
+    const tableTop = 270;
+
+    // Header Row
+    doc.rect(60, tableTop, 490, 30).fillColor(colors.primary).fill();
+    doc.fillColor(colors.white).fontSize(10).font("Helvetica-Bold");
+    doc.text("DESCRIPTION", 80, tableTop + 10);
+    doc.text("UNIT PRICE", 300, tableTop + 10, { width: 100, align: "right" });
+    doc.text("TOTAL", 430, tableTop + 10, { width: 100, align: "right" });
+
+    // Row 1
+    const rowTop = tableTop + 30;
+    doc
+      .rect(60, rowTop, 490, 50)
+      .fillColor(colors.white)
+      .strokeColor("#E0E0E0")
+      .stroke();
+
+    // Description Details
+    doc
+      .fillColor(colors.primary)
+      .fontSize(11)
+      .font("Helvetica-Bold")
+      .text(listing.title, 80, rowTop + 12);
+    doc
+      .fillColor(colors.secondary)
+      .fontSize(9)
+      .font("Helvetica")
+      .text(
+        `Location: ${listing.location}, ${listing.country}`,
+        80,
+        rowTop + 28
+      );
+
+    // Price Details
+    const priceStr = `₹${listing.price.toLocaleString()}`;
+    doc
+      .fillColor(colors.primary)
+      .fontSize(11)
+      .font("Helvetica")
+      .text(priceStr, 300, rowTop + 18, { width: 100, align: "right" });
+    doc
+      .font("Helvetica-Bold")
+      .text(priceStr, 430, rowTop + 18, { width: 100, align: "right" });
+
+    // 4. Totals Calculation
+    const totalY = rowTop + 70;
+    const totalBoxWidth = 200;
+    const totalBoxX = 350;
+
+    // Subtotal
+    doc
+      .fillColor(colors.secondary)
+      .fontSize(10)
+      .font("Helvetica")
+      .text("Subtotal", totalBoxX, totalY);
+    doc
+      .fillColor(colors.primary)
+      .text(priceStr, 430, totalY, { width: 100, align: "right" });
+
+    // GST Label (Mock)
+    doc.fillColor(colors.secondary).text("Taxes (0%)", totalBoxX, totalY + 15);
+    doc
+      .fillColor(colors.primary)
+      .text("₹0", 430, totalY + 15, { width: 100, align: "right" });
+
+    // Divider
+    doc
+      .moveTo(totalBoxX, totalY + 30)
+      .lineTo(550, totalY + 30)
+      .lineWidth(1)
+      .strokeColor("#E0E0E0")
+      .stroke();
+
+    // Grand Total
+    doc
+      .fillColor(colors.primary)
+      .fontSize(12)
+      .font("Helvetica-Bold")
+      .text("AMOUNT PAID", totalBoxX, totalY + 40);
+    doc
+      .fillColor(colors.accent)
+      .fontSize(16)
+      .text(priceStr, 430, totalY + 38, { width: 100, align: "right" });
+
+    // 5. "PAID" Stamp
+    doc.save();
+    doc.rotate(-15, { origin: [150, 450] });
+    doc
+      .roundedRect(100, 420, 120, 40, 5)
+      .lineWidth(3)
+      .strokeColor(colors.success)
+      .stroke();
+    doc
+      .fontSize(24)
+      .font("Helvetica-Bold")
+      .fillColor(colors.success)
+      .text("PAID", 100, 430, { align: "center", width: 120 });
+    doc.restore();
+
+    // 6. Footer
+    const footerTop = 720;
+
+    // Divider
+    doc
+      .moveTo(60, footerTop)
+      .lineTo(550, footerTop)
+      .lineWidth(0.5)
+      .strokeColor(colors.accent)
+      .stroke();
+
+    // Contact Info
+    doc.moveDown(2); // relative from last text, reset to footerTop
+    doc.text("", 60, footerTop + 15); // reset cursor
+
+    doc
+      .fontSize(9)
+      .font("Helvetica-Bold")
+      .fillColor(colors.primary)
+      .text("Wanderly Inc.", { continued: true });
+    doc
+      .font("Helvetica")
+      .fillColor(colors.secondary)
+      .text(" | 123 Luxury Lane, Travel City | support@wanderly.com");
+
+    doc
+      .fontSize(8)
+      .fillColor("#999999")
+      .text(
+        "This is a computer generated receipt and does not require a physical signature.",
+        { align: "center", width: 500, baseline: "bottom" }
+      );
+
+    doc.end();
+    // Removed the conflicting res.json({ status: "success" }) which was unreachable/problematic in the original stream flow
   } else {
     //  Payment verification failed
     console.log("Payment verification failed");
     res.status(400).json({ status: "failure" });
   }
+});
+// Temporary Route for Visual Testing of PDF
+app.get("/test-pdf", async (req, res) => {
+  // Mock Data
+  const user = { username: "Test User", email: "test@wanderly.com" };
+  // Find a dummy listing or mock it
+  const listing = {
+    title: "Luxury Ocean Villa",
+    location: "Maldives",
+    country: "Maldives",
+    price: 45000,
+  };
+  const razorpay_order_id = "order_mock_123456";
+  const razorpay_payment_id = "pay_mock_987654";
+
+  const doc = new PDFDocument({ margin: 50, size: "A4" });
+
+  res.writeHead(200, {
+    "Content-Type": "application/pdf",
+    "Content-Disposition": "inline; filename=test_receipt.pdf",
+  });
+
+  doc.pipe(res);
+
+  // --- PDF STYLING V2 START ---
+
+  // Define Colors & Fonts
+  const colors = {
+    primary: "#1A1A1A", // Obsidian
+    secondary: "#4A4A4A", // Dark Gray
+    accent: "#C5A059", // Muted Gold
+    lightBg: "#FAFAFA", // Off-white
+    white: "#FFFFFF",
+    success: "#28a745",
+  };
+
+  // Helper to draw a border
+  const drawBorder = () => {
+    doc.rect(20, 20, 555, 802).lineWidth(1).strokeColor(colors.accent).stroke();
+    doc
+      .rect(25, 25, 545, 792)
+      .lineWidth(0.5)
+      .strokeColor(colors.primary)
+      .stroke();
+  };
+  drawBorder();
+
+  // 0. Watermark (Background)
+  doc.save();
+  doc.transparency(0.05);
+  doc
+    .fillColor(colors.primary)
+    .fontSize(120)
+    .font("Helvetica-Bold")
+    .rotate(-45, { origin: [300, 400] })
+    .text("WANDERLY", 100, 300, { align: "center", width: 400 });
+  doc.restore();
+
+  // 1. Header
+  // Logo / Brand
+  doc
+    .fillColor(colors.primary)
+    .fontSize(32)
+    .font("Times-Bold") // Serif for premium feel
+    .text("Wanderly.", 60, 60);
+
+  // Tagline
+  doc
+    .fontSize(10)
+    .font("Helvetica")
+    .fillColor(colors.accent)
+    .text("EXPERIENCE THE EXTRAORDINARY", 60, 95, { characterSpacing: 2 });
+
+  // Receipt Label Box
+  doc.rect(400, 60, 150, 30).fillColor(colors.primary).fill();
+  doc
+    .fillColor(colors.white)
+    .fontSize(12)
+    .font("Helvetica-Bold")
+    .text("PAYMENT RECEIPT", 400, 70, {
+      align: "center",
+      width: 150,
+      characterSpacing: 1,
+    });
+
+  // 2. Info Section
+  const infoTop = 140;
+
+  // Billed To Box
+  doc.roundedRect(60, infoTop, 240, 90, 4).fillColor(colors.lightBg).fill();
+  doc
+    .fillColor(colors.accent)
+    .fontSize(9)
+    .font("Helvetica-Bold")
+    .text("BILLED TO", 75, infoTop + 15);
+  doc
+    .fillColor(colors.primary)
+    .fontSize(12)
+    .font("Helvetica-Bold")
+    .text(user.username, 75, infoTop + 35);
+  doc
+    .fillColor(colors.secondary)
+    .fontSize(10)
+    .font("Helvetica")
+    .text(user.email, 75, infoTop + 55);
+
+  // Receipt Details Box
+  doc.roundedRect(310, infoTop, 240, 90, 4).fillColor(colors.lightBg).fill();
+  doc
+    .fillColor(colors.accent)
+    .fontSize(9)
+    .font("Helvetica-Bold")
+    .text("RECEIPT DETAILS", 325, infoTop + 15);
+
+  // Grid for details
+  const detX = 325;
+  const detY = infoTop + 35;
+  doc
+    .fillColor(colors.secondary)
+    .fontSize(9)
+    .font("Helvetica")
+    .text("Receipt #:", detX, detY);
+  doc
+    .fillColor(colors.primary)
+    .text(razorpay_order_id.slice(-8).toUpperCase(), detX + 60, detY);
+
+  doc.fillColor(colors.secondary).text("Payment ID:", detX, detY + 15);
+  doc
+    .fillColor(colors.primary)
+    .text(razorpay_payment_id.slice(-10), detX + 60, detY + 15);
+
+  doc.fillColor(colors.secondary).text("Date:", detX, detY + 30);
+  doc
+    .fillColor(colors.primary)
+    .text(new Date().toLocaleDateString(), detX + 60, detY + 30);
+
+  // 3. Main Item Table
+  const tableTop = 270;
+
+  // Header Row
+  doc.rect(60, tableTop, 490, 30).fillColor(colors.primary).fill();
+  doc.fillColor(colors.white).fontSize(10).font("Helvetica-Bold");
+  doc.text("DESCRIPTION", 80, tableTop + 10);
+  doc.text("UNIT PRICE", 300, tableTop + 10, { width: 100, align: "right" });
+  doc.text("TOTAL", 430, tableTop + 10, { width: 100, align: "right" });
+
+  // Row 1
+  const rowTop = tableTop + 30;
+  doc
+    .rect(60, rowTop, 490, 50)
+    .fillColor(colors.white)
+    .strokeColor("#E0E0E0")
+    .stroke();
+
+  // Description Details
+  doc
+    .fillColor(colors.primary)
+    .fontSize(11)
+    .font("Helvetica-Bold")
+    .text(listing.title, 80, rowTop + 12);
+  doc
+    .fillColor(colors.secondary)
+    .fontSize(9)
+    .font("Helvetica")
+    .text(`Location: ${listing.location}, ${listing.country}`, 80, rowTop + 28);
+
+  // Price Details
+  const priceStr = `₹${listing.price.toLocaleString()}`;
+  doc
+    .fillColor(colors.primary)
+    .fontSize(11)
+    .font("Helvetica")
+    .text(priceStr, 300, rowTop + 18, { width: 100, align: "right" });
+  doc
+    .font("Helvetica-Bold")
+    .text(priceStr, 430, rowTop + 18, { width: 100, align: "right" });
+
+  // 4. Totals Calculation
+  const totalY = rowTop + 70;
+  const totalBoxWidth = 200;
+  const totalBoxX = 350;
+
+  // Subtotal
+  doc
+    .fillColor(colors.secondary)
+    .fontSize(10)
+    .font("Helvetica")
+    .text("Subtotal", totalBoxX, totalY);
+  doc
+    .fillColor(colors.primary)
+    .text(priceStr, 430, totalY, { width: 100, align: "right" });
+
+  // GST Label (Mock)
+  doc.fillColor(colors.secondary).text("Taxes (0%)", totalBoxX, totalY + 15);
+  doc
+    .fillColor(colors.primary)
+    .text("₹0", 430, totalY + 15, { width: 100, align: "right" });
+
+  // Divider
+  doc
+    .moveTo(totalBoxX, totalY + 30)
+    .lineTo(550, totalY + 30)
+    .lineWidth(1)
+    .strokeColor("#E0E0E0")
+    .stroke();
+
+  // Grand Total
+  doc
+    .fillColor(colors.primary)
+    .fontSize(12)
+    .font("Helvetica-Bold")
+    .text("AMOUNT PAID", totalBoxX, totalY + 40);
+  doc
+    .fillColor(colors.accent)
+    .fontSize(16)
+    .text(priceStr, 430, totalY + 38, { width: 100, align: "right" });
+
+  // 5. "PAID" Stamp
+  doc.save();
+  doc.rotate(-15, { origin: [150, 450] });
+  doc
+    .roundedRect(100, 420, 120, 40, 5)
+    .lineWidth(3)
+    .strokeColor(colors.success)
+    .stroke();
+  doc
+    .fontSize(24)
+    .font("Helvetica-Bold")
+    .fillColor(colors.success)
+    .text("PAID", 100, 430, { align: "center", width: 120 });
+  doc.restore();
+
+  // 6. Footer
+  const footerTop = 720;
+
+  // Divider
+  doc
+    .moveTo(60, footerTop)
+    .lineTo(550, footerTop)
+    .lineWidth(0.5)
+    .strokeColor(colors.accent)
+    .stroke();
+
+  // Contact Info
+  doc.moveDown(2); // relative from last text, reset to footerTop
+  doc.text("", 60, footerTop + 15); // reset cursor
+
+  doc
+    .fontSize(9)
+    .font("Helvetica-Bold")
+    .fillColor(colors.primary)
+    .text("Wanderly Inc.", { continued: true });
+  doc
+    .font("Helvetica")
+    .fillColor(colors.secondary)
+    .text(" | 123 Luxury Lane, Travel City | support@wanderly.com");
+
+  doc
+    .fontSize(8)
+    .fillColor("#999999")
+    .text(
+      "This is a computer generated receipt and does not require a physical signature.",
+      { align: "center", width: 500, baseline: "bottom" }
+    );
+
+  doc.end();
 });
 
 // Route to render the form to create a new listing
@@ -535,10 +1076,10 @@ app.get("/listings/:id/reviews", async (req, res) => {
     );
     return res.redirect(`/listings/${id}`);
   }
-  
+
   let reviews = listing.reviews;
-  let totalRating = reviews.reduce((sum, review)=>sum+review.rating, 0) // 0 here is the initial value
-  let averageRating = (totalRating/reviews.length).toFixed(1)
+  let totalRating = reviews.reduce((sum, review) => sum + review.rating, 0); // 0 here is the initial value
+  let averageRating = (totalRating / reviews.length).toFixed(1);
   res.render("viewReviews", {
     reviews,
     listing,
